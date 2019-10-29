@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/_ffffff"
-    tools:context=".MainActivity">
-
-    <fragment
-        android:id="@+id/home_fragment"
-        android:name="zjol.com.cn.news.home.HomeFragment"
+    android:layout_height="40dp">
+    <TextView
+        android:id="@+id/tv_topic"
+        android:text="#这是一个话题"
+        android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
 </RelativeLayout>

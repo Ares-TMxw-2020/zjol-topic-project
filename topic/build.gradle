@@ -62,5 +62,8 @@ dependencies {
 
     api ('cn.com.zjol:biz-core:0.0.1.87.2')
     api 'cn.com.zjol:video-music:0.0.0.8'
+    api('cn.com.zjol:news:0.0.2.50') {
+        exclude group: 'cn.com.zjol', module: 'topic'
+    }
 
 }

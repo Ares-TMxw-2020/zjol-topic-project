@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">zjol-topic-project</string>
+
+
+
+    <!--<string name="env_default">api-new.8531.cn</string>-->
+    <!--<string name="env_scheme_default">https</string>-->
+    <string name="env_scheme_default">https</string>
+    <!--    <string name="env_host_default">apiprev.zjol.com.cn</string>-->
+    <!--<string name="env_host_default">10.105.2.58:8085</string>-->
+    <!--<string name="env_host_default">10.100.62.28:8090</string>-->
+    <string name="env_host_default">apibeta.zjol.com.cn</string>
+
+    <!-- router path-->
+    <string name="default_scheme">http</string>
+    <string name="default_host">www.zjol.com.cn</string>
+    <string name="data_scheme">http</string>
+    <string name="data_host">www.zjol.com.cn</string>
+
+    <!--manifest中默认开发环境host-->
+    <string name="data_host_dev">10.105.2.58</string>
+    <string name="data_host_pre">apiprev.zjol.com.cn</string>
+    <string name="data_host_real">api-new.zjol.com.cn</string>
+    <string name="data_host_test">apibeta.zjol.com.cn</string>
+    <string name="data_host_zj">zj.8531.cn</string>
 </resources>

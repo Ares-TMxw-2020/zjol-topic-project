@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/_f2f2f2"
+    android:layout_height="match_parent">
+<zjol.com.cn.news.common.widget.FeedRootRecyclerView
+    android:paddingTop="12dp"
+    android:clipToPadding="false"
+    android:clipChildren="false"
+    android:paddingLeft="7dp"
+    android:id="@+id/recycler"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>
+</RelativeLayout>

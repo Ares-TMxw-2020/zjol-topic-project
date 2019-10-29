@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?attr/selectableItemBackground"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/daily_item_padding_top_bottom"
+    android:paddingLeft="14dp"
+    android:paddingTop="@dimen/daily_item_padding_top_bottom">
+
+    <RelativeLayout
+        android:layout_marginRight="14dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+        <ImageView
+            android:id="@+id/iv_column"
+            android:layout_width="25dp"
+            android:layout_height="25dp" />
+
+        <TextView
+            android:layout_marginLeft="6dp"
+            android:layout_toRightOf="@id/iv_column"
+            android:fontFamily="@font/fzbiaoysk_zbjt"
+            android:id="@+id/tv_column"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/_666666"
+            android:textSize="@dimen/ts_12sp" />
+
+        <TextView
+            android:visibility="gone"
+            android:fontFamily="@font/fzbiaoysk_zbjt"
+            android:id="@+id/tv_other"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/tv_column"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/_999999"
+            android:textSize="@dimen/ts_11sp" />
+
+
+        <TextView
+            android:fontFamily="@font/fzbiaoysk_zbjt"
+            android:id="@+id/tv_subscribe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/module_news_border_column_widget_subscribe"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp"
+            android:text="订阅"
+            android:textColor="@color/module_news_tc_subscribe"
+            android:textSize="@dimen/ts_11sp" />
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" />
+
+</LinearLayout>

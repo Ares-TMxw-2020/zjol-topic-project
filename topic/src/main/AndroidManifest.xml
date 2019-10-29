@@ -1,2 +1,22 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="zjol.com.cn.topic" />
+    package="zjol.com.cn.topic" >
+
+    <application>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".activity.TopicHomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.DAILY" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="@string/data_host"
+                    android:path="/topic/topic/home/activity"
+                    android:scheme="@string/data_scheme" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
