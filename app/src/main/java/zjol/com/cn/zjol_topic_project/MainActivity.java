@@ -1,6 +1,9 @@
 package zjol.com.cn.zjol_topic_project;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import zjol.com.cn.topic.activity.TopicHomeActivity;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -10,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //话题主页
-//        startActivity(new Intent(getBaseContext(), TopicHomeActivity.class));
+        startActivity(new Intent(getBaseContext(), TopicHomeActivity.class));
         //选择话题
 //        TopicChooserDialog dialog = new TopicChooserDialog();
 //        dialog.show(getSupportFragmentManager());

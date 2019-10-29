@@ -35,11 +35,11 @@ public class OnLineTitleBehavior extends CoordinatorLayout.Behavior<View> {
         float dy = dependency.getY() - child.getHeight();
         dy = dy < 0 ? 0 : dy;
 
-        float y = -(dy / deltaY) * child.getHeight();
-        child.setTranslationY(y);
+//        float y = -(dy / deltaY) * child.getHeight();
+//        child.setTranslationY(y);
 
-        float alpha = 1 - (dy / deltaY)*2;
-        child.setAlpha(alpha);
+        float alpha = 1 - (dy / deltaY);
+        child.setAlpha(alpha*1.2f);
 
         return true;
     }
