@@ -1,0 +1,2 @@
+include ':app', ':topic'
+rootProject.name='zjol-topic-project'
