@@ -3,10 +3,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-
-import zjol.com.cn.topic.activity.TopicHomeActivity;
-import zjol.com.cn.topic.callbacks.OnTopicSelectCallBack;
-import zjol.com.cn.topic.fragment.TopicChooserDialog;
+import zjol.com.cn.topic.activity.TopicChooserActivity;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -21,16 +18,9 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                TopicChooserDialog dialog = new TopicChooserDialog();
-                dialog.setOnChooseCallback(new OnTopicSelectCallBack() {
-                    @Override
-                    public void onTopicSelect(String id, String content) {
-
-                    }
-                });
-                dialog.show(getSupportFragmentManager());
+                startActivity(new Intent(getBaseContext(), TopicChooserActivity.class));
             }
-        },5000);
+        },2000);
 
     }
 }

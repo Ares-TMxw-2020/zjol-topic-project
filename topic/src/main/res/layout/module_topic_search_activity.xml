@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:fitsSystemWindows="false"
+    android:background="@color/_ffffff"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/input"
+            android:background="@drawable/module_search_bg_round_f2f2f2"
+            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="14dp"
+            android:paddingLeft="15dp"
+            android:textSize="16sp"
+            android:gravity="center_vertical"
+            android:textColor="@color/_acacac"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/fzbiaoysk_zbjt"
+            android:hint="搜索话题"
+            android:drawableLeft="@mipmap/zjov_app_header_search_btn"
+            android:layout_height="32dp"/>
+
+    </RelativeLayout>
+
+    <!--不能删除容易 replaceloadview使用-->
+    <FrameLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+</LinearLayout>

@@ -24,7 +24,6 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-import com.core.audiomanager.AudioHelper;
 import com.zjrb.core.recycleView.listener.OnItemClickListener;
 import com.zjrb.core.ui.divider.ListSpaceDivider;
 
@@ -211,11 +210,4 @@ public class TopicChooserDialog extends DialogFragment implements View.OnClickLi
             });
         }
     }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        AudioHelper.create(getContext()).onDestroy();
-    }
-
 }
