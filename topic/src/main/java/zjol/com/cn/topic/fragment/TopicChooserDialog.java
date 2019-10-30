@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.core.audiomanager.AudioHelper;
 import com.zjrb.core.recycleView.listener.OnItemClickListener;
@@ -48,6 +49,7 @@ public class TopicChooserDialog extends DialogFragment implements View.OnClickLi
     private TopicSearchAdapter mSearchAdapter;
     private EditText mEditText;
     private OnTopicSelectCallBack mCallback;
+    private LinearLayout mContainer;
 
     @Nullable
     @Override
@@ -69,7 +71,9 @@ public class TopicChooserDialog extends DialogFragment implements View.OnClickLi
             public void onSuccess(HotTopicBean data) {
                 bindHotData(data);
             }
-        }).bindLoadViewHolder(new LoadViewHolder(mRecycler, null)).setTag(mRecycler).exe();
+        })
+                .bindLoadViewHolder(new LoadViewHolder(mRecycler,null))
+                .setTag(mRecycler).exe();
     }
 
     private void bindHotData(HotTopicBean data) {
@@ -90,12 +94,12 @@ public class TopicChooserDialog extends DialogFragment implements View.OnClickLi
             mHotAdapter.setData(data.getRank());
             mHotAdapter.notifyDataSetChanged();
         }
-
     }
 
     private void initView(View view) {
         view.findViewById(R.id.ic_nav_back).setOnClickListener(this);
         view.findViewById(R.id.btn_finish).setOnClickListener(this);
+        mContainer = view.findViewById(R.id.container);
         mRecycler = view.findViewById(R.id.recycler);
         mRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecycler.addItemDecoration(new ListSpaceDivider(1d, R.color._dcdcdc, 15, true, true));
@@ -193,7 +197,7 @@ public class TopicChooserDialog extends DialogFragment implements View.OnClickLi
             WindowManager.LayoutParams attributes = window.getAttributes();
             attributes.width = WindowManager.LayoutParams.MATCH_PARENT;
             attributes.height = WindowManager.LayoutParams.MATCH_PARENT;
-            attributes.windowAnimations = R.style.MusicAnimation;
+            attributes.windowAnimations = R.style.TopicAnimation;
             window.setAttributes(attributes);
 
             getDialog().setOnKeyListener(new DialogInterface.OnKeyListener() {

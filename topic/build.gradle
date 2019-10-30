@@ -59,11 +59,10 @@ dependencies {
     //第三方依赖
     implementation 'com.jakewharton:butterknife:9.0.0-rc1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc1'
-
     api ('cn.com.zjol:biz-core:0.0.1.87.2')
-    api 'cn.com.zjol:video-music:0.0.0.8'
     api('cn.com.zjol:news:0.0.2.66') {
         exclude group: 'cn.com.zjol', module: 'topic'
+        exclude group: 'cn.com.zjol', module: 'music'
     }
 
 }
