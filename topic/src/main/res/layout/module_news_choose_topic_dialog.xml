@@ -55,7 +55,7 @@
             android:drawablePadding="5dp"
             android:fontFamily="@font/fzbiaoysk_zbjt"
             android:hint="搜索话题"
-            android:drawableLeft="@mipmap/module_core_ic_main_bar_search"
+            android:drawableLeft="@mipmap/zjov_app_header_search_btn"
             android:layout_height="32dp"/>
 
     </RelativeLayout>
@@ -76,9 +76,6 @@
         android:id="@+id/btn_finish"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="15dp"
         android:background="@drawable/module_topic_btn_finish_background"
         android:fontFamily="@font/fzzcysk_zbjt"
         android:paddingStart="20dp"
@@ -87,7 +84,7 @@
         android:paddingBottom="6dp"
         android:text="创建话题"
         android:layout_marginTop="57dp"
-        android:layout_marginBottom="70dp"
+        android:layout_marginBottom="90dp"
         android:textColor="@color/_ffffff"
         android:textSize="@dimen/ts_16sp" />
 </LinearLayout>
