@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
 //                startActivity(new Intent(getBaseContext(), TopicChooserActivity.class));
-                Nav.with(getBaseContext()).toPath("/topic/topic/choose/activity",requestCode);
+                Nav.with(getBaseContext()).toPath("/topic/choose/activity",requestCode);
                 overridePendingTransition(R.anim.topic_bottom_up,0);
             }
         },3000);
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==151&&resultCode==RESULT_OK&&data.getExtras()!=null){
+        if (requestCode==requestCode&&resultCode==RESULT_OK&&data.getExtras()!=null){
             String topicId = data.getExtras().getString("ID");
             String topicText = data.getExtras().getString("CONTENT");
 

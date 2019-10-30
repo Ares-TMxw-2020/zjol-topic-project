@@ -34,7 +34,7 @@
 
                 <data
                     android:host="@string/data_host"
-                    android:path="/topic/topic/choose/activity"
+                    android:path="/topic/choose/activity"
                     android:scheme="@string/data_scheme" />
             </intent-filter>
         </activity>
@@ -52,7 +52,7 @@
 
                 <data
                     android:host="@string/data_host"
-                    android:path="/topic/topic/search/activity"
+                    android:path="/topic/search/activity"
                     android:scheme="@string/data_scheme" />
             </intent-filter>
         </activity>
