@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <RelativeLayout
+        android:background="@drawable/module_topic_choose_bg_r8_ffffff"
         android:layout_width="match_parent"
         android:layout_height="@dimen/topic_toolbar_height">
         <ImageView

@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/_ffffff"
-    tools:context=".MainActivity">
+    android:background="@color/_ffffff">
 
-    <fragment
-        android:id="@+id/home_fragment"
-        android:name="zjol.com.cn.news.home.HomeFragment"
+    <ImageView
+        android:id="@+id/iv"
+        android:background="@color/_d12324"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="120dp"/>
 
 
 </RelativeLayout>

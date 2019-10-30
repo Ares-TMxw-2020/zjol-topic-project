@@ -5,8 +5,11 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.zjrb.core.recycleView.listener.OnItemClickListener;
 import com.zjrb.core.swipeback.app.SwipeBackActivity;
@@ -35,6 +38,10 @@ public class TopicSearchActivity extends SwipeBackActivity {
     TextInputEditText mEditText;
     @BindView(R2.id.recycler)
     RecyclerView mRecycler;
+    @BindView(R2.id.iv_delete)
+    ImageView ivDelete;
+    @BindView(R2.id.tv_cancel)
+    TextView tvCancel;
     private TopicSearchAdapter mSearchAdapter;
 
     @Override
@@ -42,13 +49,25 @@ public class TopicSearchActivity extends SwipeBackActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.module_topic_search_activity);
         ButterKnife.bind(this);
-        StatusBarUtil.setColor(this, getResources().getColor(R.color._000000));
-        DarkStatusBar.get().fitLight(getBaseContext());
+        StatusBarUtil.setColor(this, getResources().getColor(R.color._ffffff));
+        DarkStatusBar.get().fitDark(getBaseContext());
         initView();
         initListener();
     }
 
     private void initListener() {
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        ivDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mEditText.setText("");
+            }
+        });
         mEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -58,6 +77,11 @@ public class TopicSearchActivity extends SwipeBackActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 requestSearchData(s.toString());
+                if (TextUtils.isEmpty(s)){
+                    ivDelete.setVisibility(View.GONE);
+                }else {
+                    ivDelete.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -77,15 +101,15 @@ public class TopicSearchActivity extends SwipeBackActivity {
         new SearchTopicListTask(new APIExpandCallBack<TopicSearchBean>() {
             @Override
             public void onSuccess(TopicSearchBean data) {
-                bindSearchData(data,keyWord);
+                bindSearchData(data, keyWord);
             }
         }).setTag(this).exe(keyWord);
     }
 
 
     private void bindSearchData(TopicSearchBean data, String keyWord) {
-        if (mSearchAdapter ==null){
-            mSearchAdapter = new TopicSearchAdapter(mRecycler,data.getElements(),keyWord);
+        if (mSearchAdapter == null) {
+            mSearchAdapter = new TopicSearchAdapter(mRecycler, data.getElements(), keyWord);
             mSearchAdapter.setOnItemClickListener(new OnItemClickListener() {
                 @Override
                 public void onItemClick(View itemView, int position) {
@@ -96,7 +120,7 @@ public class TopicSearchActivity extends SwipeBackActivity {
                 }
             });
             mRecycler.setAdapter(mSearchAdapter);
-        }else {
+        } else {
             mRecycler.setAdapter(mSearchAdapter);
             mSearchAdapter.setKeyWord(keyWord);
             mSearchAdapter.setData(data.getElements());

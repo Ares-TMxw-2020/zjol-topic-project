@@ -4,4 +4,6 @@
         <item name="android:windowEnterAnimation">@anim/topic_bottom_up</item>
         <item name="android:windowExitAnimation">@anim/topic_bottom_down</item>
     </style>
+
+
 </resources>
