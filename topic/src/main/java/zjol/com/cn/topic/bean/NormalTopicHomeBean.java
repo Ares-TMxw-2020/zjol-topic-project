@@ -11,7 +11,7 @@ import zjol.com.cn.player.bean.ShortVideoBean;
  * @describe:
  */
 
-public class TopicHomeBean {
+public class NormalTopicHomeBean {
 
     /**
      * sort_by : 1
@@ -23,7 +23,7 @@ public class TopicHomeBean {
     private int sort_by;
     private TopicLabelBean topic_label;
     private boolean has_more;
-    private List<ShortVideoBean.ArticleListBean> articles;
+    private List<ArticleItemBean> articles;
 
     public int getSort_by() {
         return sort_by;
@@ -49,11 +49,11 @@ public class TopicHomeBean {
         this.has_more = has_more;
     }
 
-    public List<ShortVideoBean.ArticleListBean> getArticles() {
+    public List<ArticleItemBean> getArticles() {
         return articles;
     }
 
-    public void setArticles(List<ShortVideoBean.ArticleListBean> articles) {
+    public void setArticles(List<ArticleItemBean> articles) {
         this.articles = articles;
     }
 

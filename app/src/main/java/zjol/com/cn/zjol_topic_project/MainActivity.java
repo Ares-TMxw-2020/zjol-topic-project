@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import cn.com.zjol.biz.core.nav.Nav;
+import zjol.com.cn.topic.activity.NormalTopicHomeActivity;
 import zjol.com.cn.topic.activity.TopicChooserActivity;
 
 
@@ -19,13 +20,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 //        startActivity(new Intent(getBaseContext(), TestActivity.class));
+        startActivity(new Intent(getBaseContext(), NormalTopicHomeActivity.class));
         //选择话题
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
 //                startActivity(new Intent(getBaseContext(), TopicChooserActivity.class));
-                Nav.with(getBaseContext()).toPath("/topic/choose/activity",requestCode);
-                overridePendingTransition(R.anim.topic_bottom_up,0);
+//                Nav.with(getBaseContext()).toPath("/topic/choose/activity",requestCode);
+//                overridePendingTransition(R.anim.topic_bottom_up,0);
             }
         },3000);
     }

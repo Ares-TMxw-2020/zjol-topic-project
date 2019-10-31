@@ -19,8 +19,8 @@ import cn.com.zjol.biz.core.glide.AppGlideOptions;
 import zjol.com.cn.news.R;
 import zjol.com.cn.news.R2;
 import zjol.com.cn.news.common.utils.Format;
-import zjol.com.cn.news.common.widget.GlideRoundTransform;
 import zjol.com.cn.news.home.bean.ArticleItemBean;
+import zjol.com.cn.topic.other.GlideRoundTransform;
 
 /**
  * @author: lujialei

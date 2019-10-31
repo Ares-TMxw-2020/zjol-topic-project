@@ -5,66 +5,69 @@ import android.view.ViewGroup;
 
 import com.zjrb.core.load.LoadMoreListener;
 import com.zjrb.core.load.LoadingCallBack;
-import com.zjrb.core.recycleView.BaseRecyclerViewHolder;
 import com.zjrb.core.recycleView.FooterLoadMoreV2;
 import com.zjrb.core.recycleView.LoadMore;
-import com.zjrb.core.recycleView.adapter.BaseRecyclerAdapter;
+
 import java.util.List;
+import java.util.Random;
+
 import cn.com.zjol.biz.core.network.compatible.APICallManager;
+import zjol.com.cn.news.common.adapter.NewsBaseAdapter;
 import zjol.com.cn.news.home.bean.ArticleItemBean;
+import zjol.com.cn.news.home.bean.ColumnWidget;
 import zjol.com.cn.news.home.bean.DataArticleList;
-import zjol.com.cn.news.home.holder.FashionHolder;
 import zjol.com.cn.news.home.task.ChannelListTask;
-import zjol.com.cn.news.home.task.FashionListTask;
-import zjol.com.cn.player.bean.ShortVideoBean;
-import zjol.com.cn.topic.bean.TopicHomeBean;
-import zjol.com.cn.topic.holder.TopicHomeVideoHolder;
-import zjol.com.cn.topic.task.TopicHomeTask;
+import zjol.com.cn.topic.bean.NormalTopicHomeBean;
+import zjol.com.cn.topic.task.NormalTopicHomeTask;
 
-
-public class TopicHomeAdapter extends BaseRecyclerAdapter<ShortVideoBean.ArticleListBean> implements LoadMoreListener<TopicHomeBean> {
+/**
+ * 新闻 - Adapter
+ *
+ * @author a_liYa
+ * @date 2017/7/6 14:40.
+ */
+public class TopicNewsAdapter extends NewsBaseAdapter implements LoadMoreListener<NormalTopicHomeBean> {
 
     private String mTopicId;
-    private String mSortBy;
-    private final FooterLoadMoreV2<TopicHomeBean> mLoadMore;
+    private int mLastIndex; // 推荐栏目上一个插入的位置
+    private Random mRandom = new Random();
+    private final FooterLoadMoreV2<NormalTopicHomeBean> mLoadMore;
 
-    public void setSortBy(String sortBy) {
-        mSortBy = sortBy;
-    }
 
-    public TopicHomeAdapter(TopicHomeBean data, ViewGroup parent, String topicId, String sortBy) {
+    public TopicNewsAdapter(NormalTopicHomeBean data, ViewGroup parent, String topicId) {
         super(null);
         mTopicId = topicId;
-        mSortBy = sortBy;
         mLoadMore = new FooterLoadMoreV2<>((RecyclerView) parent, this);
         setFooterLoadMore(mLoadMore.itemView);
         setData(data);
     }
 
-    public void setData(TopicHomeBean data) {
+    public void setData(NormalTopicHomeBean data) {
+        mLastIndex = 0;
         cancelLoadMore();
         mLoadMore.setState(noMore(data) ? LoadMore.TYPE_NO_MORE : LoadMore.TYPE_IDLE);
+
         setData(data != null ? data.getArticles() : null);
     }
 
-    public void addData(List<ShortVideoBean.ArticleListBean> data) {
+    public void addData(List<ArticleItemBean> data) {
         addData(data, true); // 增量刷新
     }
 
-    private boolean noMore(TopicHomeBean data) {
+    private boolean noMore(NormalTopicHomeBean data) {
         return data == null || data.getArticles() == null
                 || data.getArticles().size() == 0
                 || !data.isHas_more();
     }
 
     @Override
-    public void onLoadMore(LoadingCallBack<TopicHomeBean> callback) {
-        new TopicHomeTask(callback).setTag(this).exe(mTopicId,mSortBy, getLastOneTag());
+    public void onLoadMore(LoadingCallBack<NormalTopicHomeBean> callback) {
+        new NormalTopicHomeTask(callback).setTag(this).exe(mTopicId, getLastOneTag());
     }
 
 
     @Override
-    public void onLoadMoreSuccess(TopicHomeBean data, LoadMore loadMore) {
+    public void onLoadMoreSuccess(NormalTopicHomeBean data, LoadMore loadMore) {
         if (noMore(data)) {
             loadMore.setState(LoadMore.TYPE_NO_MORE);
         }
@@ -91,24 +94,4 @@ public class TopicHomeAdapter extends BaseRecyclerAdapter<ShortVideoBean.Article
         return null;
     }
 
-    @Override
-    public BaseRecyclerViewHolder onAbsCreateViewHolder(ViewGroup parent, int viewType) {
-        return new TopicHomeVideoHolder(parent);
-    }
-
-    /**
-     * 获取稿件数量 不算浙里看世界 widget等
-     * @return
-     */
-    public int getArticleItemSize(){
-        int articleSize = 0;
-        if (datas!=null){
-            for (int i = 0; i < datas.size(); i++) {
-                if (datas.get(i) instanceof ShortVideoBean.ArticleListBean){
-                    articleSize++;
-                }
-            }
-        }
-        return articleSize;
-    }
 }

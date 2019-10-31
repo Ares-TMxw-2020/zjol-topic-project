@@ -3,6 +3,7 @@ package zjol.com.cn.topic.bean;
 import java.util.List;
 
 import zjol.com.cn.news.home.bean.ArticleItemBean;
+import zjol.com.cn.player.bean.ShortVideoBean;
 
 /**
  * @author: lujialei
@@ -31,7 +32,7 @@ public class TopicSquareBean {
     private String participant_count_general;
     private double sort_number_double;
     private List<String> participant_account_imgs;
-    private List<ArticleItemBean> articles;
+    private List<ShortVideoBean.ArticleListBean> articles;
 
     public String getId() {
         return id;
@@ -89,11 +90,11 @@ public class TopicSquareBean {
         this.participant_account_imgs = participant_account_imgs;
     }
 
-    public List<ArticleItemBean> getArticles() {
+    public List<ShortVideoBean.ArticleListBean> getArticles() {
         return articles;
     }
 
-    public void setArticles(List<ArticleItemBean> articles) {
+    public void setArticles(List<ShortVideoBean.ArticleListBean> articles) {
         this.articles = articles;
     }
 

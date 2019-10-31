@@ -19,6 +19,7 @@ import com.zjrb.core.ui.divider.ListSpaceDivider;
 import com.zjrb.core.utils.click.ClickTracker;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,7 +33,9 @@ import zjol.com.cn.news.common.utils.NewsUtils;
 import zjol.com.cn.news.home.adapter.ColumnHorizontalAdapter;
 import zjol.com.cn.news.home.bean.ArticleItemBean;
 import zjol.com.cn.news.home.holder.FooterLeftPull;
+import zjol.com.cn.player.bean.ShortVideoBean;
 import zjol.com.cn.topic.R;
+import zjol.com.cn.topic.bean.TopicSquareBean;
 
 /**
  * 新闻列表 - 栏目类型
@@ -40,7 +43,7 @@ import zjol.com.cn.topic.R;
  * @author a_liYa
  * @date 2017/7/7 15:33.
  */
-public class NewsHorizontalTopicHolder extends BaseRecyclerViewHolder<ArticleItemBean> implements
+public class NewsHorizontalTopicHolder extends BaseRecyclerViewHolder<TopicSquareBean> implements
         OnItemClickListener, FooterLeftPull.PullCallback {
 
     @BindView(R2.id.tv_column)
@@ -68,13 +71,13 @@ public class NewsHorizontalTopicHolder extends BaseRecyclerViewHolder<ArticleIte
         ivColumn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Nav.with(view.getContext()).to(mData.getColumn_url());
+//                Nav.with(view.getContext()).to(mData.getColumn_url());
             }
         });
         mTvColumn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Nav.with(view.getContext()).to(mData.getColumn_url());
+//                Nav.with(view.getContext()).to(mData.getColumn_url());
             }
         });
     }
@@ -84,24 +87,16 @@ public class NewsHorizontalTopicHolder extends BaseRecyclerViewHolder<ArticleIte
         if (mData == null) return;
 
         // 栏目名称
-        mTvColumn.setText(Format.columnName(mData.getColumn_name(), 10));
+//        mTvColumn.setText(Format.columnName(mData.getColumn_name(), 10));
 
         // 订阅人数
         mTvOther.setText("3333");
-        GlideApp.with(itemView.getContext()).load(mData.getColumn_logo()).centerCrop().into(ivColumn);
+//        GlideApp.with(itemView.getContext()).load(mData.getColumn_logo()).centerCrop().into(ivColumn);
 
-        ArrayList<ArticleItemBean> list = new ArrayList<>();
-        list.add(getData());
-        list.add(getData());
-        list.add(getData());
-        list.add(getData());
-        list.add(getData());
-        list.add(getData());
-        list.add(getData());
-        mAdapter = new ColumnHorizontalAdapter(list);
-        mRecycler.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(this);
-        mAdapter.addFooterView(mFooterLeftPull.getItemView());
+//        mAdapter = new ColumnHorizontalAdapter(mData.getArticles());
+//        mRecycler.setAdapter(mAdapter);
+//        mAdapter.setOnItemClickListener(this);
+//        mAdapter.addFooterView(mFooterLeftPull.getItemView());
     }
 
 
@@ -146,11 +141,11 @@ public class NewsHorizontalTopicHolder extends BaseRecyclerViewHolder<ArticleIte
     @Override
     public void leftPull() {
         Log.e("lujialeio","leftPull");
-        Nav.with(itemView.getContext()).to(Uri.parse("http://www.8531.cn/subscription/detail")
-                .buildUpon()
-                .appendQueryParameter("id", String.valueOf(mData.getColumn_id()))
-                .build()
-                .toString());
+//        Nav.with(itemView.getContext()).to(Uri.parse("http://www.8531.cn/subscription/detail")
+//                .buildUpon()
+//                .appendQueryParameter("id", String.valueOf(mData.getColumn_id()))
+//                .build()
+//                .toString());
 
         if (itemView.getParent() instanceof View) {
             View parent = (View) itemView.getParent();
