@@ -36,7 +36,7 @@ import zjol.com.cn.topic.task.NormalTopicHomeTask;
 import zjol.com.cn.topic.task.TopicHomeTask;
 
 /**
- * 精选推荐位全部页面
+ * 普通稿件的话题主页
  */
 
 

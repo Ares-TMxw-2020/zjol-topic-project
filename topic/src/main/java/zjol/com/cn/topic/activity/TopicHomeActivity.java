@@ -30,7 +30,7 @@ import zjol.com.cn.topic.bean.TopicHomeBean;
 import zjol.com.cn.topic.task.TopicHomeTask;
 
 /**
- * 精选推荐位全部页面
+ * 潮客小视频的话题主页
  */
 
 
