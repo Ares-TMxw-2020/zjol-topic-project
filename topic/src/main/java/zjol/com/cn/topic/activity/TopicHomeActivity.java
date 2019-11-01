@@ -1,6 +1,8 @@
 package zjol.com.cn.topic.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,16 +12,23 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.zjrb.core.common.glide.GlideApp;
 import com.zjrb.core.recycleView.EmptyPageHolder;
 import com.zjrb.core.recycleView.HeaderRefresh;
 import com.zjrb.core.recycleView.listener.OnItemClickListener;
+import com.zjrb.core.utils.T;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.zjol.biz.core.DailyActivity;
+import cn.com.zjol.biz.core.UserBiz;
 import cn.com.zjol.biz.core.constant.C;
+import cn.com.zjol.biz.core.nav.Nav;
 import cn.com.zjol.biz.core.network.compatible.APIExpandCallBack;
 import cn.com.zjol.biz.core.network.compatible.LoadViewHolder;
+import cn.com.zjol.biz.core.share.UmengShareBean;
+import cn.com.zjol.biz.core.share.UmengShareUtils;
+import cn.com.zjol.me.activity.login.LoginActivity;
 import cn.daily.android.statusbar.DarkStatusBar;
 import zjol.com.cn.news.common.utils.State;
 import zjol.com.cn.news.common.utils.StatusBarUtil;
@@ -63,6 +72,15 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
     ImageView ivTopBarBack;
     @BindView(R2.id.tv_top_bar_title)
     TextView tvTopBarTitle;
+    @BindView(R2.id.iv_spand_share)
+    ImageView ivSpandShare;
+    @BindView(R2.id.iv_top_bar_share)
+    ImageView ivTopBarShare;
+    private static final int LOGIN_REQUEST_CODE = 305;
+    @BindView(R2.id.iv_logo)
+    ImageView ivLogo;
+    @BindView(R2.id.iv_header)
+    ImageView ivHeader;
     private TopicHomeAdapter mAdapter;
     private LoadViewHolder mLoadViewHolder;
     private HeaderRefresh mRefresh;
@@ -70,7 +88,8 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
     private String mChannelId = "";
     private State mCurrentState = State.IDLE;
     private String mTopicId = "";
-    private String mSortBy = "0";//0最热 1最新
+    private int mSortBy = 0;//0最热 1最新
+    private TopicHomeBean mTopicHomeBean;
 
     @Override
     public boolean isShowTopBar() {
@@ -93,6 +112,8 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         tvShot.setOnClickListener(this);
         tvHotNew.setOnClickListener(this);
         ivTopBarBack.setOnClickListener(this);
+        ivSpandShare.setOnClickListener(this);
+        ivTopBarShare.setOnClickListener(this);
     }
 
     private void initView() {
@@ -106,13 +127,12 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         rlSpandTopbar.requestLayout();
     }
 
-
     /**
      * 刷新数据
      *
      * @param isFirst true:页面创建加载数据； false:下拉刷新
      */
-    private void loadData(final boolean isFirst, final String sortBy) {
+    private void loadData(final boolean isFirst, final int sortBy) {
         if (mLoadViewHolder != null) { // 复用时撤消上次失败
             mLoadViewHolder.finishLoad();
             mLoadViewHolder = null;
@@ -120,6 +140,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         new TopicHomeTask(new APIExpandCallBack<TopicHomeBean>() {
             @Override
             public void onSuccess(TopicHomeBean data) {
+                mTopicHomeBean = data;
                 bindData(data, sortBy);
                 refreshView(data);
                 mLoadViewHolder = null;
@@ -145,19 +166,20 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
     }
 
     private void refreshView(TopicHomeBean data) {
-        if (!TextUtils.isEmpty(data.getTopic_label().getName())){
+        if (!TextUtils.isEmpty(data.getTopic_label().getName())) {
             String name = data.getTopic_label().getName();
-            tvLogo.setText(name.substring(0,1));
+            tvLogo.setText(name.substring(0, 1));
             tvTitle.setText(name);
             tvTopBarTitle.setText(name);
         }
+        GlideApp.with(getBaseContext()).load(data.getTopic_label().getLogo_url()).into(ivHeader);
+        GlideApp.with(getBaseContext()).load(data.getTopic_label().getLogo_url()).into(ivLogo);
         tvVideo.setText(data.getTopic_label().getParticipant_count_general());
         tvPrise.setText(data.getTopic_label().getLike_count_general());
         tvOther.setText(data.getTopic_label().getCreated_by());
     }
 
-
-    private void bindData(TopicHomeBean data, String sortBy) {
+    private void bindData(TopicHomeBean data, int sortBy) {
         if (mAdapter == null) {
             mGridLayoutManager = new GridLayoutManager(getBaseContext(), 3);
             mRecycler.setLayoutManager(mGridLayoutManager);
@@ -220,15 +242,83 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
 
     @Override
     public void onClick(View v) {
-        if (v.getId()==tvShot.getId()){//拍摄
-
-        }else if (v.getId()==ivSpandBack.getId()){
-                onBackPressed();
-        }else if (v.getId()==tvHotNew.getId()){//最新最热
-
-        }else if (v.getId()==ivTopBarBack.getId()){
+        if (v.getId() == tvShot.getId()) {//拍摄
+            goShotActivity();
+        } else if (v.getId() == ivSpandBack.getId()) {
             onBackPressed();
+        } else if (v.getId() == tvHotNew.getId()) {//最新最热
+            if (mSortBy == 0) {
+                mSortBy = 1;
+                tvHotNew.setText("最热");
+            } else {
+                mSortBy = 0;
+                tvHotNew.setText("最新");
+            }
+            loadData(true, mSortBy);
+        } else if (v.getId() == ivTopBarBack.getId()) {
+            onBackPressed();
+        } else if (v.getId() == ivTopBarShare.getId()) {
+            share();
+        } else if (v.getId() == ivSpandShare.getId()) {
+            share();
         }
+    }
+
+    private void goShotActivity() {
+        if (UserBiz.get().isLoginUser()) {
+            Nav.with(getBaseContext()).toPath("/native/publish/video");
+            overridePendingTransition(R.anim.topic_bottom_up, 0);
+        } else {
+            startActivityForResult(new Intent(getBaseContext(), LoginActivity.class),
+                    LOGIN_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == LOGIN_REQUEST_CODE) {
+            if (UserBiz.get().isLoginUser()) { // 进入小视频页
+                Nav.with(getBaseContext()).toPath("/native/publish/video");
+                overridePendingTransition(R.anim.topic_bottom_up, 0);
+            } else {
+                T.showShort(this, "请先登录");
+            }
+        }
+    }
+
+    private void share() {
+        if (mTopicHomeBean == null) {
+            return;
+        }
+//        ShareAnalytic analytic = ShareAnalytic.create("列表页", "新闻卡片详情页")
+//                .objectID(String.valueOf(mData.getMlf_id()))
+//                .selfObjectID(String.valueOf(mData.getId()))
+//                .objectShortName(mData.getDoc_title())
+//                .accountId(mData.getAccount_id())
+//                .nickName(mData.getAccount_nick_name())
+//                .ilurl(mData.getUrl())
+//                .classID(mData.getChannel_id())
+//                .classShortName(mData.getChannel_name())
+//                .objectType("C01")
+//                .build();
+
+
+        UmengShareUtils.getInstance().startShare(UmengShareBean.getInstance()
+                .setSingle(false)
+                .setShareType("视频")
+//                .setCardUrl(mData.getCard_url())
+                .setEventName("NewsShare")
+//                .setArticleId("" + mTopicHomeBean.getTopic_label().getId())
+                .setImgUri(mTopicHomeBean.getTopic_label().getLogo_url())
+                .setTitle(mTopicHomeBean.getTopic_label().getName())
+                .setTextContent(mTopicHomeBean.getTopic_label().getName())
+//                .setAnalytic(analytic)
+                .setTargetUrl(mTopicHomeBean.getTopic_label().getUrl()));
+//
+//        Analytics.create(itemView.getContext(), "400011", "列表页", false)
+//                .build()
+//                .send();
     }
 
 

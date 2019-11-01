@@ -2,7 +2,6 @@ package zjol.com.cn.topic.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -11,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.zjrb.core.common.glide.GlideApp;
 import com.zjrb.core.recycleView.EmptyPageHolder;
 import com.zjrb.core.recycleView.HeaderRefresh;
 import com.zjrb.core.recycleView.listener.OnItemClickListener;
@@ -21,19 +21,17 @@ import cn.com.zjol.biz.core.DailyActivity;
 import cn.com.zjol.biz.core.constant.C;
 import cn.com.zjol.biz.core.network.compatible.APIExpandCallBack;
 import cn.com.zjol.biz.core.network.compatible.LoadViewHolder;
+import cn.com.zjol.biz.core.share.UmengShareBean;
+import cn.com.zjol.biz.core.share.UmengShareUtils;
 import cn.daily.android.statusbar.DarkStatusBar;
-import zjol.com.cn.news.common.adapter.NewsAdapter;
 import zjol.com.cn.news.common.utils.State;
 import zjol.com.cn.news.common.utils.StatusBarUtil;
 import zjol.com.cn.player.utils.Constants;
 import zjol.com.cn.topic.R;
 import zjol.com.cn.topic.R2;
-import zjol.com.cn.topic.adapter.TopicHomeAdapter;
 import zjol.com.cn.topic.adapter.TopicNewsAdapter;
 import zjol.com.cn.topic.bean.NormalTopicHomeBean;
-import zjol.com.cn.topic.bean.TopicHomeBean;
 import zjol.com.cn.topic.task.NormalTopicHomeTask;
-import zjol.com.cn.topic.task.TopicHomeTask;
 
 /**
  * 普通稿件的话题主页
@@ -61,11 +59,20 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
     ImageView ivTopBarBack;
     @BindView(R2.id.tv_top_bar_title)
     TextView tvTopBarTitle;
+    @BindView(R2.id.iv_header)
+    ImageView ivHeader;
+    @BindView(R2.id.iv_spand_share)
+    ImageView ivSpandShare;
+    @BindView(R2.id.iv_logo)
+    ImageView ivLogo;
+    @BindView(R2.id.iv_top_bar_share)
+    ImageView ivTopBarShare;
     private TopicNewsAdapter mAdapter;
     private LoadViewHolder mLoadViewHolder;
     private HeaderRefresh mRefresh;
     private State mCurrentState = State.IDLE;
     private String mTopicId = "";
+    private NormalTopicHomeBean mTopicHomeBean;
 
     @Override
     public boolean isShowTopBar() {
@@ -75,7 +82,7 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.module_news_activity_topic_home);
+        setContentView(R.layout.module_news_activity_normal_topic_home);
         ButterKnife.bind(this);
         getArgs();
         DarkStatusBar.get().fitDark(this);
@@ -85,7 +92,7 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
     }
 
     private void getArgs() {
-        if (getIntent()!=null&&getIntent().getExtras()!=null){
+        if (getIntent() != null && getIntent().getExtras() != null) {
             mTopicId = getIntent().getExtras().getString(Constants.TOPIC_ID);
         }
     }
@@ -93,6 +100,8 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
     private void initListener() {
         ivSpandBack.setOnClickListener(this);
         ivTopBarBack.setOnClickListener(this);
+        ivSpandShare.setOnClickListener(this);
+        ivTopBarShare.setOnClickListener(this);
     }
 
     private void initView() {
@@ -120,6 +129,7 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
         new NormalTopicHomeTask(new APIExpandCallBack<NormalTopicHomeBean>() {
             @Override
             public void onSuccess(NormalTopicHomeBean data) {
+                mTopicHomeBean = data;
                 bindData(data);
                 refreshView(data);
                 mLoadViewHolder = null;
@@ -145,12 +155,14 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
     }
 
     private void refreshView(NormalTopicHomeBean data) {
-        if (!TextUtils.isEmpty(data.getTopic_label().getName())){
+        if (!TextUtils.isEmpty(data.getTopic_label().getName())) {
             String name = data.getTopic_label().getName();
-            tvLogo.setText(name.substring(0,1));
+            tvLogo.setText(name.substring(0, 1));
             tvTitle.setText(name);
             tvTopBarTitle.setText(name);
         }
+        GlideApp.with(getBaseContext()).load(data.getTopic_label().getLogo_url()).into(ivHeader);
+        GlideApp.with(getBaseContext()).load(data.getTopic_label().getLogo_url()).into(ivLogo);
         tvOther.setText(data.getTopic_label().getCreated_by());
     }
 
@@ -161,7 +173,6 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
 //            mRecycler.addItemDecoration(new NewsSpaceDivider());
             mAdapter = new TopicNewsAdapter(data, mRecycler, mTopicId);
             mRecycler.setAdapter(mAdapter);
-
 
             // 下拉刷新
             mRefresh = new HeaderRefresh(mRecycler, this);
@@ -216,11 +227,49 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
 
     @Override
     public void onClick(View v) {
-       if (v.getId()==ivSpandBack.getId()){
-                onBackPressed();
-        }else if (v.getId()==ivTopBarBack.getId()){
+        if (v.getId() == ivSpandBack.getId()) {
             onBackPressed();
+        } else if (v.getId() == ivTopBarBack.getId()) {
+            onBackPressed();
+        }else if (v.getId() == ivTopBarShare.getId()) {
+            share();
+        } else if (v.getId() == ivSpandShare.getId()) {
+            share();
         }
+    }
+
+    private void share() {
+        if (mTopicHomeBean == null) {
+            return;
+        }
+//        ShareAnalytic analytic = ShareAnalytic.create("列表页", "新闻卡片详情页")
+//                .objectID(String.valueOf(mData.getMlf_id()))
+//                .selfObjectID(String.valueOf(mData.getId()))
+//                .objectShortName(mData.getDoc_title())
+//                .accountId(mData.getAccount_id())
+//                .nickName(mData.getAccount_nick_name())
+//                .ilurl(mData.getUrl())
+//                .classID(mData.getChannel_id())
+//                .classShortName(mData.getChannel_name())
+//                .objectType("C01")
+//                .build();
+
+
+        UmengShareUtils.getInstance().startShare(UmengShareBean.getInstance()
+                .setSingle(false)
+                .setShareType("视频")
+//                .setCardUrl(mData.getCard_url())
+                .setEventName("NewsShare")
+//                .setArticleId("" + mTopicHomeBean.getTopic_label().getId())
+                .setImgUri(mTopicHomeBean.getTopic_label().getLogo_url())
+                .setTitle(mTopicHomeBean.getTopic_label().getName())
+                .setTextContent(mTopicHomeBean.getTopic_label().getName())
+//                .setAnalytic(analytic)
+                .setTargetUrl(mTopicHomeBean.getTopic_label().getUrl()));
+//
+//        Analytics.create(itemView.getContext(), "400011", "列表页", false)
+//                .build()
+//                .send();
     }
 
 

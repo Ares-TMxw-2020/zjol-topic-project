@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import cn.com.zjol.biz.core.nav.Nav;
 import zjol.com.cn.topic.activity.NormalTopicHomeActivity;
 import zjol.com.cn.topic.activity.TopicChooserActivity;
+import zjol.com.cn.topic.activity.TopicHomeActivity;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -20,7 +21,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 //        startActivity(new Intent(getBaseContext(), TestActivity.class));
-        startActivity(new Intent(getBaseContext(), NormalTopicHomeActivity.class));
+//        startActivity(new Intent(getBaseContext(), NormalTopicHomeActivity.class));
+        startActivity(new Intent(getBaseContext(), TopicHomeActivity.class));
         //选择话题
         new Handler().postDelayed(new Runnable() {
             @Override

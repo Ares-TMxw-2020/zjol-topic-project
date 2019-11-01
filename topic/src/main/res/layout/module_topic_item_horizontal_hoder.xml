@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zjrb.core.ui.widget.ShadowLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:shadowColor="#4fdbdbdb"
+    app:shadowDx="0dp"
+    app:shadowDy="4dp"
+    android:layout_marginRight="3dp"
+    app:shadowRadius="3dp"
+    app:shadowShape="rectangle"
+    app:shadowSide="bottom|left|right"
+    >
+
+    <com.aliya.view.ratio.RatioRelativeLayout
+        app:ratio_w2h="120:159"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:id="@+id/iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </com.aliya.view.ratio.RatioRelativeLayout>
+
+</com.zjrb.core.ui.widget.ShadowLayout>

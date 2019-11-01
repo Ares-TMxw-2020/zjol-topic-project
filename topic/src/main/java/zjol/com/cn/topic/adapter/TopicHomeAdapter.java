@@ -25,14 +25,14 @@ import zjol.com.cn.topic.task.TopicHomeTask;
 public class TopicHomeAdapter extends BaseRecyclerAdapter<ShortVideoBean.ArticleListBean> implements LoadMoreListener<TopicHomeBean> {
 
     private String mTopicId;
-    private String mSortBy;
+    private int mSortBy;
     private final FooterLoadMoreV2<TopicHomeBean> mLoadMore;
 
-    public void setSortBy(String sortBy) {
+    public void setSortBy(int sortBy) {
         mSortBy = sortBy;
     }
 
-    public TopicHomeAdapter(TopicHomeBean data, ViewGroup parent, String topicId, String sortBy) {
+    public TopicHomeAdapter(TopicHomeBean data, ViewGroup parent, String topicId, int sortBy) {
         super(null);
         mTopicId = topicId;
         mSortBy = sortBy;
