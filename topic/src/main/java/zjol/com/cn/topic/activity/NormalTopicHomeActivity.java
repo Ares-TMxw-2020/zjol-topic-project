@@ -19,6 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.zjol.biz.core.DailyActivity;
 import cn.com.zjol.biz.core.constant.C;
+import cn.com.zjol.biz.core.nav.Nav;
 import cn.com.zjol.biz.core.network.compatible.APIExpandCallBack;
 import cn.com.zjol.biz.core.network.compatible.LoadViewHolder;
 import cn.com.zjol.biz.core.share.UmengShareBean;
@@ -26,6 +27,7 @@ import cn.com.zjol.biz.core.share.UmengShareUtils;
 import cn.daily.android.statusbar.DarkStatusBar;
 import zjol.com.cn.news.common.utils.State;
 import zjol.com.cn.news.common.utils.StatusBarUtil;
+import zjol.com.cn.news.home.bean.ArticleItemBean;
 import zjol.com.cn.player.utils.Constants;
 import zjol.com.cn.topic.R;
 import zjol.com.cn.topic.R2;
@@ -196,6 +198,13 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
 
     @Override
     public void onItemClick(View itemView, int position) {
+        if (mAdapter.getData(position) instanceof  ArticleItemBean && mTopicHomeBean!=null && mTopicHomeBean.getTopic_label()!=null){
+            ArticleItemBean bean = (ArticleItemBean) mAdapter.getData(position);
+            Bundle bundle = new Bundle();
+            bundle.putString(Constants.ID,bean.getId()+"");
+            bundle.putString(Constants.TOPIC_ID,mTopicHomeBean.getTopic_label().getId());
+            Nav.with(getBaseContext()).setExtras(bundle).toPath("/player/fullscreen/topic/vertical");
+        }
 
     }
 
