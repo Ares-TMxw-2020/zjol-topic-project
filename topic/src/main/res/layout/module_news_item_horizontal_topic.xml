@@ -15,6 +15,8 @@
         android:gravity="center_vertical">
 
         <TextView
+            android:drawablePadding="5dp"
+            android:drawableLeft="@mipmap/ic_account_merge_check"
             android:fontFamily="@font/fzzcysk_zbjt"
             android:id="@+id/tv_topic"
             android:text="话题"

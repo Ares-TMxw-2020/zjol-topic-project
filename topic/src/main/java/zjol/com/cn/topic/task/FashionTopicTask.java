@@ -5,12 +5,6 @@ import com.core.network.callback.ApiCallback;
 import cn.com.zjol.biz.core.network.compatible.APIGetTask;
 import zjol.com.cn.topic.bean.FashionTopicBean;
 
-/**
- * 频道列表接口 - Task
- *
- * @author a_liYa
- * @date 2017/8/30 15:45.
- */
 public class FashionTopicTask extends APIGetTask<FashionTopicBean> {
 
 

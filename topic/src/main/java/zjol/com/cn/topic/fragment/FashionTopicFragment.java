@@ -33,7 +33,6 @@ import zjol.com.cn.topic.task.FashionTopicTask;
 
 /**
  * 潮客话题
- * NewsHorizontalTopicHolder
  */
 public class FashionTopicFragment extends DailyFragment implements View.OnClickListener, HeaderRefresh.OnRefreshListener {
 
@@ -181,7 +180,7 @@ public class FashionTopicFragment extends DailyFragment implements View.OnClickL
             mAdapter.setEmptyView(
                     new EmptyPageHolder(mRecycler,
                             EmptyPageHolder.ArgsBuilder.newBuilder()
-                                    .resId(R.mipmap.zjov_news_blank_icon)
+                                    .resId(R.mipmap.zjov_chaoke_dynamics_icon)
                                     .content("暂无内容")
                     ).itemView);
         } else {
