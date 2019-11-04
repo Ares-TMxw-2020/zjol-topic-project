@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 //        startActivity(new Intent(getBaseContext(), TestActivity.class));
 //        startActivity(new Intent(getBaseContext(), NormalTopicHomeActivity.class));
-        startActivity(new Intent(getBaseContext(), TopicHomeActivity.class));
+//        startActivity(new Intent(getBaseContext(), TopicHomeActivity.class));
         //选择话题
         new Handler().postDelayed(new Runnable() {
             @Override

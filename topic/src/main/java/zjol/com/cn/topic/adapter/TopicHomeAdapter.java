@@ -69,8 +69,16 @@ public class TopicHomeAdapter extends BaseRecyclerAdapter<ShortVideoBean.Article
             loadMore.setState(LoadMore.TYPE_NO_MORE);
         }
         if (data != null) {
+            data = handleSortBy(data);
             addData(data.getArticles());
         }
+    }
+
+    private TopicHomeBean handleSortBy(TopicHomeBean data) {
+        for (int i = 0; i < data.getArticles().size(); i++) {
+            data.getArticles().get(i).setSort_by(mSortBy);
+        }
+        return data;
     }
 
     public void cancelLoadMore() {

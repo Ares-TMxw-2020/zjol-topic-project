@@ -27,7 +27,7 @@
                 <RelativeLayout
                     android:id="@+id/ll_top"
                     android:layout_width="match_parent"
-                    android:layout_height="118dp"
+                    android:layout_height="123dp"
                     android:orientation="vertical">
                     <ImageView
                         android:id="@+id/iv_header"
@@ -67,7 +67,6 @@
 
                     <RelativeLayout
                         android:layout_below="@id/rl_spand_topbar"
-                        android:layout_marginBottom="15dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
                         android:layout_width="match_parent"
@@ -78,8 +77,8 @@
                             android:background="@drawable/module_topic_bg_ffffff_r4"
                             android:id="@+id/fl_logo"
                             android:layout_centerVertical="true"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                            android:layout_width="60dp"
+                            android:layout_height="60dp">
 
                             <TextView
                                 android:layout_gravity="center"
@@ -95,6 +94,7 @@
                             <ImageView
                                 android:background="@drawable/module_topic_bg_r4"
                                 android:id="@+id/iv_logo"
+                                android:layout_gravity="center"
                                 android:layout_width="58dp"
                                 android:layout_height="58dp"/>
 
@@ -189,7 +189,7 @@
 
                         <TextView
                             android:id="@+id/tv_hot_new"
-                            android:drawableLeft="@mipmap/header_tab_more_icon"
+                            android:drawableLeft="@mipmap/zjov_ugc_topic_sort_button"
                             android:layout_alignParentRight="true"
                             android:textColor="@color/_888888"
                             android:textSize="@dimen/ts_12sp"
@@ -217,8 +217,8 @@
     <RelativeLayout
         android:background="@color/_ffffff"
         android:id="@+id/rl_topbar"
-        android:layout_width="match_parent"
         android:visibility="gone"
+        android:layout_width="match_parent"
         app:layout_behavior="@string/behavior_sample_title"
         android:layout_height="@dimen/toolbar_normal_height">
 
@@ -241,9 +241,9 @@
             android:src="@mipmap/module_detail_top_share"
             android:layout_marginRight="16dp"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_width="16dp"
-            android:layout_height="16dp"/>
+            android:scaleType="center"
+            android:layout_width="@dimen/toolbar_normal_height"
+            android:layout_height="@dimen/toolbar_normal_height"/>
 
 
     </RelativeLayout>

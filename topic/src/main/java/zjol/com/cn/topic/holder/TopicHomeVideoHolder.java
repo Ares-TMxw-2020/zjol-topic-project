@@ -3,7 +3,9 @@ package zjol.com.cn.topic.holder;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.zjrb.core.common.glide.GlideApp;
 import com.zjrb.core.recycleView.BaseRecyclerViewHolder;
@@ -13,10 +15,10 @@ import com.zjrb.daily.db.dao.ReadNewsDaoHelper;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.zjol.biz.core.glide.AppGlideOptions;
-import zjol.com.cn.news.R;
-import zjol.com.cn.news.R2;
 import zjol.com.cn.news.common.widget.GlideRoundTransform;
 import zjol.com.cn.player.bean.ShortVideoBean;
+import zjol.com.cn.topic.R;
+import zjol.com.cn.topic.R2;
 
 /**
  * @author: lujialei
@@ -28,6 +30,10 @@ import zjol.com.cn.player.bean.ShortVideoBean;
 public class TopicHomeVideoHolder extends BaseRecyclerViewHolder<ShortVideoBean.ArticleListBean> implements ItemClickCallback {
     @BindView(R2.id.iv_picture)
     ImageView ivPicture;
+    @BindView(R2.id.tv_tag)
+    TextView tvTag;
+    @BindView(R2.id.fl_tag)
+    FrameLayout flTag;
 
 
     public TopicHomeVideoHolder(@NonNull ViewGroup parent) {
@@ -37,6 +43,19 @@ public class TopicHomeVideoHolder extends BaseRecyclerViewHolder<ShortVideoBean.
 
     @Override
     public void bindView() {
+        if (getAdapterPosition()==1&&mData.getSort_by()==0){
+            flTag.setVisibility(View.VISIBLE);
+            tvTag.setText("NO1");
+        }else if (getAdapterPosition()==2&&mData.getSort_by()==0){
+            flTag.setVisibility(View.VISIBLE);
+            tvTag.setText("NO2");
+        }else if (getAdapterPosition()==3&&mData.getSort_by()==0){
+            flTag.setVisibility(View.VISIBLE);
+            tvTag.setText("NO3");
+        }else {
+            flTag.setVisibility(View.GONE);
+        }
+
         String path = "";
         if (getData().getList_pics() != null && !getData().getList_pics().isEmpty()) {
             path = getData().getList_pics().get(0);
@@ -44,7 +63,7 @@ public class TopicHomeVideoHolder extends BaseRecyclerViewHolder<ShortVideoBean.
         GlideApp.with(itemView.getContext())
                 .load(path)
                 .apply(AppGlideOptions.newsBigOptions())
-                .transform(new GlideRoundTransform(itemView.getContext(),5))
+                .transform(new GlideRoundTransform(itemView.getContext(), 5))
                 .into(ivPicture);
     }
 

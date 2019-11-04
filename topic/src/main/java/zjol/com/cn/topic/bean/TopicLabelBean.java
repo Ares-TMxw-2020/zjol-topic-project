@@ -1,12 +1,14 @@
 package zjol.com.cn.topic.bean;
 
+import java.io.Serializable;
+
 /**
  * @author: lujialei
  * @date: 2019-10-31
  * @describe:
  */
 
-public class TopicLabelBean {
+public class TopicLabelBean implements Serializable {
     /**
      * id : abcd
      * auto_pk : 1

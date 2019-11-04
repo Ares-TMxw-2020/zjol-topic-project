@@ -20,6 +20,8 @@ import com.zjrb.core.recycleView.listener.OnItemClickListener;
 import com.zjrb.core.ui.divider.GridSpaceDivider;
 import com.zjrb.core.utils.T;
 
+import java.io.Serializable;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.zjol.biz.core.DailyActivity;
@@ -34,9 +36,12 @@ import cn.com.zjol.me.activity.login.LoginActivity;
 import cn.daily.android.statusbar.DarkStatusBar;
 import zjol.com.cn.news.common.utils.State;
 import zjol.com.cn.news.common.utils.StatusBarUtil;
+import zjol.com.cn.news.common.widget.GlideRoundTransform;
 import zjol.com.cn.news.common.widget.NewsSpaceDivider;
 import zjol.com.cn.player.bean.ShortVideoBean;
+import zjol.com.cn.player.manager.shortvideo.topic.TopicShortVideoPlayActivity;
 import zjol.com.cn.player.utils.Constants;
+import zjol.com.cn.player.utils.GlideBlurformation;
 import zjol.com.cn.topic.R;
 import zjol.com.cn.topic.R2;
 import zjol.com.cn.topic.adapter.TopicHomeAdapter;
@@ -97,7 +102,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
     private GridLayoutManager mGridLayoutManager;
     private String mChannelId = "";
     private State mCurrentState = State.IDLE;
-    private String mTopicId = "1a";
+    private String mTopicId = "";
     private int mSortBy = 0;//0最热 1最新
     private TopicHomeBean mTopicHomeBean;
 
@@ -123,6 +128,8 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         int statusHeight = StatusBarUtil.getStatusBarHeight(this);
         llTop.getLayoutParams().height = llTop.getLayoutParams().height+=statusHeight;
 //        llTop.setPadding(0,statusHeight,0,0);
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) rlSpandTopbar.getLayoutParams();
+        layoutParams.topMargin +=  statusHeight;
         llTop.postInvalidate();
 
     }
@@ -160,9 +167,6 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         int statusHeight = StatusBarUtil.getStatusBarHeight(getBaseContext());
         rlTopbar.getLayoutParams().height += statusHeight;
         rlTopbar.setPadding(0, statusHeight, 0, 0);
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) rlSpandTopbar.getLayoutParams();
-        layoutParams.topMargin +=  statusHeight;
-        rlTopbar.requestLayout();
     }
 
     /**
@@ -178,6 +182,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         new TopicHomeTask(new APIExpandCallBack<TopicHomeBean>() {
             @Override
             public void onSuccess(TopicHomeBean data) {
+                data = handleSortBy(data);
                 mTopicHomeBean = data;
                 bindData(data, sortBy);
                 refreshView(data);
@@ -204,6 +209,13 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
                 .setShortestTime(isFirst ? 0 : C.REFRESH_SHORTEST_TIME)
                 .bindLoadViewHolder(isFirst ? (mLoadViewHolder = replaceLoad(mRecycler)) : null)
                 .exe(mTopicId, sortBy);
+    }
+
+    private TopicHomeBean handleSortBy(TopicHomeBean data) {
+        for (int i = 0; i < data.getArticles().size(); i++) {
+            data.getArticles().get(i).setSort_by(mSortBy);
+        }
+        return data;
     }
 
     /**
@@ -233,11 +245,15 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
                 .centerCrop()
                 .placeholder(R.mipmap.zjov_app_header_bg)
                 .error(R.mipmap.zjov_app_header_bg)
+                .transform(new GlideBlurformation(getBaseContext(),15))
                 .into(ivHeader);
-        GlideApp.with(getBaseContext()).load(data.getTopic_label().getLogo_url()).into(ivLogo);
+        GlideApp.with(getBaseContext())
+                .load(data.getTopic_label().getLogo_url())
+                .transform(new GlideRoundTransform(getBaseContext(),4))
+                .into(ivLogo);
         tvVideo.setText("视频  "+data.getTopic_label().getParticipant_count_general());
         tvPrise.setText("点赞  "+data.getTopic_label().getLike_count_general());
-        tvOther.setText(data.getTopic_label().getCreated_by());
+        tvOther.setText("简介:"+data.getTopic_label().getDescription());
     }
 
     private void bindData(TopicHomeBean data, int sortBy) {
@@ -267,8 +283,11 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
 
     @Override
     public void onItemClick(View itemView, int position) {
-        ShortVideoBean.ArticleListBean data = mAdapter.getData(position);
-
+        Intent intent = new Intent(itemView.getContext(), TopicShortVideoPlayActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.DATA, (Serializable) mAdapter.datas);
+        intent.putExtras(bundle);
+        itemView.getContext().startActivity(intent);
     }
 
     public void setCanRefresh(boolean b) {
@@ -306,10 +325,10 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         } else if (v.getId() == tvHotNew.getId()) {//最新最热
             if (mSortBy == 0) {
                 mSortBy = 1;
-                tvHotNew.setText("最热");
+                tvHotNew.setText("最新");
             } else {
                 mSortBy = 0;
-                tvHotNew.setText("最新");
+                tvHotNew.setText("最热");
             }
             loadData(true, mSortBy);
         } else if (v.getId() == ivTopBarBack.getId()) {

@@ -1,7 +1,11 @@
 package zjol.com.cn.topic.holder;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Bundle;
+import android.provider.SyncStateContract;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,11 +15,14 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.xiaomi.push.P;
 import com.zjrb.core.base.BaseFragment;
 import com.zjrb.core.recycleView.BaseRecyclerViewHolder;
 import com.zjrb.core.recycleView.listener.OnItemClickListener;
 import com.zjrb.core.ui.divider.ListSpaceDivider;
 import com.zjrb.core.utils.click.ClickTracker;
+
+import java.io.Serializable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,6 +33,8 @@ import zjol.com.cn.news.common.fragment.NewsFragment;
 import zjol.com.cn.news.common.utils.NewsUtils;
 import zjol.com.cn.news.home.holder.FooterLeftPull;
 import zjol.com.cn.player.bean.ShortVideoBean;
+import zjol.com.cn.player.manager.shortvideo.topic.TopicShortVideoPlayActivity;
+import zjol.com.cn.player.utils.Constants;
 import zjol.com.cn.topic.R;
 import zjol.com.cn.topic.R2;
 import zjol.com.cn.topic.adapter.TopicHorizontalAdapter;
@@ -58,7 +67,6 @@ public class NewsHorizontalTopicHolder extends BaseRecyclerViewHolder<TopicEleme
         mRecycler.setLayoutManager(
                 new LinearLayoutManager(
                         parent.getContext(), LinearLayoutManager.HORIZONTAL, false));
-        mRecycler.addItemDecoration(new ListSpaceDivider(5d, Color.TRANSPARENT, false, false));
         mFooterLeftPull = new TopicFooterLeftPull(mRecycler, this);
     }
 
@@ -66,6 +74,15 @@ public class NewsHorizontalTopicHolder extends BaseRecyclerViewHolder<TopicEleme
     public void bindView() {
         if (mData == null) return;
         tvTopic.setText(mData.getName());
+        Drawable drawableLeft = itemView.getContext().getResources().getDrawable(R.mipmap.zjov_ugc_topic_topic_icon);
+        drawableLeft.setBounds(0,0,drawableLeft.getMinimumWidth(),drawableLeft.getMinimumHeight());
+        Drawable drawableRight = itemView.getContext().getResources().getDrawable(R.mipmap.zjov_ugc_topic_new_icon);
+        drawableRight.setBounds(0,0,drawableRight.getMinimumWidth(),drawableRight.getMinimumHeight());
+        if (getAdapterPosition()==1){
+            tvTopic.setCompoundDrawables(drawableLeft,null,drawableRight,null);
+        }else {
+            tvTopic.setCompoundDrawables(drawableLeft,null,null,null);
+        }
         llMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,35 +100,11 @@ public class NewsHorizontalTopicHolder extends BaseRecyclerViewHolder<TopicEleme
     public void onItemClick(View itemView, int position) {
         if (mAdapter != null) {
             if (ClickTracker.isDoubleClick()) return;
-            NewsUtils.itemClick(itemView.getContext(), mAdapter.getData(position));
-            Fragment fragment = BaseFragment.findAttachFragmentByView(itemView);
-            if (fragment instanceof NewsFragment) {
-                NewsFragment news = (NewsFragment) fragment;
-                ShortVideoBean.ArticleListBean article = mAdapter.getData(position);
-//                String newsId = String.valueOf(article.getMlf_id());
-//                if (article.getDoc_type() == 10) {
-//                    newsId = String.valueOf(article.guid);
-//                }
-                Analytics.newBuilder(itemView.getContext(), "200003", "AppContentClick", false)
-                        .name("推荐widget点击进入新闻详情页")
-//                        .objectID(String.valueOf(article.getMlf_id()))
-                        .objectShortName(article.getDoc_title())
-                        .seObjectType(ObjectType.C01)
-                        .classID(article.getChannel_id())
-                        .classShortName(article.getChannel_name())
-                        .pageType(news.getType() == NewsFragment.TYPE_CHANNEL ? "频道页面" : "首页")
-//                        .newsID(newsId)
-                        .selfNewsID(String.valueOf(article.getId()))
-                        .newsTitle(article.getDoc_title())
-                        .selfChannelID(article.getChannel_id())
-                        .channelName(article.getChannel_name())
-                        .objectType("widget")
-                        .ilurl(article.getUrl())
-                        .pubUrl(article.getUrl())
-//                        .relatedColumn(article.getColumn_id())
-                        .selfObjectID(String.valueOf(article.getId()))
-                        .build().send();
-            }
+            Intent intent = new Intent(itemView.getContext(), TopicShortVideoPlayActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Constants.DATA, (Serializable) mAdapter.datas);
+            intent.putExtras(bundle);
+            itemView.getContext().startActivity(intent);
         }
     }
 

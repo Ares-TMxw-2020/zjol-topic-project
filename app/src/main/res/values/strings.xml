@@ -23,4 +23,31 @@
     <string name="data_host_real">api-new.zjol.com.cn</string>
     <string name="data_host_test">apibeta.zjol.com.cn</string>
     <string name="data_host_zj">zj.8531.cn</string>
+
+
+
+    <!-- biz-core LinkControl 内部地址判断 -->
+    <string-array name="inner_host">
+        <item>apibeta.zjol.com.cn</item>
+        <item>apiprev.zjol.com.cn</item>
+        <item>app-api.zjol.com.cn</item>
+        <item>tm.zjol.com.cn</item>
+        <item>10.105.2.58</item>
+    </string-array>
+    <string-array name="inner_path">
+        <item>/news.html</item>
+        <item>/link.html</item>
+        <item>/subject.html</item>
+        <item>/video.html</item>
+        <item>/detail/video.html</item>
+        <item>/live.html</item>
+        <item>/native</item>
+        <item>/short_video.html</item>
+        <item>/native/user_page.html</item>
+        <item>/personalcard.html</item>
+        <item>/agreement.html</item>
+        <item>/copyright.html</item>
+        <item>/license.html</item>
+        <item>/topic_label.html</item>
+    </string-array>
 </resources>

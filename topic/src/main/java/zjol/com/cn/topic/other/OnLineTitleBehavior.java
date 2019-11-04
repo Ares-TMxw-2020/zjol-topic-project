@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 public class OnLineTitleBehavior extends CoordinatorLayout.Behavior<View> {
@@ -29,17 +30,21 @@ public class OnLineTitleBehavior extends CoordinatorLayout.Behavior<View> {
             child.setVisibility(View.VISIBLE);
         }
         if (deltaY == 0) {
-            deltaY = dependency.getY() - child.getHeight();
+            if (child.getHeight()!=0){
+                deltaY = dependency.getY() - child.getHeight();
+            }
+
         }
 
         float dy = dependency.getY() - child.getHeight();
         dy = dy < 0 ? 0 : dy;
 
+
+
 //        float y = -(dy / deltaY) * child.getHeight();
 //        child.setTranslationY(y);
-
         float alpha = 1 - (dy / deltaY);
-        child.setAlpha(alpha*1.2f);
+        child.setAlpha(alpha);
 
         return true;
     }
