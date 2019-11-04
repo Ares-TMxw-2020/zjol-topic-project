@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -32,10 +33,13 @@ import cn.com.zjol.me.activity.login.LoginActivity;
 import cn.daily.android.statusbar.DarkStatusBar;
 import zjol.com.cn.news.common.utils.State;
 import zjol.com.cn.news.common.utils.StatusBarUtil;
+import zjol.com.cn.news.home.holder.AutoFitEmptyPageHolder;
+import zjol.com.cn.player.utils.Constants;
 import zjol.com.cn.topic.R;
 import zjol.com.cn.topic.R2;
 import zjol.com.cn.topic.adapter.TopicHomeAdapter;
 import zjol.com.cn.topic.bean.TopicHomeBean;
+import zjol.com.cn.topic.holder.TopicHomeEmptyPageHolder;
 import zjol.com.cn.topic.task.TopicHomeTask;
 
 /**
@@ -81,13 +85,15 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
     ImageView ivLogo;
     @BindView(R2.id.iv_header)
     ImageView ivHeader;
+    @BindView(R2.id.ll_bottom)
+    LinearLayout llBottom;
     private TopicHomeAdapter mAdapter;
     private LoadViewHolder mLoadViewHolder;
     private HeaderRefresh mRefresh;
     private GridLayoutManager mGridLayoutManager;
     private String mChannelId = "";
     private State mCurrentState = State.IDLE;
-    private String mTopicId = "";
+    private String mTopicId = "123";
     private int mSortBy = 0;//0最热 1最新
     private TopicHomeBean mTopicHomeBean;
 
@@ -101,10 +107,21 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.module_news_activity_topic_home);
         ButterKnife.bind(this);
+        getArgs();
         DarkStatusBar.get().fitDark(this);
         initView();
         initListener();
         loadData(true, mSortBy);
+    }
+
+    private void getArgs() {
+        if (getIntent() != null && getIntent().getExtras() != null) {
+            String topicId = getIntent().getExtras().getString(Constants.TOPIC_ID);
+            if (!TextUtils.isEmpty(topicId)) {
+                mTopicId = topicId;
+            }
+        }
+
     }
 
     private void initListener() {
@@ -158,6 +175,9 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
                 if (!isFirst) {
                     super.onError(errMsg, errCode);
                 }
+                if (errCode == com.zjrb.zjxw.detail.utils.global.C.DRAFFT_IS_NOT_EXISE) {
+                    showWithDrawView();
+                }
             }
         }).setTag(this)
                 .setShortestTime(isFirst ? 0 : C.REFRESH_SHORTEST_TIME)
@@ -165,7 +185,22 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
                 .exe(mTopicId, sortBy);
     }
 
+    /**
+     * 显示话题下架页面
+     */
+    private void showWithDrawView() {
+
+    }
+
     private void refreshView(TopicHomeBean data) {
+        if (data == null) {
+            return;
+        }
+        if (data.getArticles().isEmpty()) {
+            llBottom.setVisibility(View.GONE);
+        }else {
+            llBottom.setVisibility(View.VISIBLE);
+        }
         if (!TextUtils.isEmpty(data.getTopic_label().getName())) {
             String name = data.getTopic_label().getName();
             tvLogo.setText(name.substring(0, 1));
@@ -192,12 +227,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
             mRefresh = new HeaderRefresh(mRecycler, this);
             mAdapter.setHeaderRefresh(mRefresh.getItemView());
 
-            mAdapter.setEmptyView(
-                    new EmptyPageHolder(mRecycler,
-                            EmptyPageHolder.ArgsBuilder.newBuilder()
-                                    .resId(R.mipmap.zjov_news_blank_icon)
-                                    .content("暂无内容")
-                    ).itemView);
+            mAdapter.setEmptyView(new TopicHomeEmptyPageHolder(mRecycler).itemView);
 
             // 条目点击
             mAdapter.setOnItemClickListener(this);

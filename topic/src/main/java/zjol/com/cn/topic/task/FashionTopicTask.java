@@ -24,6 +24,6 @@ public class FashionTopicTask extends APIGetTask<FashionTopicBean> {
 
     @Override
     public String getApi() {
-        return "/api/ugc_topic/square";
+        return "/api/ugc_topic/list";
     }
 }
