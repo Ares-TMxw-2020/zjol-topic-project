@@ -14,7 +14,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zjrb.core.common.glide.GlideApp;
-import com.zjrb.core.recycleView.EmptyPageHolder;
 import com.zjrb.core.recycleView.HeaderRefresh;
 import com.zjrb.core.recycleView.listener.OnItemClickListener;
 import com.zjrb.core.utils.T;
@@ -33,7 +32,6 @@ import cn.com.zjol.me.activity.login.LoginActivity;
 import cn.daily.android.statusbar.DarkStatusBar;
 import zjol.com.cn.news.common.utils.State;
 import zjol.com.cn.news.common.utils.StatusBarUtil;
-import zjol.com.cn.news.home.holder.AutoFitEmptyPageHolder;
 import zjol.com.cn.player.utils.Constants;
 import zjol.com.cn.topic.R;
 import zjol.com.cn.topic.R2;
@@ -87,13 +85,15 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
     ImageView ivHeader;
     @BindView(R2.id.ll_bottom)
     LinearLayout llBottom;
+    @BindView(R2.id.ll_top)
+    RelativeLayout llTop;
     private TopicHomeAdapter mAdapter;
     private LoadViewHolder mLoadViewHolder;
     private HeaderRefresh mRefresh;
     private GridLayoutManager mGridLayoutManager;
     private String mChannelId = "";
     private State mCurrentState = State.IDLE;
-    private String mTopicId = "123";
+    private String mTopicId = "1a";
     private int mSortBy = 0;//0最热 1最新
     private TopicHomeBean mTopicHomeBean;
 
@@ -107,11 +107,20 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.module_news_activity_topic_home);
         ButterKnife.bind(this);
+        initStatusBar();
         getArgs();
         DarkStatusBar.get().fitDark(this);
         initView();
         initListener();
         loadData(true, mSortBy);
+    }
+
+    private void initStatusBar() {
+        int statusHeight = StatusBarUtil.getStatusBarHeight(this);
+        llTop.getLayoutParams().height = llTop.getLayoutParams().height+=statusHeight;
+//        llTop.setPadding(0,statusHeight,0,0);
+        llTop.postInvalidate();
+
     }
 
     private void getArgs() {
@@ -136,12 +145,11 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
     private void initView() {
         mAppBarLayout.addOnOffsetChangedListener(new MyBaseOnOffsetChangedListener());
         int statusHeight = StatusBarUtil.getStatusBarHeight(getBaseContext());
-        rlTopbar.getLayoutParams().height = rlTopbar.getLayoutParams().height + statusHeight;
+        rlTopbar.getLayoutParams().height += statusHeight;
         rlTopbar.setPadding(0, statusHeight, 0, 0);
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) rlSpandTopbar.getLayoutParams();
+        layoutParams.topMargin +=  statusHeight;
         rlTopbar.requestLayout();
-        rlSpandTopbar.getLayoutParams().height = rlSpandTopbar.getLayoutParams().height + statusHeight;
-        rlSpandTopbar.setPadding(0, statusHeight, 0, 0);
-        rlSpandTopbar.requestLayout();
     }
 
     /**
@@ -196,9 +204,9 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         if (data == null) {
             return;
         }
-        if (data.getArticles().isEmpty()) {
+        if (data.getArticles()==null||data.getArticles().isEmpty()) {
             llBottom.setVisibility(View.GONE);
-        }else {
+        } else {
             llBottom.setVisibility(View.VISIBLE);
         }
         if (!TextUtils.isEmpty(data.getTopic_label().getName())) {
@@ -207,10 +215,15 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
             tvTitle.setText(name);
             tvTopBarTitle.setText(name);
         }
-        GlideApp.with(getBaseContext()).load(data.getTopic_label().getLogo_url()).into(ivHeader);
+        GlideApp.with(getBaseContext())
+                .load(data.getTopic_label().getLogo_url())
+                .centerCrop()
+                .placeholder(R.mipmap.zjov_app_header_bg)
+                .error(R.mipmap.zjov_app_header_bg)
+                .into(ivHeader);
         GlideApp.with(getBaseContext()).load(data.getTopic_label().getLogo_url()).into(ivLogo);
-        tvVideo.setText(data.getTopic_label().getParticipant_count_general());
-        tvPrise.setText(data.getTopic_label().getLike_count_general());
+        tvVideo.setText("视频  "+data.getTopic_label().getParticipant_count_general());
+        tvPrise.setText("点赞  "+data.getTopic_label().getLike_count_general());
         tvOther.setText(data.getTopic_label().getCreated_by());
     }
 

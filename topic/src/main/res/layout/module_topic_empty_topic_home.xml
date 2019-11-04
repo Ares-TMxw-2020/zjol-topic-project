@@ -23,7 +23,7 @@
         android:layout_height="wrap_content">
         <ImageView
             android:layout_centerHorizontal="true"
-            android:src="@mipmap/zjov_news_blank_icon"
+            android:src="@mipmap/zjov_mine_works_blank_image"
             android:id="@+id/iv_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

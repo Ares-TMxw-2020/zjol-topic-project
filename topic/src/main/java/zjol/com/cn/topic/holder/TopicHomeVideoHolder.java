@@ -20,6 +20,7 @@ import zjol.com.cn.news.R;
 import zjol.com.cn.news.R2;
 import zjol.com.cn.news.common.utils.Format;
 import zjol.com.cn.news.home.bean.ArticleItemBean;
+import zjol.com.cn.player.bean.ShortVideoBean;
 import zjol.com.cn.topic.other.GlideRoundTransform;
 
 /**
@@ -29,7 +30,7 @@ import zjol.com.cn.topic.other.GlideRoundTransform;
  */
 
 
-public class TopicHomeVideoHolder extends BaseRecyclerViewHolder<ArticleItemBean> implements ItemClickCallback {
+public class TopicHomeVideoHolder extends BaseRecyclerViewHolder<ShortVideoBean.ArticleListBean> implements ItemClickCallback {
     @BindView(R2.id.iv_picture)
     ImageView ivPicture;
     @BindView(R2.id.tv_title)

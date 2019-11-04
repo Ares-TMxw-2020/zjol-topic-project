@@ -22,7 +22,7 @@ public class TopicHomeBean {
     private int sort_by;
     private TopicLabelBean topic_label;
     private boolean has_more;
-    private List<ShortVideoBean.ArticleListBean> articles;
+    private List<ShortVideoBean.ArticleListBean> article_list;
 
     public int getSort_by() {
         return sort_by;
@@ -49,11 +49,11 @@ public class TopicHomeBean {
     }
 
     public List<ShortVideoBean.ArticleListBean> getArticles() {
-        return articles;
+        return article_list;
     }
 
     public void setArticles(List<ShortVideoBean.ArticleListBean> articles) {
-        this.articles = articles;
+        this.article_list = articles;
     }
 
 }

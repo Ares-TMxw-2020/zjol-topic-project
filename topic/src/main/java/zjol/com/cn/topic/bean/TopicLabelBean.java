@@ -55,7 +55,7 @@ public class TopicLabelBean {
     private String participant_count_general;
     private long created_at;
     private long updated_at;
-    private int sort_number;
+    private double sort_number;
     private double sort_number_double;
     private boolean enabled;
 
@@ -227,11 +227,11 @@ public class TopicLabelBean {
         this.updated_at = updated_at;
     }
 
-    public int getSort_number() {
+    public double getSort_number() {
         return sort_number;
     }
 
-    public void setSort_number(int sort_number) {
+    public void setSort_number(double sort_number) {
         this.sort_number = sort_number;
     }
 
