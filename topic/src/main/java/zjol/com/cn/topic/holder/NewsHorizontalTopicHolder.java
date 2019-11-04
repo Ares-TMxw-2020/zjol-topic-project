@@ -29,6 +29,7 @@ import zjol.com.cn.player.bean.ShortVideoBean;
 import zjol.com.cn.topic.R;
 import zjol.com.cn.topic.R2;
 import zjol.com.cn.topic.adapter.TopicHorizontalAdapter;
+import zjol.com.cn.topic.bean.TopicElementsBean;
 import zjol.com.cn.topic.bean.TopicSquareBean;
 
 /**
@@ -37,8 +38,8 @@ import zjol.com.cn.topic.bean.TopicSquareBean;
  * @author a_liYa
  * @date 2017/7/7 15:33.
  */
-public class NewsHorizontalTopicHolder extends BaseRecyclerViewHolder<TopicSquareBean> implements
-        OnItemClickListener, FooterLeftPull.PullCallback {
+public class NewsHorizontalTopicHolder extends BaseRecyclerViewHolder<TopicElementsBean> implements
+        OnItemClickListener,TopicFooterLeftPull.PullCallback {
 
 
     @BindView(R2.id.recycler)
@@ -48,7 +49,7 @@ public class NewsHorizontalTopicHolder extends BaseRecyclerViewHolder<TopicSquar
     @BindView(R2.id.ll_more)
     LinearLayout llMore;
 
-    private FooterLeftPull mFooterLeftPull;
+    private TopicFooterLeftPull mFooterLeftPull;
     private TopicHorizontalAdapter mAdapter;
 
     public NewsHorizontalTopicHolder(ViewGroup parent) {
@@ -58,7 +59,7 @@ public class NewsHorizontalTopicHolder extends BaseRecyclerViewHolder<TopicSquar
                 new LinearLayoutManager(
                         parent.getContext(), LinearLayoutManager.HORIZONTAL, false));
         mRecycler.addItemDecoration(new ListSpaceDivider(5d, Color.TRANSPARENT, false, false));
-        mFooterLeftPull = new FooterLeftPull(mRecycler, this);
+        mFooterLeftPull = new TopicFooterLeftPull(mRecycler, this);
     }
 
     @Override
@@ -71,10 +72,10 @@ public class NewsHorizontalTopicHolder extends BaseRecyclerViewHolder<TopicSquar
                 Nav.with(itemView.getContext()).to(mData.getUrl());
             }
         });
-        mAdapter = new TopicHorizontalAdapter(mData.getArticles());
+        mAdapter = new TopicHorizontalAdapter(mData.getArticle_list());
         mRecycler.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(this);
-//        mAdapter.addFooterView(mFooterLeftPull.getItemView());
+        mAdapter.addFooterView(mFooterLeftPull.getItemView());
     }
 
 

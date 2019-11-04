@@ -4,10 +4,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.zjrb.core.common.glide.GlideApp;
 import com.zjrb.core.recycleView.BaseRecyclerViewHolder;
 import com.zjrb.core.recycleView.ItemClickCallback;
@@ -18,10 +15,8 @@ import butterknife.ButterKnife;
 import cn.com.zjol.biz.core.glide.AppGlideOptions;
 import zjol.com.cn.news.R;
 import zjol.com.cn.news.R2;
-import zjol.com.cn.news.common.utils.Format;
-import zjol.com.cn.news.home.bean.ArticleItemBean;
+import zjol.com.cn.news.common.widget.GlideRoundTransform;
 import zjol.com.cn.player.bean.ShortVideoBean;
-import zjol.com.cn.topic.other.GlideRoundTransform;
 
 /**
  * @author: lujialei
@@ -33,15 +28,10 @@ import zjol.com.cn.topic.other.GlideRoundTransform;
 public class TopicHomeVideoHolder extends BaseRecyclerViewHolder<ShortVideoBean.ArticleListBean> implements ItemClickCallback {
     @BindView(R2.id.iv_picture)
     ImageView ivPicture;
-    @BindView(R2.id.tv_title)
-    TextView tvTitle;
-    @BindView(R2.id.tv_time)
-    TextView tvTime;
-    @BindView(R2.id.ll_time)
-    LinearLayout llTime;
+
 
     public TopicHomeVideoHolder(@NonNull ViewGroup parent) {
-        super(parent, R.layout.module_news_item_fashion_holder);
+        super(parent, R.layout.module_topic_holder_topic_home_video);
         ButterKnife.bind(this, itemView);
     }
 
@@ -54,7 +44,7 @@ public class TopicHomeVideoHolder extends BaseRecyclerViewHolder<ShortVideoBean.
         GlideApp.with(itemView.getContext())
                 .load(path)
                 .apply(AppGlideOptions.newsBigOptions())
-                .transform(new GlideRoundTransform(itemView.getContext(),3))
+                .transform(new GlideRoundTransform(itemView.getContext(),5))
                 .into(ivPicture);
     }
 

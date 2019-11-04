@@ -8,6 +8,8 @@ import com.zjrb.core.recycleView.BaseRecyclerViewHolder;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.com.zjol.biz.core.glide.AppGlideOptions;
+import zjol.com.cn.news.common.widget.GlideRoundTransform;
 import zjol.com.cn.player.bean.ShortVideoBean;
 import zjol.com.cn.topic.R;
 import zjol.com.cn.topic.R2;
@@ -25,7 +27,11 @@ public class TopicGeneralHolder extends BaseRecyclerViewHolder<ShortVideoBean.Ar
 
     @Override
     public void bindView() {
-        GlideApp.with(itemView.getContext()).load(mData.getFirstPic()).into(iv);
+        GlideApp.with(itemView.getContext())
+                .load(mData.getFirstPic())
+                .apply(AppGlideOptions.newsBigOptions())
+                .transform(new GlideRoundTransform(itemView.getContext(),5))
+                .into(iv);
     }
 
 }

@@ -114,7 +114,7 @@ public class TopicSearchActivity extends SwipeBackActivity {
                 @Override
                 public void onItemClick(View itemView, int position) {
 //                    if (mCallback!=null){
-//                        TopicSearchBean.ElementsBean elementsBean = mSearchAdapter.getData().get(position);
+//                        TopicSearchBean.TopicElementsBean elementsBean = mSearchAdapter.getData().get(position);
 //                        mCallback.onTopicSelect(elementsBean.getId(),elementsBean.getName());
 //                    }
                 }

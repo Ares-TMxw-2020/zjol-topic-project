@@ -15,6 +15,7 @@ import java.util.List;
 import cn.com.zjol.biz.core.network.compatible.APICallManager;
 import zjol.com.cn.news.home.bean.ArticleItemBean;
 import zjol.com.cn.topic.bean.FashionTopicBean;
+import zjol.com.cn.topic.bean.TopicElementsBean;
 import zjol.com.cn.topic.bean.TopicSquareBean;
 import zjol.com.cn.topic.holder.NewsHorizontalTopicHolder;
 import zjol.com.cn.topic.task.FashionTopicTask;
@@ -25,7 +26,7 @@ import zjol.com.cn.topic.task.FashionTopicTask;
  * @author a_liYa
  * @date 2017/7/6 14:40.
  */
-public class FashionTopicAdapter extends BaseRecyclerAdapter<TopicSquareBean> implements LoadMoreListener<FashionTopicBean> {
+public class FashionTopicAdapter extends BaseRecyclerAdapter<TopicElementsBean> implements LoadMoreListener<FashionTopicBean> {
 
     private String mChannelId;
     private final FooterLoadMoreV2<FashionTopicBean> mLoadMore;
@@ -42,16 +43,16 @@ public class FashionTopicAdapter extends BaseRecyclerAdapter<TopicSquareBean> im
         cancelLoadMore();
         mLoadMore.setState(noMore(data) ? LoadMore.TYPE_NO_MORE : LoadMore.TYPE_IDLE);
 
-        setData(data != null ? data.getSquares() : null);
+        setData(data != null ? data.getElements() : null);
     }
 
-    public void addData(List<TopicSquareBean> data) {
+    public void addData(List<TopicElementsBean> data) {
         addData(data, true); // 增量刷新
     }
 
     private boolean noMore(FashionTopicBean data) {
-        return data == null || data.getSquares() == null
-                || data.getSquares().size() == 0;
+        return data == null || data.getElements() == null
+                || data.getElements().size() == 0;
     }
 
     @Override
@@ -66,7 +67,7 @@ public class FashionTopicAdapter extends BaseRecyclerAdapter<TopicSquareBean> im
             loadMore.setState(LoadMore.TYPE_NO_MORE);
         }
         if (data != null) {
-            addData(data.getSquares());
+            addData(data.getElements());
         }
     }
 
@@ -80,8 +81,8 @@ public class FashionTopicAdapter extends BaseRecyclerAdapter<TopicSquareBean> im
             int count = 1;
             while (size - count >= 0) {
                 Object data = getData(size - count++);
-                if (data instanceof ArticleItemBean) {
-                    return ((ArticleItemBean) data).getSort_number();
+                if (data instanceof TopicElementsBean) {
+                    return ((TopicElementsBean) data).getSort_number();
                 }
             }
         }

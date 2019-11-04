@@ -1,6 +1,7 @@
 package zjol.com.cn.topic.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.zjrb.core.common.glide.GlideApp;
 import com.zjrb.core.recycleView.HeaderRefresh;
 import com.zjrb.core.recycleView.listener.OnItemClickListener;
+import com.zjrb.core.ui.divider.GridSpaceDivider;
 import com.zjrb.core.utils.T;
 
 import butterknife.BindView;
@@ -32,6 +34,8 @@ import cn.com.zjol.me.activity.login.LoginActivity;
 import cn.daily.android.statusbar.DarkStatusBar;
 import zjol.com.cn.news.common.utils.State;
 import zjol.com.cn.news.common.utils.StatusBarUtil;
+import zjol.com.cn.news.common.widget.NewsSpaceDivider;
+import zjol.com.cn.player.bean.ShortVideoBean;
 import zjol.com.cn.player.utils.Constants;
 import zjol.com.cn.topic.R;
 import zjol.com.cn.topic.R2;
@@ -128,6 +132,15 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
             String topicId = getIntent().getExtras().getString(Constants.TOPIC_ID);
             if (!TextUtils.isEmpty(topicId)) {
                 mTopicId = topicId;
+            }
+        }
+
+
+        if (getIntent()!=null&&getIntent().getData()!=null){
+            Uri uri = getIntent().getData();
+            String id = uri.getQueryParameter("id");
+            if (!TextUtils.isEmpty(id)){
+                mTopicId = id;
             }
         }
 
@@ -231,7 +244,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         if (mAdapter == null) {
             mGridLayoutManager = new GridLayoutManager(getBaseContext(), 3);
             mRecycler.setLayoutManager(mGridLayoutManager);
-//            mRecycler.addItemDecoration(new NewsSpaceDivider());
+            mRecycler.addItemDecoration(new GridSpaceDivider(8));
             mAdapter = new TopicHomeAdapter(data, mRecycler, mTopicId, sortBy);
             mRecycler.setAdapter(mAdapter);
 
@@ -254,6 +267,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
 
     @Override
     public void onItemClick(View itemView, int position) {
+        ShortVideoBean.ArticleListBean data = mAdapter.getData(position);
 
     }
 

@@ -48,7 +48,6 @@ public class FashionTopicFragment extends DailyFragment implements View.OnClickL
     public String mChannelId;
 
     private HeaderRefresh mRefresh;
-    private TopicRankHeader mTopicRankHeader;
     public static final String KEY_CHANNEL_ID = "channel_id";
     public static final String KEY_CHANNEL_NAME = "channel_name";
     public static final String KEY_CHANNEL_TYPE = "channel_type";
@@ -172,10 +171,6 @@ public class FashionTopicFragment extends DailyFragment implements View.OnClickL
             // 下拉刷新
             mRefresh = new HeaderRefresh(mRecycler, this);
             mAdapter.setHeaderRefresh(mRefresh.getItemView());
-            //话题榜
-            mTopicRankHeader = new TopicRankHeader(mRecycler);
-            mAdapter.addHeaderView(mTopicRankHeader.getItemView());
-            setRankHeaderData(data.getRank());
             //空页面
             mAdapter.setEmptyView(
                     new EmptyPageHolder(mRecycler,
@@ -184,21 +179,11 @@ public class FashionTopicFragment extends DailyFragment implements View.OnClickL
                                     .content("暂无内容")
                     ).itemView);
         } else {
-            setRankHeaderData(data.getRank());
             mAdapter.setData(data);
             mAdapter.notifyDataSetChanged();
         }
     }
 
-    private void setRankHeaderData(List<TopicRankBean> list){
-        if (list!=null&&!list.isEmpty()){
-            mTopicRankHeader.setVisiable(true);
-            mTopicRankHeader.setData(list);
-        }else {
-            mTopicRankHeader.setVisiable(false);
-        }
-
-    }
 
     @Override
     public void onDestroyView() {
