@@ -40,6 +40,7 @@ import zjol.com.cn.topic.R2;
 import zjol.com.cn.topic.adapter.TopicHorizontalAdapter;
 import zjol.com.cn.topic.bean.TopicElementsBean;
 import zjol.com.cn.topic.bean.TopicSquareBean;
+import zjol.com.cn.topic.fragment.FashionTopicFragment;
 
 /**
  * 新闻列表 - 栏目类型
@@ -103,6 +104,9 @@ public class NewsHorizontalTopicHolder extends BaseRecyclerViewHolder<TopicEleme
             Intent intent = new Intent(itemView.getContext(), TopicShortVideoPlayActivity.class);
             Bundle bundle = new Bundle();
             bundle.putSerializable(Constants.DATA, (Serializable) mAdapter.datas);
+            bundle.putInt(Constants.POSITION, position);
+            bundle.putString(Constants.TOPIC_ID,mData.getId());
+            bundle.putInt(Constants.SORT_BY,0);
             intent.putExtras(bundle);
             itemView.getContext().startActivity(intent);
         }

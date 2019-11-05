@@ -48,6 +48,7 @@ public class FashionTopicFragment extends DailyFragment implements View.OnClickL
     public String mChannelId;
 
     private HeaderRefresh mRefresh;
+    private FashionTopicBean mFashionTopicBean;
     public static final String KEY_CHANNEL_ID = "channel_id";
     public static final String KEY_CHANNEL_NAME = "channel_name";
     public static final String KEY_CHANNEL_TYPE = "channel_type";
@@ -119,6 +120,7 @@ public class FashionTopicFragment extends DailyFragment implements View.OnClickL
         new FashionTopicTask(new APIExpandCallBack<FashionTopicBean>() {
             @Override
             public void onSuccess(FashionTopicBean data) {
+                mFashionTopicBean = data;
                 bindData(data);
                 mLoadViewHolder = null;
             }

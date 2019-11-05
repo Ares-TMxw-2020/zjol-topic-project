@@ -81,9 +81,10 @@
                             android:layout_height="60dp">
 
                             <TextView
+                                android:visibility="gone"
                                 android:layout_gravity="center"
                                 android:textColor="@color/_ffffff"
-                                android:text="1"
+                                tools:text="家"
                                 android:textSize="34sp"
                                 android:gravity="center"
                                 android:id="@+id/tv_logo"
