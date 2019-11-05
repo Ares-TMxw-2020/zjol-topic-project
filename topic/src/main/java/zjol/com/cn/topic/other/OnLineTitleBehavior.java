@@ -44,7 +44,7 @@ public class OnLineTitleBehavior extends CoordinatorLayout.Behavior<View> {
 //        float y = -(dy / deltaY) * child.getHeight();
 //        child.setTranslationY(y);
         float alpha = 1 - (dy / deltaY);
-        child.setAlpha(alpha);
+        child.setAlpha(alpha*2f);
 
         return true;
     }

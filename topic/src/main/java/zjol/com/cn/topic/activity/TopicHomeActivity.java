@@ -433,7 +433,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
 //                .setArticleId("" + mTopicHomeBean.getTopic_label().getId())
                 .setImgUri(mTopicHomeBean.getTopic_label().getLogo_url())
                 .setTitle(mTopicHomeBean.getTopic_label().getName())
-                .setTextContent(mTopicHomeBean.getTopic_label().getName())
+                .setTextContent("来自天目新闻客户端")
 //                .setAnalytic(analytic)
                 .setTargetUrl(mTopicHomeBean.getTopic_label().getUrl()));
 //
