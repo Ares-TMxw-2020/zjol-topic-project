@@ -1,6 +1,7 @@
 package zjol.com.cn.topic.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +15,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.zjrb.core.common.glide.GlideApp;
 import com.zjrb.core.recycleView.HeaderRefresh;
 import com.zjrb.core.recycleView.listener.OnItemClickListener;
@@ -250,6 +255,19 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         GlideApp.with(getBaseContext())
                 .load(data.getTopic_label().getLogo_url())
                 .transform(new GlideRoundTransform(getBaseContext(),4))
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        tvLogo.setVisibility(View.VISIBLE);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        tvLogo.setVisibility(View.GONE);
+                        return false;
+                    }
+                })
                 .into(ivLogo);
         tvVideo.setText("视频  "+data.getTopic_label().getParticipant_count_general());
         tvPrise.setText("点赞  "+data.getTopic_label().getLike_count_general());
@@ -286,6 +304,9 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         Intent intent = new Intent(itemView.getContext(), TopicShortVideoPlayActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.DATA, (Serializable) mAdapter.datas);
+        bundle.putInt(Constants.POSITION, position);
+        bundle.putString(Constants.TOPIC_ID,mTopicId);
+        bundle.putInt(Constants.SORT_BY,mSortBy);
         intent.putExtras(bundle);
         itemView.getContext().startActivity(intent);
     }
