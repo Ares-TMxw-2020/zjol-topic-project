@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/module_topic_bg_home_video"
-    android:layout_marginBottom="8dp"
     android:id="@+id/ratio_container">
 
     <com.aliya.view.ratio.RatioRelativeLayout

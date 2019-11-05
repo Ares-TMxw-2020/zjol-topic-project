@@ -132,6 +132,7 @@
                 </RelativeLayout>
 
                 <LinearLayout
+                    android:background="@color/_ffffff"
                     app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
                     android:paddingBottom="11dp"
                     android:paddingTop="15dp"

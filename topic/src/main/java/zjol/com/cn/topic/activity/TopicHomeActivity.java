@@ -44,6 +44,7 @@ import cn.com.zjol.me.activity.login.LoginActivity;
 import cn.daily.android.statusbar.DarkStatusBar;
 import zjol.com.cn.news.common.utils.State;
 import zjol.com.cn.news.common.utils.StatusBarUtil;
+import zjol.com.cn.news.common.utils.TypeFaceUtils;
 import zjol.com.cn.news.common.widget.GlideRoundTransform;
 import zjol.com.cn.player.bean.ShortVideoBean;
 import zjol.com.cn.player.manager.shortvideo.topic.TopicShortVideoPlayActivity;
@@ -120,7 +121,6 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
     private LoadViewHolder mLoadViewHolder;
     private HeaderRefresh mRefresh;
     private GridLayoutManager mGridLayoutManager;
-    private String mChannelId = "";
     private State mCurrentState = State.IDLE;
     private String mTopicId = "";
     private int mSortBy = 0;//0最热 1最新
@@ -292,6 +292,8 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
                 .into(ivLogo);
         tvVideo.setText("视频  " + data.getTopic_label().getParticipant_count_general());
         tvPrise.setText("点赞  " + data.getTopic_label().getLike_count_general());
+        TypeFaceUtils.changeNumberFont(tvVideo);
+        TypeFaceUtils.changeNumberFont(tvPrise);
         String des = data.getTopic_label().getDescription();
         if (!TextUtils.isEmpty(des)){
             tvOther.setText("简介:" + des);

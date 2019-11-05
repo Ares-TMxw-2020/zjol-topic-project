@@ -63,7 +63,7 @@ public class TopicHomeVideoHolder extends BaseRecyclerViewHolder<ShortVideoBean.
         GlideApp.with(itemView.getContext())
                 .load(path)
                 .apply(AppGlideOptions.newsBigOptions())
-                .transform(new GlideRoundTransform(itemView.getContext(), 5))
+                .transform(new GlideRoundTransform(itemView.getContext(), 3))
                 .into(ivPicture);
     }
 

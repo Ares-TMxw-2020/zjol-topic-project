@@ -30,7 +30,7 @@ public class TopicGeneralHolder extends BaseRecyclerViewHolder<ShortVideoBean.Ar
         GlideApp.with(itemView.getContext())
                 .load(mData.getFirstPic())
                 .apply(AppGlideOptions.newsBigOptions())
-                .transform(new GlideRoundTransform(itemView.getContext(),5))
+                .transform(new GlideRoundTransform(itemView.getContext(),3))
                 .into(iv);
     }
 
