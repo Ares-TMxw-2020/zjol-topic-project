@@ -63,9 +63,27 @@ public class TopicElementsBean {
         private int show_style;
         private int audit_status;
         private boolean deleted;
+        private boolean show_new;
+        private boolean show_hot;
         private List<ShortVideoBean.ArticleListBean> article_list;
 
-        public String getId() {
+    public boolean isShow_new() {
+        return show_new;
+    }
+
+    public void setShow_new(boolean show_new) {
+        this.show_new = show_new;
+    }
+
+    public boolean isShow_hot() {
+        return show_hot;
+    }
+
+    public void setShow_hot(boolean show_hot) {
+        this.show_hot = show_hot;
+    }
+
+    public String getId() {
             return id;
         }
 

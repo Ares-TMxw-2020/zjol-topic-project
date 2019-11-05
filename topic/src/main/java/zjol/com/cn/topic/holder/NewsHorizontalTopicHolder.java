@@ -29,18 +29,12 @@ import butterknife.ButterKnife;
 import cn.com.zjol.biz.core.nav.Nav;
 import cn.daily.news.analytics.Analytics;
 import cn.daily.news.analytics.ObjectType;
-import zjol.com.cn.news.common.fragment.NewsFragment;
-import zjol.com.cn.news.common.utils.NewsUtils;
-import zjol.com.cn.news.home.holder.FooterLeftPull;
-import zjol.com.cn.player.bean.ShortVideoBean;
 import zjol.com.cn.player.manager.shortvideo.topic.TopicShortVideoPlayActivity;
 import zjol.com.cn.player.utils.Constants;
 import zjol.com.cn.topic.R;
 import zjol.com.cn.topic.R2;
 import zjol.com.cn.topic.adapter.TopicHorizontalAdapter;
 import zjol.com.cn.topic.bean.TopicElementsBean;
-import zjol.com.cn.topic.bean.TopicSquareBean;
-import zjol.com.cn.topic.fragment.FashionTopicFragment;
 
 /**
  * 新闻列表 - 栏目类型
@@ -75,12 +69,19 @@ public class NewsHorizontalTopicHolder extends BaseRecyclerViewHolder<TopicEleme
     public void bindView() {
         if (mData == null) return;
         tvTopic.setText(mData.getName());
+        //左边井号image
         Drawable drawableLeft = itemView.getContext().getResources().getDrawable(R.mipmap.zjov_ugc_topic_topic_icon);
         drawableLeft.setBounds(0,0,drawableLeft.getMinimumWidth(),drawableLeft.getMinimumHeight());
-        Drawable drawableRight = itemView.getContext().getResources().getDrawable(R.mipmap.zjov_ugc_topic_new_icon);
-        drawableRight.setBounds(0,0,drawableRight.getMinimumWidth(),drawableRight.getMinimumHeight());
-        if (getAdapterPosition()==1){
-            tvTopic.setCompoundDrawables(drawableLeft,null,drawableRight,null);
+        //新 image icon
+        Drawable drawableNew = itemView.getContext().getResources().getDrawable(R.mipmap.zjov_ugc_topic_new_icon);
+        drawableNew.setBounds(0,0,drawableNew.getMinimumWidth(),drawableNew.getMinimumHeight());
+        //热 image icon
+        Drawable drawableHot = itemView.getContext().getResources().getDrawable(R.mipmap.zjov_ugc_topic_hot_icon);
+        drawableHot.setBounds(0,0,drawableHot.getMinimumWidth(),drawableHot.getMinimumHeight());
+        if (mData.isShow_hot()){
+            tvTopic.setCompoundDrawables(drawableLeft,null,drawableHot,null);
+        }else if (mData.isShow_new()){
+            tvTopic.setCompoundDrawables(drawableLeft,null,drawableNew,null);
         }else {
             tvTopic.setCompoundDrawables(drawableLeft,null,null,null);
         }
