@@ -19,6 +19,7 @@ buildscript {
 allprojects {
     repositories {
         maven { url "https://maven.aliyun.com/repository/google" }
+        maven { url "https://maven.aliyun.com/repository/jcenter" }
         google()
         jcenter()
         maven { url "http://10.100.62.98:8086/nexus/content/groups/public" }
