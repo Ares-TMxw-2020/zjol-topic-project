@@ -49,7 +49,7 @@ public class TopicHomeEmptyPageHolder extends PageItem {
             DailyActivity activity = (DailyActivity) v.getContext();
             if (UserBiz.get().isLoginUser()) {
                 Nav.with(getItemView().getContext()).toPath("/native/publish/video");
-                activity.overridePendingTransition(R.anim.topic_bottom_up, 0);
+//                activity.overridePendingTransition(R.anim.topic_bottom_up, 0);
             } else {
                 activity.startActivityForResult(new Intent(activity, LoginActivity.class),
                         LOGIN_REQUEST_CODE);

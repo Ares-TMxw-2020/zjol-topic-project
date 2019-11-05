@@ -299,7 +299,6 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
     }
 
     private void bindData(TopicHomeBean data, int sortBy) {
-        data.setArticles(new ArrayList<ShortVideoBean.ArticleListBean>());
         if (mAdapter == null) {
             mGridLayoutManager = new GridLayoutManager(getBaseContext(), 3);
             mRecycler.setLayoutManager(mGridLayoutManager);
@@ -389,7 +388,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
     private void goShotActivity() {
         if (UserBiz.get().isLoginUser()) {
             Nav.with(getBaseContext()).toPath("/native/publish/video");
-            overridePendingTransition(R.anim.topic_bottom_up, 0);
+//            overridePendingTransition(R.anim.topic_bottom_up, 0);
         } else {
             startActivityForResult(new Intent(getBaseContext(), LoginActivity.class),
                     LOGIN_REQUEST_CODE);
@@ -402,7 +401,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         if (requestCode == LOGIN_REQUEST_CODE) {
             if (UserBiz.get().isLoginUser()) { // 进入小视频页
                 Nav.with(getBaseContext()).toPath("/native/publish/video");
-                overridePendingTransition(R.anim.topic_bottom_up, 0);
+//                overridePendingTransition(R.anim.topic_bottom_up, 0);
             } else {
                 T.showShort(this, "请先登录");
             }
