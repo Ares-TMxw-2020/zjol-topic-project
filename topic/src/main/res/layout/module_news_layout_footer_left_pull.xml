@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="7.5dp"
             android:gravity="center_horizontal"
-            android:text="继续滑动\n查看详情"
+            android:text="继续滑动 \n查看详情 "
             android:textColor="@color/_000000_7a7b7d"
             android:textSize="@dimen/ts_12sp" />
     </LinearLayout>
