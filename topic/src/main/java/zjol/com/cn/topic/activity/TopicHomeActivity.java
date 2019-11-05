@@ -10,6 +10,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -19,6 +20,7 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.core.network.api.ApiCall;
 import com.zjrb.core.common.glide.GlideApp;
 import com.zjrb.core.recycleView.HeaderRefresh;
 import com.zjrb.core.recycleView.listener.OnItemClickListener;
@@ -26,6 +28,7 @@ import com.zjrb.core.ui.divider.GridSpaceDivider;
 import com.zjrb.core.utils.T;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,7 +45,6 @@ import cn.daily.android.statusbar.DarkStatusBar;
 import zjol.com.cn.news.common.utils.State;
 import zjol.com.cn.news.common.utils.StatusBarUtil;
 import zjol.com.cn.news.common.widget.GlideRoundTransform;
-import zjol.com.cn.news.common.widget.NewsSpaceDivider;
 import zjol.com.cn.player.bean.ShortVideoBean;
 import zjol.com.cn.player.manager.shortvideo.topic.TopicShortVideoPlayActivity;
 import zjol.com.cn.player.utils.Constants;
@@ -52,6 +54,7 @@ import zjol.com.cn.topic.R2;
 import zjol.com.cn.topic.adapter.TopicHomeAdapter;
 import zjol.com.cn.topic.bean.TopicHomeBean;
 import zjol.com.cn.topic.holder.TopicHomeEmptyPageHolder;
+import zjol.com.cn.topic.other.Code;
 import zjol.com.cn.topic.task.TopicHomeTask;
 
 /**
@@ -92,7 +95,6 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
     ImageView ivSpandShare;
     @BindView(R2.id.iv_top_bar_share)
     ImageView ivTopBarShare;
-    private static final int LOGIN_REQUEST_CODE = 305;
     @BindView(R2.id.iv_logo)
     ImageView ivLogo;
     @BindView(R2.id.iv_header)
@@ -101,6 +103,19 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
     LinearLayout llBottom;
     @BindView(R2.id.ll_top)
     RelativeLayout llTop;
+    @BindView(R2.id.fl_error)
+    LinearLayout flError;
+    @BindView(R2.id.iv_error_back)
+    ImageView ivErrorBack;
+    @BindView(R2.id.error_topbar)
+    RelativeLayout errorTopbar;
+    @BindView(R2.id.error_view)
+    View errorView;
+    @BindView(R2.id.ll_with_draw)
+    LinearLayout llWithDraw;
+    @BindView(R2.id.error_conetent)
+    FrameLayout errorConetent;
+    public static final int LOGIN_REQUEST_CODE = 305;
     private TopicHomeAdapter mAdapter;
     private LoadViewHolder mLoadViewHolder;
     private HeaderRefresh mRefresh;
@@ -131,12 +146,16 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
 
     private void initStatusBar() {
         int statusHeight = StatusBarUtil.getStatusBarHeight(this);
-        llTop.getLayoutParams().height = llTop.getLayoutParams().height+=statusHeight;
+        llTop.getLayoutParams().height = llTop.getLayoutParams().height += statusHeight;
 //        llTop.setPadding(0,statusHeight,0,0);
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) rlSpandTopbar.getLayoutParams();
-        layoutParams.topMargin +=  statusHeight;
+        layoutParams.topMargin += statusHeight;
         llTop.postInvalidate();
 
+        //网络错误页面topbar处理
+        LinearLayout.LayoutParams errorLayoutParams = (LinearLayout.LayoutParams) errorTopbar.getLayoutParams();
+        errorLayoutParams.height += statusHeight;
+        errorTopbar.setPadding(0,statusHeight,0,0);
     }
 
     private void getArgs() {
@@ -148,10 +167,10 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         }
 
 
-        if (getIntent()!=null&&getIntent().getData()!=null){
+        if (getIntent() != null && getIntent().getData() != null) {
             Uri uri = getIntent().getData();
             String id = uri.getQueryParameter("id");
-            if (!TextUtils.isEmpty(id)){
+            if (!TextUtils.isEmpty(id)) {
                 mTopicId = id;
             }
         }
@@ -187,6 +206,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         new TopicHomeTask(new APIExpandCallBack<TopicHomeBean>() {
             @Override
             public void onSuccess(TopicHomeBean data) {
+                flError.setVisibility(View.GONE);
                 data = handleSortBy(data);
                 mTopicHomeBean = data;
                 bindData(data, sortBy);
@@ -203,16 +223,17 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
 
             @Override
             public void onError(String errMsg, int errCode) {
+                flError.setVisibility(View.VISIBLE);
                 if (!isFirst) {
                     super.onError(errMsg, errCode);
                 }
-                if (errCode == com.zjrb.zjxw.detail.utils.global.C.DRAFFT_IS_NOT_EXISE) {
+                if (errCode == Code.CODE_TOPIC_UNDER_LINE) {
                     showWithDrawView();
                 }
             }
         }).setTag(this)
                 .setShortestTime(isFirst ? 0 : C.REFRESH_SHORTEST_TIME)
-                .bindLoadViewHolder(isFirst ? (mLoadViewHolder = replaceLoad(mRecycler)) : null)
+                .bindLoadViewHolder(isFirst ? (mLoadViewHolder = replaceLoad(errorView)) : null)
                 .exe(mTopicId, sortBy);
     }
 
@@ -227,14 +248,14 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
      * 显示话题下架页面
      */
     private void showWithDrawView() {
-
+        llWithDraw.setVisibility(View.VISIBLE);
     }
 
     private void refreshView(TopicHomeBean data) {
         if (data == null) {
             return;
         }
-        if (data.getArticles()==null||data.getArticles().isEmpty()) {
+        if (data.getArticles() == null || data.getArticles().isEmpty()) {
             llBottom.setVisibility(View.GONE);
         } else {
             llBottom.setVisibility(View.VISIBLE);
@@ -250,11 +271,11 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
                 .centerCrop()
                 .placeholder(R.mipmap.zjov_app_header_bg)
                 .error(R.mipmap.zjov_app_header_bg)
-                .transform(new GlideBlurformation(getBaseContext(),15))
+                .transform(new GlideBlurformation(getBaseContext(), 15))
                 .into(ivHeader);
         GlideApp.with(getBaseContext())
                 .load(data.getTopic_label().getLogo_url())
-                .transform(new GlideRoundTransform(getBaseContext(),4))
+                .transform(new GlideRoundTransform(getBaseContext(), 4))
                 .listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -269,12 +290,16 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
                     }
                 })
                 .into(ivLogo);
-        tvVideo.setText("视频  "+data.getTopic_label().getParticipant_count_general());
-        tvPrise.setText("点赞  "+data.getTopic_label().getLike_count_general());
-        tvOther.setText("简介:"+data.getTopic_label().getDescription());
+        tvVideo.setText("视频  " + data.getTopic_label().getParticipant_count_general());
+        tvPrise.setText("点赞  " + data.getTopic_label().getLike_count_general());
+        String des = data.getTopic_label().getDescription();
+        if (!TextUtils.isEmpty(des)){
+            tvOther.setText("简介:" + des);
+        }
     }
 
     private void bindData(TopicHomeBean data, int sortBy) {
+        data.setArticles(new ArrayList<ShortVideoBean.ArticleListBean>());
         if (mAdapter == null) {
             mGridLayoutManager = new GridLayoutManager(getBaseContext(), 3);
             mRecycler.setLayoutManager(mGridLayoutManager);
@@ -305,8 +330,8 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.DATA, (Serializable) mAdapter.datas);
         bundle.putInt(Constants.POSITION, position);
-        bundle.putString(Constants.TOPIC_ID,mTopicId);
-        bundle.putInt(Constants.SORT_BY,mSortBy);
+        bundle.putString(Constants.TOPIC_ID, mTopicId);
+        bundle.putInt(Constants.SORT_BY, mSortBy);
         intent.putExtras(bundle);
         itemView.getContext().startActivity(intent);
     }

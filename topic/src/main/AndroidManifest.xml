@@ -19,7 +19,7 @@
                 <data android:scheme="@string/data_scheme_https" />
 
                 <!-- 话题 path -->
-                <data android:path="/topic_label.html" />
+                <data android:path="/native/topic_label.html" />
                 <data android:path="/topic/home/activity" />
                 <data android:host="@string/data_host" />
 

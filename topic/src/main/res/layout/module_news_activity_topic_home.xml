@@ -245,9 +245,65 @@
             android:scaleType="center"
             android:layout_width="@dimen/toolbar_normal_height"
             android:layout_height="@dimen/toolbar_normal_height"/>
-
-
     </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/fl_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:background="@color/_ffffff"
+            android:id="@+id/error_topbar"
+            android:layout_width="match_parent"
+            app:layout_behavior="@string/behavior_sample_title"
+            android:layout_height="@dimen/toolbar_normal_height">
+
+            <ImageView
+                android:id="@+id/iv_error_back"
+                android:layout_width="@dimen/toolbar_normal_height"
+                android:layout_height="@dimen/toolbar_normal_height"
+                android:background="?attr/actionBarItemBackground"
+                android:scaleType="center"
+                android:src="@mipmap/module_detail_top_back" />
+        </RelativeLayout>
+        <FrameLayout
+            android:id="@+id/error_conetent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <View
+                android:id="@+id/error_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:background="@color/_ffffff"
+                android:id="@+id/ll_with_draw"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:src="@mipmap/zjov_ugc_topic_undercarriage_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_marginTop="40dp"
+                    android:textSize="@dimen/ts_16sp"
+                    android:textColor="@color/_acacac"
+                    android:text="该话题已被下架~"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+            <View
+                android:background="@drawable/module_player_gradient_shadow_tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+        </FrameLayout>
+    </LinearLayout>
 
 
 </android.support.design.widget.CoordinatorLayout>
