@@ -1,16 +1,10 @@
 package zjol.com.cn.zjol_topic_project;
-import android.app.ActivityOptions;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
-
-import cn.com.zjol.biz.core.nav.Nav;
-import zjol.com.cn.topic.activity.NormalTopicHomeActivity;
-import zjol.com.cn.topic.activity.TopicChooserActivity;
-import zjol.com.cn.topic.activity.TopicHomeActivity;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -27,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-//                startActivity(new Intent(getBaseContext(), TopicChooserActivity.class));
 //                Nav.with(getBaseContext()).toPath("/topic/choose/activity",requestCode);
 //                overridePendingTransition(R.anim.topic_bottom_up,0);
             }
