@@ -310,14 +310,19 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
                 .into(ivLogo);
         String videoNumber = data.getTopic_label().getArticle_count_general();
         if (TextUtils.isEmpty(videoNumber)){
-            videoNumber = "0";
+           tvVideo.setVisibility(View.GONE);
+        }else {
+            tvVideo.setVisibility(View.VISIBLE);
+            tvVideo.setText("视频  " + videoNumber);
         }
-        tvVideo.setText("视频  " + videoNumber);
+
         String likeNumber =  data.getTopic_label().getLike_count_general();
         if (TextUtils.isEmpty(likeNumber)){
-            likeNumber = "0";
+            tvPrise.setVisibility(View.GONE);
+        }else {
+            tvPrise.setVisibility(View.VISIBLE);
+            tvPrise.setText("点赞  " + likeNumber);
         }
-        tvPrise.setText("点赞  " + likeNumber);
         TypeFaceUtils.changeNumberFont(tvVideo);
         TypeFaceUtils.changeNumberFont(tvPrise);
         String des = data.getTopic_label().getAccount_name();
