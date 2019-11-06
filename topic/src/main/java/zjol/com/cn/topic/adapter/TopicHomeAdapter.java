@@ -19,6 +19,9 @@ import zjol.com.cn.news.home.task.FashionListTask;
 import zjol.com.cn.player.bean.ShortVideoBean;
 import zjol.com.cn.topic.bean.TopicHomeBean;
 import zjol.com.cn.topic.holder.TopicHomeVideoHolder;
+import zjol.com.cn.topic.holder.TopicNO1VideoHolder;
+import zjol.com.cn.topic.holder.TopicNO2VideoHolder;
+import zjol.com.cn.topic.holder.TopicNO3VideoHolder;
 import zjol.com.cn.topic.task.TopicHomeTask;
 
 
@@ -27,6 +30,11 @@ public class TopicHomeAdapter extends BaseRecyclerAdapter<ShortVideoBean.Article
     private String mTopicId;
     private int mSortBy;
     private final FooterLoadMoreV2<TopicHomeBean> mLoadMore;
+    public static final int TYPE_NORMAL = 0;
+    public static final int TYPE_NO_1 = 1;
+    public static final int TYPE_NO_2 = 2;
+    public static final int TYPE_NO_3 = 3;
+
 
     public void setSortBy(int sortBy) {
         mSortBy = sortBy;
@@ -106,9 +114,28 @@ public class TopicHomeAdapter extends BaseRecyclerAdapter<ShortVideoBean.Article
 
     @Override
     public BaseRecyclerViewHolder onAbsCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType==TYPE_NO_1){
+            return new TopicNO1VideoHolder(parent);
+        }else if (viewType==TYPE_NO_2){
+            return new TopicNO2VideoHolder(parent);
+        }else if (viewType==TYPE_NO_3){
+            return new TopicNO3VideoHolder(parent);
+        }
         return new TopicHomeVideoHolder(parent);
     }
 
+
+    @Override
+    public int getAbsItemViewType(int position) {
+        if (position==0&&getDataSize()>=3&&mSortBy==0){
+            return TYPE_NO_1;
+        }else if (position==1&&getDataSize()>=3&&mSortBy==0){
+            return TYPE_NO_2;
+        }else if (position==2&&getDataSize()>=3&&mSortBy==0){
+            return TYPE_NO_3;
+        }
+        return TYPE_NORMAL;
+    }
 
     public int getArticleItemSize(){
         int articleSize = 0;

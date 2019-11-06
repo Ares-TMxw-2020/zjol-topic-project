@@ -31,31 +31,19 @@ public class TopicHomeVideoHolder extends BaseRecyclerViewHolder<ShortVideoBean.
     @BindView(R2.id.iv_picture)
     ImageView ivPicture;
     @BindView(R2.id.tv_tag)
-    TextView tvTag;
+    protected TextView tvTag;
     @BindView(R2.id.fl_tag)
-    FrameLayout flTag;
+    protected FrameLayout flTag;
 
 
     public TopicHomeVideoHolder(@NonNull ViewGroup parent) {
         super(parent, R.layout.module_topic_holder_topic_home_video);
         ButterKnife.bind(this, itemView);
+        flTag.setVisibility(View.GONE);
     }
 
     @Override
     public void bindView() {
-        if (getAdapterPosition()==1&&mData!=null&&mData.getSort_by()==0){
-            flTag.setVisibility(View.VISIBLE);
-            tvTag.setText("NO1");
-        }else if (getAdapterPosition()==2&&mData!=null&&mData.getSort_by()==0){
-            flTag.setVisibility(View.VISIBLE);
-            tvTag.setText("NO2");
-        }else if (getAdapterPosition()==3&&mData!=null&&mData.getSort_by()==0){
-            flTag.setVisibility(View.VISIBLE);
-            tvTag.setText("NO3");
-        }else {
-            flTag.setVisibility(View.GONE);
-        }
-
         String path = "";
         if (getData()!=null&&getData().getList_pics() != null && !getData().getList_pics().isEmpty()) {
             path = getData().getList_pics().get(0);
