@@ -34,6 +34,7 @@ import butterknife.ButterKnife;
 import cn.com.zjol.biz.core.DailyActivity;
 import cn.com.zjol.biz.core.UserBiz;
 import cn.com.zjol.biz.core.constant.C;
+import cn.com.zjol.biz.core.constant.IKey;
 import cn.com.zjol.biz.core.nav.Nav;
 import cn.com.zjol.biz.core.network.compatible.APIExpandCallBack;
 import cn.com.zjol.biz.core.network.compatible.LoadViewHolder;
@@ -127,6 +128,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
     private TopicHomeBean mTopicHomeBean;
     private String mCurrentLogoUrl;
     private ApiCall mSwitchCall;
+    private TopicHomeEmptyPageHolder mTopicHomeEmptyPageHolder;
 
     @Override
     public boolean isShowTopBar() {
@@ -330,12 +332,15 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
             // 下拉刷新
             mRefresh = new HeaderRefresh(mRecycler, this);
             mAdapter.setHeaderRefresh(mRefresh.getItemView());
-
-            mAdapter.setEmptyView(new TopicHomeEmptyPageHolder(mRecycler).itemView);
+            //空页面
+            mTopicHomeEmptyPageHolder = new TopicHomeEmptyPageHolder(mRecycler);
+            mTopicHomeEmptyPageHolder.setData(data);
+            mAdapter.setEmptyView(mTopicHomeEmptyPageHolder.itemView);
 
             // 条目点击
             mAdapter.setOnItemClickListener(this);
         } else {
+            mTopicHomeEmptyPageHolder.setData(data);
             mAdapter.setSortBy(sortBy);
             mAdapter.setData(data);
             mAdapter.notifyDataSetChanged();
@@ -473,7 +478,13 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
 
     private void goShotActivity() {
         if (UserBiz.get().isLoginUser()) {
-            Nav.with(getBaseContext()).toPath("/native/publish/video");
+            Bundle bundle = new Bundle();
+            String topicName = "";
+            if (mTopicHomeBean!=null){
+                topicName = mTopicHomeBean.getTopic_label().getName();
+            }
+            bundle.putString(IKey.TITLE,topicName);
+            Nav.with(getBaseContext()).setExtras(bundle).toPath("/native/publish/video");
             overridePendingTransition(R.anim.topic_slide_bottom_in, 0);
         } else {
             startActivityForResult(new Intent(getBaseContext(), LoginActivity.class),
@@ -486,7 +497,13 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == LOGIN_REQUEST_CODE) {
             if (UserBiz.get().isLoginUser()) { // 进入小视频页
-                Nav.with(getBaseContext()).toPath("/native/publish/video");
+                Bundle bundle = new Bundle();
+                String topicName = "";
+                if (mTopicHomeBean!=null){
+                    topicName = mTopicHomeBean.getTopic_label().getName();
+                }
+                bundle.putString(IKey.TITLE,topicName);
+                Nav.with(getBaseContext()).setExtras(bundle).toPath("/native/publish/video");
                 overridePendingTransition(R.anim.topic_slide_bottom_in, 0);
             } else {
                 T.showShort(this, "请先登录");

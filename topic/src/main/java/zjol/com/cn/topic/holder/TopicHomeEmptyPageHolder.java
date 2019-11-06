@@ -1,6 +1,7 @@
 package zjol.com.cn.topic.holder;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -11,10 +12,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.zjol.biz.core.DailyActivity;
 import cn.com.zjol.biz.core.UserBiz;
+import cn.com.zjol.biz.core.constant.IKey;
 import cn.com.zjol.biz.core.nav.Nav;
 import cn.com.zjol.me.activity.login.LoginActivity;
 import zjol.com.cn.topic.R;
 import zjol.com.cn.topic.R2;
+import zjol.com.cn.topic.bean.TopicHomeBean;
 
 import static zjol.com.cn.topic.activity.TopicHomeActivity.LOGIN_REQUEST_CODE;
 
@@ -27,6 +30,7 @@ public class TopicHomeEmptyPageHolder extends PageItem {
 
     @BindView(R2.id.tv_shot)
     TextView tvShot;
+    private TopicHomeBean mTopicHomeBean;
 
     /**
      * 构造方法
@@ -48,7 +52,13 @@ public class TopicHomeEmptyPageHolder extends PageItem {
         if (v.getContext() instanceof DailyActivity){
             DailyActivity activity = (DailyActivity) v.getContext();
             if (UserBiz.get().isLoginUser()) {
-                Nav.with(getItemView().getContext()).toPath("/native/publish/video");
+                Bundle bundle = new Bundle();
+                String topicName = "";
+                if (mTopicHomeBean!=null){
+                    topicName = mTopicHomeBean.getTopic_label().getName();
+                }
+                bundle.putString(IKey.TITLE,topicName);
+                Nav.with(getItemView().getContext()).setExtras(bundle).toPath("/native/publish/video");
                 activity.overridePendingTransition(R.anim.topic_slide_bottom_in, 0);
             } else {
                 activity.startActivityForResult(new Intent(activity, LoginActivity.class),
@@ -57,5 +67,7 @@ public class TopicHomeEmptyPageHolder extends PageItem {
         }
     }
 
-
+    public void setData(TopicHomeBean data) {
+        mTopicHomeBean = data;
+    }
 }
