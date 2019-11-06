@@ -43,13 +43,13 @@ public class TopicHomeVideoHolder extends BaseRecyclerViewHolder<ShortVideoBean.
 
     @Override
     public void bindView() {
-        if (getAdapterPosition()==1&&mData.getSort_by()==0){
+        if (getAdapterPosition()==1&&mData!=null&&mData.getSort_by()==0){
             flTag.setVisibility(View.VISIBLE);
             tvTag.setText("NO1");
-        }else if (getAdapterPosition()==2&&mData.getSort_by()==0){
+        }else if (getAdapterPosition()==2&&mData!=null&&mData.getSort_by()==0){
             flTag.setVisibility(View.VISIBLE);
             tvTag.setText("NO2");
-        }else if (getAdapterPosition()==3&&mData.getSort_by()==0){
+        }else if (getAdapterPosition()==3&&mData!=null&&mData.getSort_by()==0){
             flTag.setVisibility(View.VISIBLE);
             tvTag.setText("NO3");
         }else {
@@ -57,7 +57,7 @@ public class TopicHomeVideoHolder extends BaseRecyclerViewHolder<ShortVideoBean.
         }
 
         String path = "";
-        if (getData().getList_pics() != null && !getData().getList_pics().isEmpty()) {
+        if (getData()!=null&&getData().getList_pics() != null && !getData().getList_pics().isEmpty()) {
             path = getData().getList_pics().get(0);
         }
         GlideApp.with(itemView.getContext())
