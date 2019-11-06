@@ -85,14 +85,14 @@ public class TopicHomeAdapter extends BaseRecyclerAdapter<ShortVideoBean.Article
         APICallManager.get().cancel(this);
     }
 
-    private Long getLastOneTag() {
+    private Double getLastOneTag() {
         int size = getDataSize();
         if (size > 0) {
             int count = 1;
             while (size - count >= 0) {
                 Object data = getData(size - count++);
-                if (data instanceof ArticleItemBean) {
-                    return ((ArticleItemBean) data).getSort_number();
+                if (data instanceof ShortVideoBean.ArticleListBean) {
+                    return ((ShortVideoBean.ArticleListBean) data).getSort_number_double();
                 }
             }
         }
