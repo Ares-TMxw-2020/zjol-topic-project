@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:foreground="?attr/selectableItemBackground"
     android:orientation="vertical"
     android:paddingBottom="@dimen/daily_item_padding_top_bottom"
@@ -16,12 +17,11 @@
 
         <TextView
             android:layout_alignParentStart="true"
-            android:layout_marginRight="15dp"
-            android:layout_alignLeft="@id/ll_more"
+            android:layout_marginRight="70dp"
             android:drawablePadding="5dp"
             android:fontFamily="@font/fzzcysk_zbjt"
             android:id="@+id/tv_topic"
-            android:text="话题"
+            tools:text="话题话题话话题话题话题话话题话题话题话题话话题话题话题"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

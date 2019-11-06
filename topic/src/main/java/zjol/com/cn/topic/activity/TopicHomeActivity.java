@@ -300,13 +300,21 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
                     }
                 })
                 .into(ivLogo);
-        tvVideo.setText("视频  " + data.getTopic_label().getParticipant_count_general());
-        tvPrise.setText("点赞  " + data.getTopic_label().getLike_count_general());
+        String videoNumber = data.getTopic_label().getArticle_count_general();
+        if (TextUtils.isEmpty(videoNumber)){
+            videoNumber = "0";
+        }
+        tvVideo.setText("视频  " + videoNumber);
+        String likeNumber =  data.getTopic_label().getLike_count_general();
+        if (TextUtils.isEmpty(likeNumber)){
+            likeNumber = "0";
+        }
+        tvPrise.setText("点赞  " + likeNumber);
         TypeFaceUtils.changeNumberFont(tvVideo);
         TypeFaceUtils.changeNumberFont(tvPrise);
-        String des = data.getTopic_label().getDescription();
+        String des = data.getTopic_label().getAccount_name();
         if (!TextUtils.isEmpty(des)) {
-            tvOther.setText("简介:" + des);
+            tvOther.setText("发起人:" + des);
         }
     }
 
@@ -466,7 +474,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
     private void goShotActivity() {
         if (UserBiz.get().isLoginUser()) {
             Nav.with(getBaseContext()).toPath("/native/publish/video");
-//            overridePendingTransition(R.anim.topic_bottom_up, 0);
+            overridePendingTransition(R.anim.topic_slide_bottom_in, 0);
         } else {
             startActivityForResult(new Intent(getBaseContext(), LoginActivity.class),
                     LOGIN_REQUEST_CODE);
@@ -479,7 +487,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         if (requestCode == LOGIN_REQUEST_CODE) {
             if (UserBiz.get().isLoginUser()) { // 进入小视频页
                 Nav.with(getBaseContext()).toPath("/native/publish/video");
-//                overridePendingTransition(R.anim.topic_bottom_up, 0);
+                overridePendingTransition(R.anim.topic_slide_bottom_in, 0);
             } else {
                 T.showShort(this, "请先登录");
             }
