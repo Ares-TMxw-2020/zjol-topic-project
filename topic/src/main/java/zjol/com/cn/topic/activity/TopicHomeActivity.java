@@ -266,9 +266,9 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         } else {
             llBottom.setVisibility(View.VISIBLE);
         }
-        if (!TextUtils.isEmpty(data.getTopic_label().getName())) {
-            String name = data.getTopic_label().getName();
-            tvLogo.setText(name.substring(0, 1));
+        String name = data.getTopic_label().getName();
+        if (!TextUtils.isEmpty(name)&&name.length()>0) {
+            tvLogo.setText(name.substring(1, 2));
             tvTitle.setText(name);
             tvTopBarTitle.setText(name);
         }
