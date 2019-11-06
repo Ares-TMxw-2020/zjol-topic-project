@@ -20,6 +20,7 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.core.network.api.ApiCall;
 import com.zjrb.core.common.glide.GlideApp;
 import com.zjrb.core.recycleView.HeaderRefresh;
 import com.zjrb.core.recycleView.listener.OnItemClickListener;
@@ -125,6 +126,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
     private int mSortBy = 0;//0最热 1最新
     private TopicHomeBean mTopicHomeBean;
     private String mCurrentLogoUrl;
+    private ApiCall mSwitchCall;
 
     @Override
     public boolean isShowTopBar() {
@@ -399,13 +401,17 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
      * 点击切换最热最新 请求数据
      */
     private void switchData() {
+        if (mSwitchCall != null && !mSwitchCall.isCanceled()) {
+            mSwitchCall.cancel();
+            mSwitchCall = null;
+        }
         if (mLoadViewHolder != null) { // 复用时撤消上次失败
             mLoadViewHolder.finishLoad();
             mLoadViewHolder = null;
         }
         mLoadViewHolder = new LoadViewHolder(mRecycler,mRootContainer);
         mLoadViewHolder.setLoadingType(LoadViewHolder.LOADING_TYPE.NEWS);
-        new TopicHomeTask(new APIExpandCallBack<TopicHomeBean>() {
+        mSwitchCall = new TopicHomeTask(new APIExpandCallBack<TopicHomeBean>() {
             @Override
             public void onSuccess(TopicHomeBean data) {
                 enableScroll();
@@ -437,6 +443,9 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
                 .exe(mTopicId, mSortBy);
     }
 
+    /**
+     * 禁止appbarlayout滑动
+     */
     public void forbidScroll(){
         View mAppBarChildAt = mAppBarLayout.getChildAt(0);
         AppBarLayout.LayoutParams  mAppBarParams = (AppBarLayout.LayoutParams)mAppBarChildAt.getLayoutParams();
@@ -444,6 +453,9 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         mAppBarChildAt.setLayoutParams(mAppBarParams);
     }
 
+    /**
+     * 允许appbarlayout滑动
+     */
     public void enableScroll(){
         View mAppBarChildAt = mAppBarLayout.getChildAt(0);
         AppBarLayout.LayoutParams  mAppBarParams = (AppBarLayout.LayoutParams)mAppBarChildAt.getLayoutParams();
