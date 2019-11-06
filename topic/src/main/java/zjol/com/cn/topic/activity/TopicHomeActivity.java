@@ -20,7 +20,6 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.core.network.api.ApiCall;
 import com.zjrb.core.common.glide.GlideApp;
 import com.zjrb.core.recycleView.HeaderRefresh;
 import com.zjrb.core.recycleView.listener.OnItemClickListener;
@@ -28,7 +27,6 @@ import com.zjrb.core.ui.divider.GridSpaceDivider;
 import com.zjrb.core.utils.T;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,7 +44,6 @@ import zjol.com.cn.news.common.utils.State;
 import zjol.com.cn.news.common.utils.StatusBarUtil;
 import zjol.com.cn.news.common.utils.TypeFaceUtils;
 import zjol.com.cn.news.common.widget.GlideRoundTransform;
-import zjol.com.cn.player.bean.ShortVideoBean;
 import zjol.com.cn.player.manager.shortvideo.topic.TopicShortVideoPlayActivity;
 import zjol.com.cn.player.utils.Constants;
 import zjol.com.cn.player.utils.GlideBlurformation;
@@ -117,6 +114,8 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
     @BindView(R2.id.error_conetent)
     FrameLayout errorConetent;
     public static final int LOGIN_REQUEST_CODE = 305;
+    @BindView(R2.id.ll_hot_new)
+    RelativeLayout llHotNew;
     private TopicHomeAdapter mAdapter;
     private LoadViewHolder mLoadViewHolder;
     private HeaderRefresh mRefresh;
@@ -155,7 +154,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         //网络错误页面topbar处理
         LinearLayout.LayoutParams errorLayoutParams = (LinearLayout.LayoutParams) errorTopbar.getLayoutParams();
         errorLayoutParams.height += statusHeight;
-        errorTopbar.setPadding(0,statusHeight,0,0);
+        errorTopbar.setPadding(0, statusHeight, 0, 0);
     }
 
     private void getArgs() {
@@ -180,7 +179,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
     private void initListener() {
         ivSpandBack.setOnClickListener(this);
         tvShot.setOnClickListener(this);
-        tvHotNew.setOnClickListener(this);
+        llHotNew.setOnClickListener(this);
         ivTopBarBack.setOnClickListener(this);
         ivSpandShare.setOnClickListener(this);
         ivTopBarShare.setOnClickListener(this);
@@ -295,7 +294,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         TypeFaceUtils.changeNumberFont(tvVideo);
         TypeFaceUtils.changeNumberFont(tvPrise);
         String des = data.getTopic_label().getDescription();
-        if (!TextUtils.isEmpty(des)){
+        if (!TextUtils.isEmpty(des)) {
             tvOther.setText("简介:" + des);
         }
     }
@@ -369,7 +368,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
             goShotActivity();
         } else if (v.getId() == ivSpandBack.getId()) {
             onBackPressed();
-        } else if (v.getId() == tvHotNew.getId()) {//最新最热
+        } else if (v.getId() == llHotNew.getId()) {//最新最热
             if (mSortBy == 0) {
                 mSortBy = 1;
                 tvHotNew.setText("最新");
@@ -377,7 +376,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
                 mSortBy = 0;
                 tvHotNew.setText("最热");
             }
-            loadData(true, mSortBy);
+            switchData();
         } else if (v.getId() == ivTopBarBack.getId()) {
             onBackPressed();
         } else if (v.getId() == ivTopBarShare.getId()) {
@@ -385,6 +384,46 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         } else if (v.getId() == ivSpandShare.getId()) {
             share();
         }
+    }
+
+    /**
+     * 点击切换最热最新 请求数据
+     */
+    private void switchData() {
+        if (mLoadViewHolder != null) { // 复用时撤消上次失败
+            mLoadViewHolder.finishLoad();
+            mLoadViewHolder = null;
+        }
+        mLoadViewHolder = new LoadViewHolder(mRecycler,mRootContainer);
+        mLoadViewHolder.setLoadingType(LoadViewHolder.LOADING_TYPE.NORMAL);
+        new TopicHomeTask(new APIExpandCallBack<TopicHomeBean>() {
+            @Override
+            public void onSuccess(TopicHomeBean data) {
+                data = handleSortBy(data);
+                mTopicHomeBean = data;
+                bindData(data, mSortBy);
+                refreshView(data);
+                mLoadViewHolder = null;
+            }
+
+            @Override
+            public void onAfter() {
+
+            }
+
+            @Override
+            public void onError(String errMsg, int errCode) {
+//                if (!isFirst) {
+//                    super.onError(errMsg, errCode);
+//                }
+                if (errCode == Code.CODE_TOPIC_UNDER_LINE) {
+                    flError.setVisibility(View.VISIBLE);
+                    showWithDrawView();
+                }
+            }
+        }).setTag(this)
+                .bindLoadViewHolder(mLoadViewHolder)
+                .exe(mTopicId, mSortBy);
     }
 
     private void goShotActivity() {
