@@ -241,9 +241,15 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
                 .exe(mTopicId, sortBy);
     }
 
+    //处理sortby
     private TopicHomeBean handleSortBy(TopicHomeBean data) {
+        if (data==null||data.getArticles()==null){
+            return data;
+        }
         for (int i = 0; i < data.getArticles().size(); i++) {
-            data.getArticles().get(i).setSort_by(mSortBy);
+            if (data.getArticles().get(i)!=null){
+                data.getArticles().get(i).setSort_by(mSortBy);
+            }
         }
         return data;
     }

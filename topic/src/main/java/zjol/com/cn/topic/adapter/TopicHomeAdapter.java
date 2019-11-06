@@ -75,8 +75,13 @@ public class TopicHomeAdapter extends BaseRecyclerAdapter<ShortVideoBean.Article
     }
 
     private TopicHomeBean handleSortBy(TopicHomeBean data) {
+        if (data==null||data.getArticles()==null){
+            return data;
+        }
         for (int i = 0; i < data.getArticles().size(); i++) {
-            data.getArticles().get(i).setSort_by(mSortBy);
+            if (data.getArticles().get(i)!=null){
+                data.getArticles().get(i).setSort_by(mSortBy);
+            }
         }
         return data;
     }
@@ -104,10 +109,7 @@ public class TopicHomeAdapter extends BaseRecyclerAdapter<ShortVideoBean.Article
         return new TopicHomeVideoHolder(parent);
     }
 
-    /**
-     * 获取稿件数量 不算浙里看世界 widget等
-     * @return
-     */
+
     public int getArticleItemSize(){
         int articleSize = 0;
         if (datas!=null){
