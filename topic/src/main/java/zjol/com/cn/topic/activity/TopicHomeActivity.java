@@ -124,6 +124,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
     private String mTopicId = "";
     private int mSortBy = 0;//0最热 1最新
     private TopicHomeBean mTopicHomeBean;
+    private String mCurrentLogoUrl;
 
     @Override
     public boolean isShowTopBar() {
@@ -250,6 +251,10 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         llWithDraw.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * 刷新头部图片等数据
+     * @param data
+     */
     private void refreshView(TopicHomeBean data) {
         if (data == null) {
             return;
@@ -265,13 +270,17 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
             tvTitle.setText(name);
             tvTopBarTitle.setText(name);
         }
-        GlideApp.with(getBaseContext())
-                .load(data.getTopic_label().getLogo_url())
-                .centerCrop()
-                .placeholder(R.mipmap.zjov_app_header_bg)
-                .error(R.mipmap.zjov_app_header_bg)
-                .transform(new GlideBlurformation(getBaseContext(), 15))
-                .into(ivHeader);
+        String logoUrl = data.getTopic_label().getLogo_url();
+        if (!TextUtils.equals(mCurrentLogoUrl,logoUrl)){
+            GlideApp.with(getBaseContext())
+                    .load(logoUrl)
+                    .centerCrop()
+                    .placeholder(R.mipmap.zjov_app_header_bg)
+                    .error(R.mipmap.zjov_app_header_bg)
+                    .transform(new GlideBlurformation(getBaseContext(), 15))
+                    .into(ivHeader);
+        }
+        mCurrentLogoUrl = logoUrl;
         GlideApp.with(getBaseContext())
                 .load(data.getTopic_label().getLogo_url())
                 .transform(new GlideRoundTransform(getBaseContext(), 4))
@@ -395,7 +404,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
             mLoadViewHolder = null;
         }
         mLoadViewHolder = new LoadViewHolder(mRecycler,mRootContainer);
-        mLoadViewHolder.setLoadingType(LoadViewHolder.LOADING_TYPE.NORMAL);
+        mLoadViewHolder.setLoadingType(LoadViewHolder.LOADING_TYPE.NEWS);
         new TopicHomeTask(new APIExpandCallBack<TopicHomeBean>() {
             @Override
             public void onSuccess(TopicHomeBean data) {
