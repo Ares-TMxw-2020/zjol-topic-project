@@ -408,6 +408,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         new TopicHomeTask(new APIExpandCallBack<TopicHomeBean>() {
             @Override
             public void onSuccess(TopicHomeBean data) {
+                enableScroll();
                 data = handleSortBy(data);
                 mTopicHomeBean = data;
                 bindData(data, mSortBy);
@@ -425,6 +426,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
 //                if (!isFirst) {
 //                    super.onError(errMsg, errCode);
 //                }
+                forbidScroll();
                 if (errCode == Code.CODE_TOPIC_UNDER_LINE) {
                     flError.setVisibility(View.VISIBLE);
                     showWithDrawView();
@@ -433,6 +435,20 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         }).setTag(this)
                 .bindLoadViewHolder(mLoadViewHolder)
                 .exe(mTopicId, mSortBy);
+    }
+
+    public void forbidScroll(){
+        View mAppBarChildAt = mAppBarLayout.getChildAt(0);
+        AppBarLayout.LayoutParams  mAppBarParams = (AppBarLayout.LayoutParams)mAppBarChildAt.getLayoutParams();
+        mAppBarParams.setScrollFlags(0);
+        mAppBarChildAt.setLayoutParams(mAppBarParams);
+    }
+
+    public void enableScroll(){
+        View mAppBarChildAt = mAppBarLayout.getChildAt(0);
+        AppBarLayout.LayoutParams  mAppBarParams = (AppBarLayout.LayoutParams)mAppBarChildAt.getLayoutParams();
+        mAppBarParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED);
+        mAppBarChildAt.setLayoutParams(mAppBarParams);
     }
 
     private void goShotActivity() {
