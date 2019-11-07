@@ -6,7 +6,6 @@
     app:shadowColor="#4fdbdbdb"
     app:shadowDx="0dp"
     app:shadowDy="4dp"
-    android:layout_marginRight="3dp"
     app:shadowRadius="3dp"
     app:shadowShape="rectangle"
     app:shadowSide="bottom|left|right"

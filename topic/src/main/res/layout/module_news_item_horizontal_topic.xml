@@ -5,20 +5,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:foreground="?attr/selectableItemBackground"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/daily_item_padding_top_bottom"
-    android:paddingTop="@dimen/daily_item_padding_top_bottom">
+    android:paddingBottom="6dp"
+    android:paddingTop="6dp">
 
     <RelativeLayout
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="14dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical">
 
         <TextView
-            android:layout_alignParentStart="true"
             android:layout_marginRight="70dp"
-            android:drawablePadding="5dp"
             android:fontFamily="@font/fzzcysk_zbjt"
             android:id="@+id/tv_topic"
             tools:text="话题话题话话题话题话题话话题话题话题话题话话题话题话题"
@@ -50,7 +48,7 @@
                 android:textColor="@color/_222222"
                 android:textSize="@dimen/ts_14sp" />
             <ImageView
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="3dp"
                 android:src="@mipmap/module_detail_right_arrow"
                 android:layout_gravity="center_vertical"
                 android:layout_width="10dp"
@@ -64,6 +62,6 @@
         android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="8dp" />
 
 </LinearLayout>
