@@ -16,6 +16,7 @@
         android:gravity="center_vertical">
 
         <TextView
+            android:drawablePadding="4dp"
             android:layout_marginRight="70dp"
             android:fontFamily="@font/fzzcysk_zbjt"
             android:id="@+id/tv_topic"
