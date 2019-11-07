@@ -434,7 +434,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
             mLoadViewHolder = null;
         }
         mLoadViewHolder = new LoadViewHolder(mRecycler,mRootContainer);
-        mLoadViewHolder.setLoadingType(LoadViewHolder.LOADING_TYPE.NEWS);
+        mLoadViewHolder.setLoadingType(LoadViewHolder.LOADING_TYPE.NORMAL);
         mSwitchCall = new TopicHomeTask(new APIExpandCallBack<TopicHomeBean>() {
             @Override
             public void onSuccess(TopicHomeBean data) {
