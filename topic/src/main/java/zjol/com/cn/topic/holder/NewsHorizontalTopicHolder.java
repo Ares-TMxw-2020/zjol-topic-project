@@ -69,6 +69,12 @@ public class NewsHorizontalTopicHolder extends BaseRecyclerViewHolder<TopicEleme
     public void bindView() {
         if (mData == null) return;
         tvTopic.setText(mData.getName());
+        tvTopic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Nav.with(itemView.getContext()).to(mData.getUrl());
+            }
+        });
         //左边井号image
         Drawable drawableLeft = itemView.getContext().getResources().getDrawable(R.mipmap.zjov_ugc_topic_topic_icon);
         drawableLeft.setBounds(0,0,drawableLeft.getMinimumWidth(),drawableLeft.getMinimumHeight());

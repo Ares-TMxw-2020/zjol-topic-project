@@ -61,7 +61,7 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc1'
     api ('cn.com.zjol:biz-core:1.0.3.0.1')
 
-    api('cn.com.zjol:player:0.0.2.86.9') {
+    api('cn.com.zjol:player:0.0.2.86.10-SNAPSHOT') {
         exclude group: 'cn.com.zjol', module: 'topic'
         exclude group: 'cn.com.zjol', module: 'news'
     }
