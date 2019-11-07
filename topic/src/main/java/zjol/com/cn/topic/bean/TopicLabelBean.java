@@ -1,5 +1,8 @@
 package zjol.com.cn.topic.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
 /**
@@ -8,7 +11,7 @@ import java.io.Serializable;
  * @describe:
  */
 
-public class TopicLabelBean implements Serializable {
+public class TopicLabelBean implements Parcelable {
     /**
      * id : abcd
      * auto_pk : 1
@@ -252,4 +255,79 @@ public class TopicLabelBean implements Serializable {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeInt(this.auto_pk);
+        dest.writeString(this.name);
+        dest.writeString(this.description);
+        dest.writeInt(this.type);
+        dest.writeString(this.logo_url);
+        dest.writeString(this.url);
+        dest.writeString(this.account_id);
+        dest.writeString(this.account_name);
+        dest.writeString(this.created_by);
+        dest.writeString(this.updated_by);
+        dest.writeInt(this.article_count);
+        dest.writeString(this.article_count_general);
+        dest.writeInt(this.weekly_article_count);
+        dest.writeString(this.weekly_article_count_general);
+        dest.writeInt(this.like_count);
+        dest.writeString(this.like_count_general);
+        dest.writeInt(this.participant_count);
+        dest.writeString(this.participant_count_general);
+        dest.writeLong(this.created_at);
+        dest.writeLong(this.updated_at);
+        dest.writeDouble(this.sort_number);
+        dest.writeDouble(this.sort_number_double);
+        dest.writeByte(this.enabled ? (byte) 1 : (byte) 0);
+    }
+
+    public TopicLabelBean() {
+    }
+
+    protected TopicLabelBean(Parcel in) {
+        this.id = in.readString();
+        this.auto_pk = in.readInt();
+        this.name = in.readString();
+        this.description = in.readString();
+        this.type = in.readInt();
+        this.logo_url = in.readString();
+        this.url = in.readString();
+        this.account_id = in.readString();
+        this.account_name = in.readString();
+        this.created_by = in.readString();
+        this.updated_by = in.readString();
+        this.article_count = in.readInt();
+        this.article_count_general = in.readString();
+        this.weekly_article_count = in.readInt();
+        this.weekly_article_count_general = in.readString();
+        this.like_count = in.readInt();
+        this.like_count_general = in.readString();
+        this.participant_count = in.readInt();
+        this.participant_count_general = in.readString();
+        this.created_at = in.readLong();
+        this.updated_at = in.readLong();
+        this.sort_number = in.readDouble();
+        this.sort_number_double = in.readDouble();
+        this.enabled = in.readByte() != 0;
+    }
+
+    public static final Parcelable.Creator<TopicLabelBean> CREATOR = new Parcelable.Creator<TopicLabelBean>() {
+        @Override
+        public TopicLabelBean createFromParcel(Parcel source) {
+            return new TopicLabelBean(source);
+        }
+
+        @Override
+        public TopicLabelBean[] newArray(int size) {
+            return new TopicLabelBean[size];
+        }
+    };
 }

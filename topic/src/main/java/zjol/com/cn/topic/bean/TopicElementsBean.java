@@ -1,10 +1,14 @@
 package zjol.com.cn.topic.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import zjol.com.cn.player.bean.ShortVideoBean;
 
-public class TopicElementsBean {
+public class TopicElementsBean implements Parcelable {
         /**
          * id : 1a
          * auto_pk : 1
@@ -307,4 +311,91 @@ public class TopicElementsBean {
             this.article_list = article_list;
         }
 
+    @Override
+    public int describeContents() {
+        return 0;
     }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeInt(this.auto_pk);
+        dest.writeString(this.name);
+        dest.writeString(this.description);
+        dest.writeInt(this.type);
+        dest.writeString(this.logo_url);
+        dest.writeString(this.url);
+        dest.writeString(this.account_id);
+        dest.writeString(this.account_name);
+        dest.writeString(this.created_by);
+        dest.writeString(this.updated_by);
+        dest.writeInt(this.article_count);
+        dest.writeString(this.article_count_general);
+        dest.writeInt(this.weekly_article_count);
+        dest.writeString(this.weekly_article_count_general);
+        dest.writeInt(this.like_count);
+        dest.writeString(this.like_count_general);
+        dest.writeInt(this.participant_count);
+        dest.writeString(this.participant_count_general);
+        dest.writeLong(this.created_at);
+        dest.writeLong(this.updated_at);
+        dest.writeLong(this.sort_number);
+        dest.writeByte(this.enabled ? (byte) 1 : (byte) 0);
+        dest.writeString(this.class_ids);
+        dest.writeInt(this.show_style);
+        dest.writeInt(this.audit_status);
+        dest.writeByte(this.deleted ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.show_new ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.show_hot ? (byte) 1 : (byte) 0);
+        dest.writeList(this.article_list);
+    }
+
+    public TopicElementsBean() {
+    }
+
+    protected TopicElementsBean(Parcel in) {
+        this.id = in.readString();
+        this.auto_pk = in.readInt();
+        this.name = in.readString();
+        this.description = in.readString();
+        this.type = in.readInt();
+        this.logo_url = in.readString();
+        this.url = in.readString();
+        this.account_id = in.readString();
+        this.account_name = in.readString();
+        this.created_by = in.readString();
+        this.updated_by = in.readString();
+        this.article_count = in.readInt();
+        this.article_count_general = in.readString();
+        this.weekly_article_count = in.readInt();
+        this.weekly_article_count_general = in.readString();
+        this.like_count = in.readInt();
+        this.like_count_general = in.readString();
+        this.participant_count = in.readInt();
+        this.participant_count_general = in.readString();
+        this.created_at = in.readLong();
+        this.updated_at = in.readLong();
+        this.sort_number = in.readLong();
+        this.enabled = in.readByte() != 0;
+        this.class_ids = in.readString();
+        this.show_style = in.readInt();
+        this.audit_status = in.readInt();
+        this.deleted = in.readByte() != 0;
+        this.show_new = in.readByte() != 0;
+        this.show_hot = in.readByte() != 0;
+        this.article_list = new ArrayList<ShortVideoBean.ArticleListBean>();
+        in.readList(this.article_list, ShortVideoBean.ArticleListBean.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<TopicElementsBean> CREATOR = new Parcelable.Creator<TopicElementsBean>() {
+        @Override
+        public TopicElementsBean createFromParcel(Parcel source) {
+            return new TopicElementsBean(source);
+        }
+
+        @Override
+        public TopicElementsBean[] newArray(int size) {
+            return new TopicElementsBean[size];
+        }
+    };
+}
