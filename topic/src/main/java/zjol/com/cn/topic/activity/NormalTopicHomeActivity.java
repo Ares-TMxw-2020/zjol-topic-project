@@ -1,20 +1,31 @@
 package zjol.com.cn.topic.activity;
 
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.zjrb.core.common.glide.GlideApp;
 import com.zjrb.core.recycleView.EmptyPageHolder;
 import com.zjrb.core.recycleView.HeaderRefresh;
 import com.zjrb.core.recycleView.listener.OnItemClickListener;
-
+import com.zjrb.core.utils.UIUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.zjol.biz.core.DailyActivity;
@@ -27,16 +38,22 @@ import cn.com.zjol.biz.core.share.UmengShareUtils;
 import cn.daily.android.statusbar.DarkStatusBar;
 import zjol.com.cn.news.common.utils.State;
 import zjol.com.cn.news.common.utils.StatusBarUtil;
+import zjol.com.cn.news.common.utils.TypeFaceUtils;
+import zjol.com.cn.news.common.widget.GlideRoundTransform;
 import zjol.com.cn.news.home.bean.ArticleItemBean;
 import zjol.com.cn.player.utils.Constants;
+import zjol.com.cn.player.utils.GlideBlurformation;
 import zjol.com.cn.topic.R;
 import zjol.com.cn.topic.R2;
 import zjol.com.cn.topic.adapter.TopicNewsAdapter;
 import zjol.com.cn.topic.bean.NormalTopicHomeBean;
+import zjol.com.cn.topic.bean.TopicHomeBean;
+import zjol.com.cn.topic.holder.TopicHomeEmptyPageHolder;
+import zjol.com.cn.topic.other.Code;
 import zjol.com.cn.topic.task.NormalTopicHomeTask;
 
 /**
- * 普通稿件的话题主页
+ * 潮客小视频的话题主页
  */
 
 
@@ -61,19 +78,38 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
     ImageView ivTopBarBack;
     @BindView(R2.id.tv_top_bar_title)
     TextView tvTopBarTitle;
-    @BindView(R2.id.iv_header)
-    ImageView ivHeader;
     @BindView(R2.id.iv_spand_share)
     ImageView ivSpandShare;
-    @BindView(R2.id.iv_logo)
-    ImageView ivLogo;
     @BindView(R2.id.iv_top_bar_share)
     ImageView ivTopBarShare;
+    @BindView(R2.id.iv_header)
+    ImageView ivHeader;
+    @BindView(R2.id.ll_top)
+    RelativeLayout llTop;
+    @BindView(R2.id.fl_error)
+    LinearLayout flError;
+    @BindView(R2.id.iv_error_back)
+    ImageView ivErrorBack;
+    @BindView(R2.id.error_topbar)
+    RelativeLayout errorTopbar;
+    @BindView(R2.id.error_view)
+    View errorView;
+    @BindView(R2.id.ll_with_draw)
+    LinearLayout llWithDraw;
+    @BindView(R2.id.error_conetent)
+    FrameLayout errorConetent;
+    @BindView(R2.id.ll_hot_new)
+    RelativeLayout llHotNew;
+    @BindView(R2.id.iv_logo)
+    ImageView ivLogo;
     private TopicNewsAdapter mAdapter;
     private LoadViewHolder mLoadViewHolder;
     private HeaderRefresh mRefresh;
+    private GridLayoutManager mGridLayoutManager;
     private State mCurrentState = State.IDLE;
     private String mTopicId = "";
+    private String mCurrentLogoUrl;
+    private TopicHomeEmptyPageHolder mTopicHomeEmptyPageHolder;
     private NormalTopicHomeBean mTopicHomeBean;
 
     @Override
@@ -86,6 +122,7 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.module_news_activity_normal_topic_home);
         ButterKnife.bind(this);
+        initStatusBar();
         getArgs();
         DarkStatusBar.get().fitDark(this);
         initView();
@@ -93,14 +130,47 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
         loadData(true);
     }
 
+    private void initStatusBar() {
+        int statusHeight = StatusBarUtil.getStatusBarHeight(this);
+        llTop.getLayoutParams().height = llTop.getLayoutParams().height += statusHeight;
+        //展开状态下的topbar
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) rlSpandTopbar.getLayoutParams();
+        layoutParams.topMargin += statusHeight;
+        //收缩状态下的topbar
+        rlTopbar.getLayoutParams().height += statusHeight;
+        rlTopbar.setPadding(0, statusHeight, 0, 0);
+        //网络错误页面topbar
+        LinearLayout.LayoutParams errorLayoutParams = (LinearLayout.LayoutParams) errorTopbar.getLayoutParams();
+        errorLayoutParams.height += statusHeight;
+        errorTopbar.setPadding(0, statusHeight, 0, 0);
+        //recyclerview设置最小高度 loadingview占位时能获取到这个高度
+        mRecycler.setMinimumHeight(UIUtils.dip2px(400));
+
+        llTop.postInvalidate();
+    }
+
     private void getArgs() {
         if (getIntent() != null && getIntent().getExtras() != null) {
-            mTopicId = getIntent().getExtras().getString(Constants.TOPIC_ID);
+            String topicId = getIntent().getExtras().getString(Constants.TOPIC_ID);
+            if (!TextUtils.isEmpty(topicId)) {
+                mTopicId = topicId;
+            }
         }
+
+
+        if (getIntent() != null && getIntent().getData() != null) {
+            Uri uri = getIntent().getData();
+            String id = uri.getQueryParameter("id");
+            if (!TextUtils.isEmpty(id)) {
+                mTopicId = id;
+            }
+        }
+
     }
 
     private void initListener() {
         ivSpandBack.setOnClickListener(this);
+        llHotNew.setOnClickListener(this);
         ivTopBarBack.setOnClickListener(this);
         ivSpandShare.setOnClickListener(this);
         ivTopBarShare.setOnClickListener(this);
@@ -108,15 +178,7 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
 
     private void initView() {
         mAppBarLayout.addOnOffsetChangedListener(new MyBaseOnOffsetChangedListener());
-        int statusHeight = StatusBarUtil.getStatusBarHeight(getBaseContext());
-        rlTopbar.getLayoutParams().height = rlTopbar.getLayoutParams().height + statusHeight;
-        rlTopbar.setPadding(0, statusHeight, 0, 0);
-        rlTopbar.requestLayout();
-        rlSpandTopbar.getLayoutParams().height = rlSpandTopbar.getLayoutParams().height + statusHeight;
-        rlSpandTopbar.setPadding(0, statusHeight, 0, 0);
-        rlSpandTopbar.requestLayout();
     }
-
 
     /**
      * 刷新数据
@@ -131,6 +193,7 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
         new NormalTopicHomeTask(new APIExpandCallBack<NormalTopicHomeBean>() {
             @Override
             public void onSuccess(NormalTopicHomeBean data) {
+                flError.setVisibility(View.GONE);
                 mTopicHomeBean = data;
                 bindData(data);
                 refreshView(data);
@@ -146,8 +209,12 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
 
             @Override
             public void onError(String errMsg, int errCode) {
+                flError.setVisibility(View.VISIBLE);
                 if (!isFirst) {
                     super.onError(errMsg, errCode);
+                }
+                if (errCode == Code.CODE_TOPIC_UNDER_LINE) {
+                    showWithDrawView();
                 }
             }
         }).setTag(this)
@@ -156,16 +223,61 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
                 .exe(mTopicId);
     }
 
+
+    /**
+     * 显示话题下架页面
+     */
+    private void showWithDrawView() {
+        llWithDraw.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 刷新头部图片等数据
+     * @param data
+     */
     private void refreshView(NormalTopicHomeBean data) {
-        if (!TextUtils.isEmpty(data.getTopic_label().getName())) {
-            String name = data.getTopic_label().getName();
-            tvLogo.setText(name.substring(0, 1));
+        if (data == null) {
+            return;
+        }
+
+        String name = data.getTopic_label().getName();
+        if (!TextUtils.isEmpty(name)&&name.length()>0) {
+            tvLogo.setText(name.substring(1, 2));
             tvTitle.setText(name);
             tvTopBarTitle.setText(name);
         }
-        GlideApp.with(getBaseContext()).load(data.getTopic_label().getLogo_url()).into(ivHeader);
-        GlideApp.with(getBaseContext()).load(data.getTopic_label().getLogo_url()).into(ivLogo);
-        tvOther.setText(data.getTopic_label().getCreated_by());
+        String logoUrl = data.getTopic_label().getLogo_url();
+        if (!TextUtils.equals(mCurrentLogoUrl,logoUrl)){
+            GlideApp.with(getBaseContext())
+                    .load(logoUrl)
+                    .centerCrop()
+                    .placeholder(R.mipmap.zjov_app_header_bg)
+                    .error(R.mipmap.zjov_app_header_bg)
+                    .transform(new GlideBlurformation(getBaseContext(), 15))
+                    .into(ivHeader);
+        }
+        mCurrentLogoUrl = logoUrl;
+        GlideApp.with(getBaseContext())
+                .load(data.getTopic_label().getLogo_url())
+                .transform(new GlideRoundTransform(getBaseContext(), 4))
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        tvLogo.setVisibility(View.VISIBLE);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        tvLogo.setVisibility(View.GONE);
+                        return false;
+                    }
+                })
+                .into(ivLogo);
+        String des = data.getTopic_label().getAccount_name();
+        if (!TextUtils.isEmpty(des)) {
+            tvOther.setText("发起人:" + des);
+        }
     }
 
 
@@ -198,14 +310,13 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
 
     @Override
     public void onItemClick(View itemView, int position) {
-        if (mAdapter.getData(position) instanceof  ArticleItemBean && mTopicHomeBean!=null && mTopicHomeBean.getTopic_label()!=null){
+        if (mAdapter.getData(position) instanceof ArticleItemBean && mTopicHomeBean !=null && mTopicHomeBean.getTopic_label()!=null){
             ArticleItemBean bean = (ArticleItemBean) mAdapter.getData(position);
             Bundle bundle = new Bundle();
             bundle.putString(Constants.ID,bean.getId()+"");
-            bundle.putString(Constants.TOPIC_ID,mTopicHomeBean.getTopic_label().getId());
+            bundle.putString(Constants.TOPIC_ID, mTopicHomeBean.getTopic_label().getId());
             Nav.with(getBaseContext()).setExtras(bundle).toPath("/player/fullscreen/topic/vertical");
         }
-
     }
 
     public void setCanRefresh(boolean b) {
@@ -240,7 +351,7 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
             onBackPressed();
         } else if (v.getId() == ivTopBarBack.getId()) {
             onBackPressed();
-        }else if (v.getId() == ivTopBarShare.getId()) {
+        } else if (v.getId() == ivTopBarShare.getId()) {
             share();
         } else if (v.getId() == ivSpandShare.getId()) {
             share();
@@ -272,7 +383,7 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
 //                .setArticleId("" + mTopicHomeBean.getTopic_label().getId())
                 .setImgUri(mTopicHomeBean.getTopic_label().getLogo_url())
                 .setTitle(mTopicHomeBean.getTopic_label().getName())
-                .setTextContent(mTopicHomeBean.getTopic_label().getName())
+                .setTextContent("来自天目新闻客户端")
 //                .setAnalytic(analytic)
                 .setTargetUrl(mTopicHomeBean.getTopic_label().getUrl()));
 //

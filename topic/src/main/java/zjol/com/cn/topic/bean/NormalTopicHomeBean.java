@@ -22,7 +22,7 @@ public class NormalTopicHomeBean {
     private int sort_by;
     private TopicLabelBean topic_label;
     private boolean has_more;
-    private List<ArticleItemBean> articles;
+    private List<ArticleItemBean> article_list;
 
     public int getSort_by() {
         return sort_by;
@@ -49,11 +49,11 @@ public class NormalTopicHomeBean {
     }
 
     public List<ArticleItemBean> getArticles() {
-        return articles;
+        return article_list;
     }
 
     public void setArticles(List<ArticleItemBean> articles) {
-        this.articles = articles;
+        this.article_list = articles;
     }
 
 }
