@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @describe:
  */
 
-public class TopicLabelBean implements Parcelable {
+public class TopicLabelBean implements Parcelable,Serializable {
     /**
      * id : abcd
      * auto_pk : 1
