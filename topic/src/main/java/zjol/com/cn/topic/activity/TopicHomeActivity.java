@@ -26,6 +26,7 @@ import com.zjrb.core.recycleView.HeaderRefresh;
 import com.zjrb.core.recycleView.listener.OnItemClickListener;
 import com.zjrb.core.ui.divider.GridSpaceDivider;
 import com.zjrb.core.utils.T;
+import com.zjrb.core.utils.UIUtils;
 
 import java.io.Serializable;
 
@@ -151,15 +152,22 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
     private void initStatusBar() {
         int statusHeight = StatusBarUtil.getStatusBarHeight(this);
         llTop.getLayoutParams().height = llTop.getLayoutParams().height += statusHeight;
-//        llTop.setPadding(0,statusHeight,0,0);
+        //展开状态下的topbar
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) rlSpandTopbar.getLayoutParams();
         layoutParams.topMargin += statusHeight;
-        llTop.postInvalidate();
-
-        //网络错误页面topbar处理
+        //收缩状态下的topbar
+        rlTopbar.getLayoutParams().height += statusHeight;
+        rlTopbar.setPadding(0, statusHeight, 0, 0);
+        //网络错误页面topbar
         LinearLayout.LayoutParams errorLayoutParams = (LinearLayout.LayoutParams) errorTopbar.getLayoutParams();
         errorLayoutParams.height += statusHeight;
         errorTopbar.setPadding(0, statusHeight, 0, 0);
+        //recyclerview设置最小高度 loadingview占位时能获取到这个高度
+        mRecycler.setMinimumHeight(UIUtils.dip2px(400));
+
+        llTop.postInvalidate();
+
+
     }
 
     private void getArgs() {
@@ -192,9 +200,6 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
 
     private void initView() {
         mAppBarLayout.addOnOffsetChangedListener(new MyBaseOnOffsetChangedListener());
-        int statusHeight = StatusBarUtil.getStatusBarHeight(getBaseContext());
-        rlTopbar.getLayoutParams().height += statusHeight;
-        rlTopbar.setPadding(0, statusHeight, 0, 0);
     }
 
     /**
