@@ -14,9 +14,6 @@ import java.util.Random;
 import cn.com.zjol.biz.core.network.compatible.APICallManager;
 import zjol.com.cn.news.common.adapter.NewsBaseAdapter;
 import zjol.com.cn.news.home.bean.ArticleItemBean;
-import zjol.com.cn.news.home.bean.ColumnWidget;
-import zjol.com.cn.news.home.bean.DataArticleList;
-import zjol.com.cn.news.home.task.ChannelListTask;
 import zjol.com.cn.topic.bean.NormalTopicHomeBean;
 import zjol.com.cn.topic.task.NormalTopicHomeTask;
 

@@ -2,6 +2,7 @@ package zjol.com.cn.topic.bean;
 
 import java.util.List;
 
+import cn.com.zjol.biz.core.model.TopicLabelBean;
 import zjol.com.cn.player.bean.ShortVideoBean;
 
 /**
