@@ -340,11 +340,9 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         if (mAdapter == null) {
             mGridLayoutManager = new GridLayoutManager(getBaseContext(), 3);
             mRecycler.setLayoutManager(mGridLayoutManager);
-            mRecycler.addItemDecoration(new GridSpaceDivider(8));
+            mRecycler.addItemDecoration(new GridSpaceDivider(4));
             mAdapter = new TopicHomeAdapter(data, mRecycler, mTopicId, sortBy);
             mRecycler.setAdapter(mAdapter);
-
-
             // 下拉刷新
             mRefresh = new HeaderRefresh(mRecycler, this);
             mAdapter.setHeaderRefresh(mRefresh.getItemView());
@@ -352,7 +350,6 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
             mTopicHomeEmptyPageHolder = new TopicHomeEmptyPageHolder(mRecycler);
             mTopicHomeEmptyPageHolder.setData(data);
             mAdapter.setEmptyView(mTopicHomeEmptyPageHolder.itemView);
-
             // 条目点击
             mAdapter.setOnItemClickListener(this);
         } else {
