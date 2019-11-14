@@ -29,6 +29,7 @@ import butterknife.ButterKnife;
 import cn.com.zjol.biz.core.nav.Nav;
 import cn.daily.news.analytics.Analytics;
 import cn.daily.news.analytics.ObjectType;
+import zjol.com.cn.player.bean.ShortVideoBean;
 import zjol.com.cn.player.manager.shortvideo.topic.TopicShortVideoPlayActivity;
 import zjol.com.cn.player.utils.Constants;
 import zjol.com.cn.topic.R;
@@ -95,6 +96,13 @@ public class NewsHorizontalTopicHolder extends BaseRecyclerViewHolder<TopicEleme
             @Override
             public void onClick(View v) {
                 Nav.with(itemView.getContext()).to(mData.getUrl());
+                Analytics.create(v.getContext(), "200024", "首页", false)
+                        .name("点击更多进入话题主页")
+                        .pageType("首页")
+                        .topicID(mData.getId())
+                        .topicName(mData.getName())
+                        .build()
+                        .send();
             }
         });
         mAdapter = new TopicHorizontalAdapter(mData.getArticle_list());
@@ -116,6 +124,37 @@ public class NewsHorizontalTopicHolder extends BaseRecyclerViewHolder<TopicEleme
             bundle.putInt(Constants.SORT_BY,0);
             intent.putExtras(bundle);
             itemView.getContext().startActivity(intent);
+
+
+
+            ShortVideoBean.ArticleListBean article = mAdapter.getData(position);
+            StringBuilder topicId = new StringBuilder();
+            StringBuilder topicName = new StringBuilder();
+            if (article.getTopic_labels()!=null){
+                for (int i = 0; i < article.getTopic_labels().size(); i++) {
+                    topicId.append(article.getTopic_labels().get(i).getId());
+                    topicName.append(article.getTopic_labels().get(i).getName());
+                    if (i!=article.getTopic_labels().size()-1){
+                        topicId.append(",");
+                        topicName.append(",");
+                    }
+                }
+            }
+            Analytics.create(itemView.getContext(), "200007", "首页", false)
+                    .selfObjectID(article.getId()+"")
+                    .objectID(article.getMlf_id()+"")
+                    .objectShortName(article.getDoc_title())
+                    .ilurl(article.getUrl())
+                    .classID(article.getChannel_id())
+                    .classShortName(article.getChannel_name())
+                    .objectType("C01")
+                    .accountName(article.getAccount_nick_name())
+                    .accountID(article.getAccount_id())
+                    .topicName(topicName.toString())
+                    .topicID(topicId.toString())
+                    .build()
+                    .send();
+
         }
     }
 

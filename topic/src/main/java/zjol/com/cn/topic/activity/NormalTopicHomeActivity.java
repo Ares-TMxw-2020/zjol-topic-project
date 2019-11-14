@@ -36,11 +36,13 @@ import cn.com.zjol.biz.core.network.compatible.LoadViewHolder;
 import cn.com.zjol.biz.core.share.UmengShareBean;
 import cn.com.zjol.biz.core.share.UmengShareUtils;
 import cn.daily.android.statusbar.DarkStatusBar;
+import cn.daily.news.analytics.Analytics;
 import zjol.com.cn.news.common.utils.State;
 import zjol.com.cn.news.common.utils.StatusBarUtil;
 import zjol.com.cn.news.common.utils.TypeFaceUtils;
 import zjol.com.cn.news.common.widget.GlideRoundTransform;
 import zjol.com.cn.news.home.bean.ArticleItemBean;
+import zjol.com.cn.player.bean.ShortVideoBean;
 import zjol.com.cn.player.utils.Constants;
 import zjol.com.cn.player.utils.GlideBlurformation;
 import zjol.com.cn.topic.R;
@@ -311,11 +313,39 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
     @Override
     public void onItemClick(View itemView, int position) {
         if (mAdapter.getData(position) instanceof ArticleItemBean && mTopicHomeBean !=null && mTopicHomeBean.getTopic_label()!=null){
-            ArticleItemBean bean = (ArticleItemBean) mAdapter.getData(position);
+            ArticleItemBean article = (ArticleItemBean) mAdapter.getData(position);
             Bundle bundle = new Bundle();
-            bundle.putString(Constants.ID,bean.getId()+"");
+            bundle.putString(Constants.ID,article.getId()+"");
             bundle.putString(Constants.TOPIC_ID, mTopicHomeBean.getTopic_label().getId());
             Nav.with(getBaseContext()).setExtras(bundle).toPath("/player/fullscreen/topic/vertical");
+
+
+            StringBuilder topicId = new StringBuilder();
+            StringBuilder topicName = new StringBuilder();
+            if (article.getTopic_label_list()!=null){
+                for (int i = 0; i < article.getTopic_label_list().size(); i++) {
+                    topicId.append(article.getTopic_label_list().get(i).getId());
+                    topicName.append(article.getTopic_label_list().get(i).getName());
+                    if (i!=article.getTopic_label_list().size()-1){
+                        topicId.append(",");
+                        topicName.append(",");
+                    }
+                }
+            }
+            Analytics.create(itemView.getContext(), "200007", "话题主页", false)
+                    .selfObjectID(article.getId()+"")
+                    .objectID(article.getMlf_id()+"")
+                    .objectShortName(article.getDoc_title())
+                    .ilurl(article.getUrl())
+                    .classID(article.getChannel_id())
+                    .classShortName(article.getChannel_name())
+                    .objectType("C01")
+                    .accountName(article.getAccount_nick_name())
+                    .accountID(article.getAccount_id())
+                    .topicName(topicName.toString())
+                    .topicID(topicId.toString())
+                    .build()
+                    .send();
         }
     }
 
