@@ -14,7 +14,6 @@ import cn.com.zjol.biz.core.DailyActivity;
 import cn.com.zjol.biz.core.UserBiz;
 import cn.com.zjol.biz.core.constant.IKey;
 import cn.com.zjol.biz.core.nav.Nav;
-import cn.com.zjol.me.activity.login.LoginActivity;
 import zjol.com.cn.topic.R;
 import zjol.com.cn.topic.R2;
 import zjol.com.cn.topic.bean.TopicHomeBean;
@@ -61,8 +60,7 @@ public class TopicHomeEmptyPageHolder extends PageItem {
                 Nav.with(getItemView().getContext()).setExtras(bundle).toPath("/native/publish/video");
                 activity.overridePendingTransition(R.anim.topic_slide_bottom_in, 0);
             } else {
-                activity.startActivityForResult(new Intent(activity, LoginActivity.class),
-                        LOGIN_REQUEST_CODE);
+                Nav.with(getItemView().getContext()).toPath("/login/LoginActivity",LOGIN_REQUEST_CODE);
             }
         }
     }

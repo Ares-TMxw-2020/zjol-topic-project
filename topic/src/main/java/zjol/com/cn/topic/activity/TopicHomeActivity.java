@@ -45,7 +45,6 @@ import cn.com.zjol.biz.core.share.OnCustomShareMediaListener;
 import cn.com.zjol.biz.core.share.ShareAnalytic;
 import cn.com.zjol.biz.core.share.UmengShareBean;
 import cn.com.zjol.biz.core.share.UmengShareUtils;
-import cn.com.zjol.me.activity.login.LoginActivity;
 import cn.daily.android.statusbar.DarkStatusBar;
 import cn.daily.news.analytics.Analytics;
 import zjol.com.cn.news.common.utils.State;
@@ -545,8 +544,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
             Nav.with(getBaseContext()).setExtras(bundle).toPath("/native/publish/video");
             overridePendingTransition(R.anim.topic_slide_bottom_in, 0);
         } else {
-            startActivityForResult(new Intent(getBaseContext(), LoginActivity.class),
-                    LOGIN_REQUEST_CODE);
+            Nav.with(getItemView().getContext()).toPath("/login/LoginActivity",LOGIN_REQUEST_CODE);
         }
 
         if (mTopicHomeBean!=null){
