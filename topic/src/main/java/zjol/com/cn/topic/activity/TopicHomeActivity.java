@@ -544,7 +544,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
             Nav.with(getBaseContext()).setExtras(bundle).toPath("/native/publish/video");
             overridePendingTransition(R.anim.topic_slide_bottom_in, 0);
         } else {
-            Nav.with(getItemView().getContext()).toPath("/login/LoginActivity",LOGIN_REQUEST_CODE);
+            Nav.with(this).toPath("/login/LoginActivity",LOGIN_REQUEST_CODE);
         }
 
         if (mTopicHomeBean!=null){
