@@ -5,7 +5,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "zjol.com.cn.zjol_topic_project"
-        minSdkVersion 21
+        minSdkVersion 17
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -51,13 +51,7 @@ dependencies {
 
     implementation ('cn.com.zjol:biz-core:1.1.0.4-SNAPSHOT')
 
-    implementation('cn.com.zjol:player:0.0.2.102-SNAPSHOT') {
-        exclude group: 'cn.com.zjol', module: 'topic'
-        exclude group: 'cn.com.zjol', module: 'news'
-    }
-    implementation('cn.com.zjol:news:0.0.2.55.6') {
-        exclude group: 'cn.com.zjol', module: 'topic'
-        exclude group: 'cn.com.zjol', module: 'player'
-    }
+    implementation('cn.com.zjol:player:0.0.2.102-SNAPSHOT')
+    implementation('cn.com.zjol:news:0.0.2.55.6')
 
 }
