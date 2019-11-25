@@ -50,7 +50,7 @@
                 android:textSize="@dimen/ts_14sp" />
             <ImageView
                 android:layout_marginLeft="3dp"
-                android:src="@mipmap/module_detail_right_arrow"
+                android:src="@mipmap/module_topic_right_arrow"
                 android:layout_gravity="center_vertical"
                 android:layout_width="10dp"
                 android:layout_height="10dp"/>

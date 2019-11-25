@@ -193,7 +193,7 @@
                             android:id="@+id/tv_hot_new"
                             android:drawableLeft="@mipmap/zjov_ugc_topic_sort_button"
                             android:layout_alignParentRight="true"
-                            android:textColor="@color/_888888"
+                            android:textColor="@color/_ff888888"
                             android:textSize="@dimen/ts_12sp"
                             android:text="最热"
                             android:drawablePadding="6dp"
