@@ -100,8 +100,6 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
     LinearLayout llWithDraw;
     @BindView(R2.id.error_conetent)
     FrameLayout errorConetent;
-    @BindView(R2.id.ll_hot_new)
-    RelativeLayout llHotNew;
     @BindView(R2.id.iv_logo)
     ImageView ivLogo;
     private TopicNewsAdapter mAdapter;
@@ -149,6 +147,8 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
         mRecycler.setMinimumHeight(UIUtils.dip2px(400));
 
         llTop.postInvalidate();
+
+
     }
 
     private void getArgs() {
@@ -172,7 +172,6 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
 
     private void initListener() {
         ivSpandBack.setOnClickListener(this);
-        llHotNew.setOnClickListener(this);
         ivTopBarBack.setOnClickListener(this);
         ivSpandShare.setOnClickListener(this);
         ivTopBarShare.setOnClickListener(this);
@@ -195,6 +194,7 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
         new NormalTopicHomeTask(new APIExpandCallBack<NormalTopicHomeBean>() {
             @Override
             public void onSuccess(NormalTopicHomeBean data) {
+                enableScroll();
                 flError.setVisibility(View.GONE);
                 mTopicHomeBean = data;
                 bindData(data);
@@ -211,18 +211,36 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
 
             @Override
             public void onError(String errMsg, int errCode) {
-                flError.setVisibility(View.VISIBLE);
-                if (!isFirst) {
-                    super.onError(errMsg, errCode);
-                }
+                forbidScroll();
                 if (errCode == Code.CODE_TOPIC_UNDER_LINE) {
+                    flError.setVisibility(View.VISIBLE);
                     showWithDrawView();
                 }
             }
         }).setTag(this)
                 .setShortestTime(isFirst ? 0 : C.REFRESH_SHORTEST_TIME)
-                .bindLoadViewHolder(isFirst ? (mLoadViewHolder = replaceLoad(mRecycler)) : null)
+                .bindLoadViewHolder(isFirst ? (mLoadViewHolder = replaceLoad(errorView)) : null)
                 .exe(mTopicId);
+    }
+
+    /**
+     * 禁止appbarlayout滑动
+     */
+    public void forbidScroll(){
+        View mAppBarChildAt = mAppBarLayout.getChildAt(0);
+        AppBarLayout.LayoutParams  mAppBarParams = (AppBarLayout.LayoutParams)mAppBarChildAt.getLayoutParams();
+        mAppBarParams.setScrollFlags(0);
+        mAppBarChildAt.setLayoutParams(mAppBarParams);
+    }
+
+    /**
+     * 允许appbarlayout滑动
+     */
+    public void enableScroll(){
+        View mAppBarChildAt = mAppBarLayout.getChildAt(0);
+        AppBarLayout.LayoutParams  mAppBarParams = (AppBarLayout.LayoutParams)mAppBarChildAt.getLayoutParams();
+        mAppBarParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED);
+        mAppBarChildAt.setLayoutParams(mAppBarParams);
     }
 
 

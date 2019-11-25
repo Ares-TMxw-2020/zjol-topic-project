@@ -38,6 +38,7 @@
 
             android:screenOrientation="portrait"
             android:name=".activity.NormalTopicHomeActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.DAILY" />
                 <action android:name="android.intent.action.VIEW" />
@@ -45,10 +46,24 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:host="@string/data_host"
-                    android:path="/topic/home/normal/activity"
-                    android:scheme="@string/data_scheme" />
+                <!--scheme http协议-->
+                <data android:scheme="@string/data_scheme" />
+                <data android:scheme="@string/data_scheme_https" />
+
+                <!-- 话题 path -->
+                <data android:path="/native/pgc_topic_label.html" />
+                <data android:path="/topic/home/normal/activity" />
+                <data android:host="@string/data_host" />
+
+
+                <!-- 以下测试 host -->
+                <!-- 以下测试 host -->
+                <data android:host="@string/data_host_dev" />
+                <data android:host="@string/data_host_test" />
+                <data android:host="@string/data_host_pre" />
+                <data android:host="@string/data_host_real" />
+                <data android:host="@string/data_host_zjol" />
+                <data android:host="@string/data_host_zj" />
             </intent-filter>
         </activity>
 
