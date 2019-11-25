@@ -7,11 +7,6 @@ import com.zjrb.core.recycleView.adapter.BaseRecyclerAdapter;
 
 import java.util.List;
 
-import zjol.com.cn.news.home.bean.ArticleItemBean;
-import zjol.com.cn.news.home.bean.type.DocType;
-import zjol.com.cn.news.home.holder.ColumnGeneralHolder;
-import zjol.com.cn.news.home.holder.ColumnLiveHolder;
-import zjol.com.cn.news.home.holder.ColumnVideoHolder;
 import zjol.com.cn.player.bean.ShortVideoBean;
 import zjol.com.cn.topic.holder.TopicGeneralHolder;
 

@@ -37,11 +37,10 @@ import cn.com.zjol.biz.core.share.UmengShareBean;
 import cn.com.zjol.biz.core.share.UmengShareUtils;
 import cn.daily.android.statusbar.DarkStatusBar;
 import cn.daily.news.analytics.Analytics;
+import zjol.com.cn.list.bean.ArticleItemBean;
 import zjol.com.cn.news.common.utils.State;
 import zjol.com.cn.news.common.utils.StatusBarUtil;
-import zjol.com.cn.news.common.utils.TypeFaceUtils;
 import zjol.com.cn.news.common.widget.GlideRoundTransform;
-import zjol.com.cn.news.home.bean.ArticleItemBean;
 import zjol.com.cn.player.bean.ShortVideoBean;
 import zjol.com.cn.player.utils.Constants;
 import zjol.com.cn.player.utils.GlideBlurformation;
@@ -340,11 +339,11 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
 
             StringBuilder topicId = new StringBuilder();
             StringBuilder topicName = new StringBuilder();
-            if (article.getTopic_label_list()!=null){
-                for (int i = 0; i < article.getTopic_label_list().size(); i++) {
-                    topicId.append(article.getTopic_label_list().get(i).getId());
-                    topicName.append(article.getTopic_label_list().get(i).getName());
-                    if (i!=article.getTopic_label_list().size()-1){
+            if (article.getTopic_labels()!=null){
+                for (int i = 0; i < article.getTopic_labels().size(); i++) {
+                    topicId.append(article.getTopic_labels().get(i).getId());
+                    topicName.append(article.getTopic_labels().get(i).getName());
+                    if (i!=article.getTopic_labels().size()-1){
                         topicId.append(",");
                         topicName.append(",");
                     }

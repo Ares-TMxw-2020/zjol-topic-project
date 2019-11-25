@@ -3,7 +3,7 @@ package zjol.com.cn.topic.bean;
 import java.util.List;
 
 import cn.com.zjol.biz.core.model.TopicLabelBean;
-import zjol.com.cn.news.home.bean.ArticleItemBean;
+import zjol.com.cn.list.bean.ArticleItemBean;
 
 /**
  * @author: lujialei

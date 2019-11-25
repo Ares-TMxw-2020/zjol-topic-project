@@ -50,6 +50,11 @@ android {
 configurations.all{
     //设置module缓存时间
     resolutionStrategy.cacheChangingModulesFor(0, TimeUnit.SECONDS)
+    resolutionStrategy{
+        force 'cn.com.zjol:location:0.0.1.10-SNAPSHOT'
+        force 'cn.com.zjol:biz-core:1.1.0.7-SNAPSHOT'
+        force 'cn.com.zjol:news:0.0.2.74'
+    }
 }
 
 dependencies {
@@ -63,8 +68,13 @@ dependencies {
         exclude group: 'cn.daily.android', module: 'analytics'
     }
 
-    implementation 'cn.com.zjol:player:0.0.2.105-SNAPSHOT'
-    implementation 'cn.com.zjol:news:0.0.2.72-SNAPSHOT'
+    implementation ('cn.com.zjol:player:0.0.2.105-SNAPSHOT'){
+        exclude group: 'cn.com.zjol', module: 'me'
+    }
+    implementation ('cn.com.zjol:news:0.0.2.74'){
+        exclude group: 'cn.com.zjol', module: 'topic'
+    }
+    implementation 'cn.com.zjol:list:0.0.1-SNAPSHOT'
 
     api 'cn.daily.android:analytics:6.1.0.3'
 

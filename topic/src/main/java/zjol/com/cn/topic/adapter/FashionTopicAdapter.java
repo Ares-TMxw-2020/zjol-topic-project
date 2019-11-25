@@ -13,10 +13,8 @@ import com.zjrb.core.recycleView.adapter.BaseRecyclerAdapter;
 import java.util.List;
 
 import cn.com.zjol.biz.core.network.compatible.APICallManager;
-import zjol.com.cn.news.home.bean.ArticleItemBean;
 import zjol.com.cn.topic.bean.FashionTopicBean;
 import zjol.com.cn.topic.bean.TopicElementsBean;
-import zjol.com.cn.topic.bean.TopicSquareBean;
 import zjol.com.cn.topic.holder.NewsHorizontalTopicHolder;
 import zjol.com.cn.topic.task.FashionTopicTask;
 
