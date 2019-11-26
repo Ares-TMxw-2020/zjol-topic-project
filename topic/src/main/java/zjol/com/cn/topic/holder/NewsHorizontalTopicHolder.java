@@ -26,12 +26,12 @@ import java.io.Serializable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.com.zjol.biz.core.constant.Constants;
 import cn.com.zjol.biz.core.nav.Nav;
 import cn.daily.news.analytics.Analytics;
 import cn.daily.news.analytics.ObjectType;
 import zjol.com.cn.player.bean.ShortVideoBean;
 import zjol.com.cn.player.manager.shortvideo.topic.TopicShortVideoPlayActivity;
-import zjol.com.cn.player.utils.Constants;
 import zjol.com.cn.topic.R;
 import zjol.com.cn.topic.R2;
 import zjol.com.cn.topic.adapter.TopicHorizontalAdapter;

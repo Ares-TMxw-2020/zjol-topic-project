@@ -61,12 +61,12 @@ dependencies {
     implementation 'com.jakewharton:butterknife:9.0.0-rc1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc1'
 
-    implementation ('cn.com.zjol:biz-core:1.1.0.4-SNAPSHOT')
+    implementation ('cn.com.zjol:biz-core:1.1.0.8-SNAPSHOT')
 
-    implementation('cn.com.zjol:player:0.0.2.102-SNAPSHOT'){
+    implementation('cn.com.zjol:player:0.0.2.107-SNAPSHOT'){
         exclude group: 'cn.com.zjol', module: 'me'
     }
-    implementation('cn.com.zjol:news:0.0.2.75'){
+    implementation('cn.com.zjol:news:0.0.2.75-SNAPSHOT'){
         exclude group: 'cn.com.zjol', module: 'topic'
     }
     implementation 'cn.com.zjol:list:0.0.1.1-SNAPSHOT'
