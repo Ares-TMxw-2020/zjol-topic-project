@@ -23,7 +23,10 @@ public class NormalTopicHomeTask extends APIGetTask<NormalTopicHomeBean> {
     public void onSetupParams(Object... params) {
         if (params != null) {
             if (params.length > 0 && params[0] != null) {
-                put("label_id", params[0]);
+                put("id", params[0]);
+            }
+            if (params.length > 1 && params[1] != null) {
+                put("start", params[1]);
             }
         }
     }

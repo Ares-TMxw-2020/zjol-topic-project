@@ -39,6 +39,7 @@ import cn.com.zjol.biz.core.share.UmengShareBean;
 import cn.com.zjol.biz.core.share.UmengShareUtils;
 import cn.daily.android.statusbar.DarkStatusBar;
 import cn.daily.news.analytics.Analytics;
+import zjol.com.cn.list.utils.NewsUtils;
 import zjol.com.cn.news.common.utils.State;
 import zjol.com.cn.news.common.utils.StatusBarUtil;
 import zjol.com.cn.news.common.widget.GlideRoundTransform;
@@ -330,10 +331,11 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
     public void onItemClick(View itemView, int position) {
         if (mAdapter.getData(position) instanceof ArticleBean && mTopicHomeBean !=null && mTopicHomeBean.getTopic_label()!=null){
             ArticleBean article = (ArticleBean) mAdapter.getData(position);
-            Bundle bundle = new Bundle();
-            bundle.putString(Constants.ID,article.getId()+"");
-            bundle.putString(Constants.TOPIC_ID, mTopicHomeBean.getTopic_label().getId());
-            Nav.with(getBaseContext()).setExtras(bundle).toPath("/player/fullscreen/topic/vertical");
+            NewsUtils.itemClick(getBaseContext(),article);
+//            Bundle bundle = new Bundle();
+//            bundle.putString(Constants.ID,article.getId()+"");
+//            bundle.putString(Constants.TOPIC_ID, mTopicHomeBean.getTopic_label().getId());
+//            Nav.with(getBaseContext()).setExtras(bundle).toPath("/player/fullscreen/topic/vertical");
 
 
             StringBuilder topicId = new StringBuilder();
