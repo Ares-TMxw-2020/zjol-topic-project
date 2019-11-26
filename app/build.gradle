@@ -69,6 +69,6 @@ dependencies {
     implementation('cn.com.zjol:news:0.0.2.75-SNAPSHOT'){
         exclude group: 'cn.com.zjol', module: 'topic'
     }
-    implementation 'cn.com.zjol:list:0.0.1.1-SNAPSHOT'
+    implementation 'cn.com.zjol:list:0.0.1.2-SNAPSHOT'
 
 }

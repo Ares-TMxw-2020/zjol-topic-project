@@ -93,7 +93,8 @@
                                 android:layout_height="58dp" />
 
                             <ImageView
-                                android:background="@drawable/module_topic_bg_r4"
+                                android:scaleType="centerInside"
+                                android:background="@drawable/module_normal_topic_bg_r4"
                                 android:id="@+id/iv_logo"
                                 android:layout_gravity="center"
                                 android:layout_width="58dp"

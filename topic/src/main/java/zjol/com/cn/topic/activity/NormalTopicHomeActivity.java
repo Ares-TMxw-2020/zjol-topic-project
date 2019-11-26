@@ -278,17 +278,19 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
         mCurrentLogoUrl = logoUrl;
         GlideApp.with(getBaseContext())
                 .load(data.getTopic_label().getLogo_url())
+                .error(R.mipmap.module_biz_news_item_place_holder_small)
+                .placeholder(R.mipmap.module_biz_news_item_place_holder_small)
                 .transform(new GlideRoundTransform(getBaseContext(), 4))
                 .listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        tvLogo.setVisibility(View.VISIBLE);
+//                        tvLogo.setVisibility(View.VISIBLE);
                         return false;
                     }
 
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        tvLogo.setVisibility(View.GONE);
+//                        tvLogo.setVisibility(View.GONE);
                         return false;
                     }
                 })
