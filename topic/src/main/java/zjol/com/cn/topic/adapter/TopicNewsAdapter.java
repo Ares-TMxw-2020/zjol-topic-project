@@ -11,9 +11,9 @@ import com.zjrb.core.recycleView.LoadMore;
 import java.util.List;
 import java.util.Random;
 
+import cn.com.zjol.biz.core.model.ArticleBean;
 import cn.com.zjol.biz.core.network.compatible.APICallManager;
 import zjol.com.cn.list.NewsBaseAdapter;
-import zjol.com.cn.list.bean.ArticleItemBean;
 import zjol.com.cn.topic.bean.NormalTopicHomeBean;
 import zjol.com.cn.topic.task.NormalTopicHomeTask;
 
@@ -47,7 +47,7 @@ public class TopicNewsAdapter extends NewsBaseAdapter implements LoadMoreListene
         setData(data != null ? data.getArticles() : null);
     }
 
-    public void addData(List<ArticleItemBean> data) {
+    public void addData(List<ArticleBean> data) {
         addData(data, true); // 增量刷新
     }
 
@@ -83,8 +83,8 @@ public class TopicNewsAdapter extends NewsBaseAdapter implements LoadMoreListene
             int count = 1;
             while (size - count >= 0) {
                 Object data = getData(size - count++);
-                if (data instanceof ArticleItemBean) {
-                    return ((ArticleItemBean) data).getSort_number();
+                if (data instanceof ArticleBean) {
+                    return ((ArticleBean) data).getSort_number();
                 }
             }
         }

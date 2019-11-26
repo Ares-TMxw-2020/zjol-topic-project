@@ -46,8 +46,8 @@ configurations.all{
     resolutionStrategy.cacheChangingModulesFor(0, TimeUnit.SECONDS)
     resolutionStrategy{
         force 'cn.com.zjol:location:0.0.1.10-SNAPSHOT'
-        force 'cn.com.zjol:biz-core:1.1.0.7-SNAPSHOT'
-        force 'cn.com.zjol:news:0.0.2.74'
+        force 'cn.com.zjol:biz-core:1.1.0.8-SNAPSHOT'
+        force 'cn.com.zjol:news:0.0.2.75'
     }
 }
 
@@ -66,9 +66,9 @@ dependencies {
     implementation('cn.com.zjol:player:0.0.2.102-SNAPSHOT'){
         exclude group: 'cn.com.zjol', module: 'me'
     }
-    implementation('cn.com.zjol:news:0.0.2.74'){
+    implementation('cn.com.zjol:news:0.0.2.75'){
         exclude group: 'cn.com.zjol', module: 'topic'
     }
-    implementation 'cn.com.zjol:list:0.0.1-SNAPSHOT'
+    implementation 'cn.com.zjol:list:0.0.1.1-SNAPSHOT'
 
 }

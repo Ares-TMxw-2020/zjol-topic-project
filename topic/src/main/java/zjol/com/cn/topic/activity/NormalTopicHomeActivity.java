@@ -26,10 +26,12 @@ import com.zjrb.core.recycleView.EmptyPageHolder;
 import com.zjrb.core.recycleView.HeaderRefresh;
 import com.zjrb.core.recycleView.listener.OnItemClickListener;
 import com.zjrb.core.utils.UIUtils;
+import com.zjrb.zjxw.detail.request.bean.ArticleItemBean;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.zjol.biz.core.DailyActivity;
 import cn.com.zjol.biz.core.constant.C;
+import cn.com.zjol.biz.core.model.ArticleBean;
 import cn.com.zjol.biz.core.nav.Nav;
 import cn.com.zjol.biz.core.network.compatible.APIExpandCallBack;
 import cn.com.zjol.biz.core.network.compatible.LoadViewHolder;
@@ -37,7 +39,6 @@ import cn.com.zjol.biz.core.share.UmengShareBean;
 import cn.com.zjol.biz.core.share.UmengShareUtils;
 import cn.daily.android.statusbar.DarkStatusBar;
 import cn.daily.news.analytics.Analytics;
-import zjol.com.cn.list.bean.ArticleItemBean;
 import zjol.com.cn.news.common.utils.State;
 import zjol.com.cn.news.common.utils.StatusBarUtil;
 import zjol.com.cn.news.common.widget.GlideRoundTransform;
@@ -329,8 +330,8 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
 
     @Override
     public void onItemClick(View itemView, int position) {
-        if (mAdapter.getData(position) instanceof ArticleItemBean && mTopicHomeBean !=null && mTopicHomeBean.getTopic_label()!=null){
-            ArticleItemBean article = (ArticleItemBean) mAdapter.getData(position);
+        if (mAdapter.getData(position) instanceof ArticleBean && mTopicHomeBean !=null && mTopicHomeBean.getTopic_label()!=null){
+            ArticleBean article = (ArticleBean) mAdapter.getData(position);
             Bundle bundle = new Bundle();
             bundle.putString(Constants.ID,article.getId()+"");
             bundle.putString(Constants.TOPIC_ID, mTopicHomeBean.getTopic_label().getId());

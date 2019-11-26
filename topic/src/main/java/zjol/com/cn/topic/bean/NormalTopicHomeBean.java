@@ -1,9 +1,8 @@
 package zjol.com.cn.topic.bean;
 
 import java.util.List;
-
+import cn.com.zjol.biz.core.model.ArticleBean;
 import cn.com.zjol.biz.core.model.TopicLabelBean;
-import zjol.com.cn.list.bean.ArticleItemBean;
 
 /**
  * @author: lujialei
@@ -23,7 +22,7 @@ public class NormalTopicHomeBean {
     private int sort_by;
     private TopicLabelBean topic_label;
     private boolean has_more;
-    private List<ArticleItemBean> article_list;
+    private List<ArticleBean> article_list;
 
     public int getSort_by() {
         return sort_by;
@@ -49,11 +48,11 @@ public class NormalTopicHomeBean {
         this.has_more = has_more;
     }
 
-    public List<ArticleItemBean> getArticles() {
+    public List<ArticleBean> getArticles() {
         return article_list;
     }
 
-    public void setArticles(List<ArticleItemBean> articles) {
+    public void setArticles(List<ArticleBean> articles) {
         this.article_list = articles;
     }
 
