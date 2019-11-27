@@ -30,6 +30,7 @@ import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.UIUtils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,6 +56,8 @@ import zjol.com.cn.news.common.widget.GlideRoundTransform;
 import zjol.com.cn.player.bean.ShortVideoBean;
 import zjol.com.cn.player.manager.shortvideo.topic.TopicShortVideoPlayActivity;
 import zjol.com.cn.player.utils.GlideBlurformation;
+import zjol.com.cn.player.utils.LocalFollowChangeManager;
+import zjol.com.cn.player.utils.LocalLikeChangeManager;
 import zjol.com.cn.topic.R;
 import zjol.com.cn.topic.R2;
 import zjol.com.cn.topic.adapter.TopicHomeAdapter;
@@ -68,7 +71,7 @@ import zjol.com.cn.topic.task.TopicHomeTask;
  */
 
 
-public class TopicHomeActivity extends DailyActivity implements OnItemClickListener, HeaderRefresh.OnRefreshListener, View.OnClickListener {
+public class TopicHomeActivity extends DailyActivity implements OnItemClickListener, HeaderRefresh.OnRefreshListener, View.OnClickListener, LocalFollowChangeManager.OnFollowChangeListener, LocalLikeChangeManager.OnLikeChangeListener {
     @BindView(R2.id.recycler)
     RecyclerView mRecycler;
     @BindView(R2.id.app_bar)
@@ -615,7 +618,6 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         });
     }
 
-
     private class MyBaseOnOffsetChangedListener implements AppBarLayout.BaseOnOffsetChangedListener {
         @Override
         public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
@@ -636,5 +638,56 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
                 mCurrentState = State.IDLE;
             }
         }
+    }
+
+    /**
+     * 有可能会在小视频详情页面点赞 返回的时候需要同步点赞状态 刷新adapter
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mAdapter!=null){
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onFollowChanged(String userId, int followStatus) {
+
+    }
+
+    @Override
+    public void onLikeChange(String articleId, boolean isLike, String likeCountGeneral) {
+        if (mAdapter==null){
+            return;
+        }
+        for (int i = 0; i < mAdapter.getDataSize(); i++) {
+            ShortVideoBean.ArticleListBean bean = mAdapter.getData(i);
+            if (TextUtils.equals(bean.getUuid(),articleId)){
+                bean.setLiked(isLike);
+//                mAdapter.notifyItemChanged(i);
+            }
+        }
+    }
+
+
+    /**
+     * 注册本地的点赞和关注变化监听
+     */
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        LocalFollowChangeManager.getInstance().addFollowListener(this);
+        LocalLikeChangeManager.getInstance().addLikeListener(this);
+    }
+
+    /**
+     * 取消本地的点赞和关注变化监听
+     */
+    @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        LocalFollowChangeManager.getInstance().removeFollowListener(this);
+        LocalLikeChangeManager.getInstance().removeLikeListener(this);
     }
 }

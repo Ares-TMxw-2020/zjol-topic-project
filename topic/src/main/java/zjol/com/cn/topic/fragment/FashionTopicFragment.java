@@ -1,10 +1,12 @@
 package zjol.com.cn.topic.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +25,14 @@ import cn.com.zjol.biz.core.DailyFragment;
 import cn.com.zjol.biz.core.constant.C;
 import cn.com.zjol.biz.core.network.compatible.APIExpandCallBack;
 import cn.com.zjol.biz.core.network.compatible.LoadViewHolder;
+import zjol.com.cn.player.bean.ShortVideoBean;
+import zjol.com.cn.player.utils.LocalFollowChangeManager;
+import zjol.com.cn.player.utils.LocalLikeChangeManager;
 import zjol.com.cn.topic.R;
 import zjol.com.cn.topic.R2;
 import zjol.com.cn.topic.adapter.FashionTopicAdapter;
 import zjol.com.cn.topic.bean.FashionTopicBean;
+import zjol.com.cn.topic.bean.TopicElementsBean;
 import zjol.com.cn.topic.bean.TopicRankBean;
 import zjol.com.cn.topic.holder.TopicRankHeader;
 import zjol.com.cn.topic.task.FashionTopicTask;
@@ -34,7 +40,7 @@ import zjol.com.cn.topic.task.FashionTopicTask;
 /**
  * 潮客话题
  */
-public class FashionTopicFragment extends DailyFragment implements View.OnClickListener, HeaderRefresh.OnRefreshListener {
+public class FashionTopicFragment extends DailyFragment implements View.OnClickListener, HeaderRefresh.OnRefreshListener, LocalFollowChangeManager.OnFollowChangeListener, LocalLikeChangeManager.OnLikeChangeListener {
 
     @BindView(R2.id.recycler)
     RecyclerView mRecycler;
@@ -207,6 +213,63 @@ public class FashionTopicFragment extends DailyFragment implements View.OnClickL
     @Override
     public void onClick(View view) {
 
+    }
+
+    /**
+     * 有可能会在小视频详情页面点赞 返回的时候需要同步点赞状态 刷新adapter
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mAdapter!=null){
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onFollowChanged(String userId, int followStatus) {
+
+    }
+
+    @Override
+    public void onLikeChange(String articleId, boolean isLike, String likeCountGeneral) {
+        if (mAdapter==null){
+            return;
+        }
+        for (int i = 0; i < mAdapter.getDataSize(); i++) {
+            TopicElementsBean topicElementsBean = mAdapter.getData(i);
+            if (topicElementsBean==null||topicElementsBean.getArticle_list()==null){
+                return;
+            }
+            for (int j = 0; j < topicElementsBean.getArticle_list().size(); j++) {
+                ShortVideoBean.ArticleListBean bean = topicElementsBean.getArticle_list().get(j);
+                if (TextUtils.equals(bean.getUuid(),articleId)){
+                    bean.setLiked(isLike);
+//                    mAdapter.notifyItemChanged(i);
+                }
+            }
+
+        }
+    }
+
+    /**
+     * 注册本地的点赞和关注变化监听
+     */
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        LocalFollowChangeManager.getInstance().addFollowListener(this);
+        LocalLikeChangeManager.getInstance().addLikeListener(this);
+    }
+
+    /**
+     * 取消本地的点赞和关注变化监听
+     */
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        LocalFollowChangeManager.getInstance().removeFollowListener(this);
+        LocalLikeChangeManager.getInstance().removeLikeListener(this);
     }
 
     public void setCanRefresh(boolean b) {
