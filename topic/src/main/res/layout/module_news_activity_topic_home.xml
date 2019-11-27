@@ -30,6 +30,7 @@
                     android:layout_height="123dp"
                     android:orientation="vertical">
                     <ImageView
+                        android:foreground="#2f000000"
                         android:id="@+id/iv_header"
                         android:scaleType="centerCrop"
                         android:src="@mipmap/zjov_app_header_bg"

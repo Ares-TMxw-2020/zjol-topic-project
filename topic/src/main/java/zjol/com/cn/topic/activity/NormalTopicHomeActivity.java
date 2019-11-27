@@ -43,6 +43,7 @@ import zjol.com.cn.list.utils.NewsUtils;
 import zjol.com.cn.news.common.utils.State;
 import zjol.com.cn.news.common.utils.StatusBarUtil;
 import zjol.com.cn.news.common.widget.GlideRoundTransform;
+import zjol.com.cn.news.common.widget.NewsSpaceDivider;
 import zjol.com.cn.player.utils.GlideBlurformation;
 import zjol.com.cn.topic.R;
 import zjol.com.cn.topic.R2;
@@ -305,7 +306,7 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
     private void bindData(NormalTopicHomeBean data) {
         if (mAdapter == null) {
             mRecycler.setLayoutManager(new LinearLayoutManager(getBaseContext()));
-//            mRecycler.addItemDecoration(new NewsSpaceDivider());
+            mRecycler.addItemDecoration(new NewsSpaceDivider());
             mAdapter = new TopicNewsAdapter(data, mRecycler, mTopicId);
             mRecycler.setAdapter(mAdapter);
 
