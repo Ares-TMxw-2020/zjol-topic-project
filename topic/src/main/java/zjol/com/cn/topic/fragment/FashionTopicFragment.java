@@ -228,7 +228,23 @@ public class FashionTopicFragment extends DailyFragment implements View.OnClickL
 
     @Override
     public void onFollowChanged(String userId, int followStatus) {
+        if (mAdapter==null){
+            return;
+        }
+        for (int i = 0; i < mAdapter.getDataSize(); i++) {
+            TopicElementsBean topicElementsBean = mAdapter.getData(i);
+            if (topicElementsBean==null||topicElementsBean.getArticle_list()==null){
+                return;
+            }
+            for (int j = 0; j < topicElementsBean.getArticle_list().size(); j++) {
+                ShortVideoBean.ArticleListBean bean = topicElementsBean.getArticle_list().get(j);
+                if (TextUtils.equals(bean.getAccount_id(),userId)){
+                    bean.setFollow_status(followStatus);
+//                    mAdapter.notifyItemChanged(i);
+                }
+            }
 
+        }
     }
 
     @Override
@@ -245,10 +261,10 @@ public class FashionTopicFragment extends DailyFragment implements View.OnClickL
                 ShortVideoBean.ArticleListBean bean = topicElementsBean.getArticle_list().get(j);
                 if (TextUtils.equals(bean.getUuid(),articleId)){
                     bean.setLiked(isLike);
+                    bean.setLike_count_general(likeCountGeneral);
 //                    mAdapter.notifyItemChanged(i);
                 }
             }
-
         }
     }
 

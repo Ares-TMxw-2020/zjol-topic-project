@@ -665,6 +665,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
             ShortVideoBean.ArticleListBean bean = mAdapter.getData(i);
             if (TextUtils.equals(bean.getUuid(),articleId)){
                 bean.setLiked(isLike);
+                bean.setLike_count_general(likeCountGeneral);
 //                mAdapter.notifyItemChanged(i);
             }
         }
