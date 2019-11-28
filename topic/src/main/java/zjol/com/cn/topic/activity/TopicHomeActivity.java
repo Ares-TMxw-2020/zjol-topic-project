@@ -402,10 +402,10 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
                 .classID(article.getChannel_id())
                 .classShortName(article.getChannel_name())
                 .objectType("C01")
-//                .accountName(article.getAccount_nick_name())
+                .accountName(article.getAccount_nick_name())
                 .accountID(article.getAccount_id())
-//                .topicName(topicName.toString())
-//                .topicID(topicId.toString())
+                .topicName(topicName.toString())
+                .topicID(topicId.toString())
                 .build()
                 .send();
 
@@ -509,9 +509,9 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
 
         Analytics.create(this, "110054", "话题主页", false)
                 .name("排序方式切换")
-//                .topicID(mTopicHomeBean.getTopic_label().getId())
+                .topicID(mTopicHomeBean.getTopic_label().getId())
                 .action(mSortBy==0?"最新":"最热")
-//                .topicName(mTopicHomeBean.getTopic_label().getName())
+                .topicName(mTopicHomeBean.getTopic_label().getName())
                 .build()
                 .send();
     }
@@ -553,8 +553,8 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         if (mTopicHomeBean!=null){
             Analytics.create(this, "110053", "话题主页", false)
                     .name("点击我也要拍")
-//                    .topicID(mTopicHomeBean.getTopic_label().getId())
-//                    .topicName(mTopicHomeBean.getTopic_label().getName())
+                    .topicID(mTopicHomeBean.getTopic_label().getId())
+                    .topicName(mTopicHomeBean.getTopic_label().getName())
                     .build()
                     .send();
         }

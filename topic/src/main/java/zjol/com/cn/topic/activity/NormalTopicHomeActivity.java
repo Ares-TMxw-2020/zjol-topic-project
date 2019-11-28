@@ -363,8 +363,8 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
                     .objectType("C01")
                     .accountName(article.getAccount_nick_name())
                     .accountID(article.getAccount_id())
-//                    .topicName(topicName.toString())
-//                    .topicID(topicId.toString())
+                    .topicName(topicName.toString())
+                    .topicID(topicId.toString())
                     .build()
                     .send();
         }

@@ -99,8 +99,8 @@ public class NewsHorizontalTopicHolder extends BaseRecyclerViewHolder<TopicEleme
                 Analytics.create(v.getContext(), "200024", "首页", false)
                         .name("点击更多进入话题主页")
                         .pageType("首页")
-//                        .topicID(mData.getId())
-//                        .topicName(mData.getName())
+                        .topicID(mData.getId())
+                        .topicName(mData.getName())
                         .build()
                         .send();
             }
@@ -148,10 +148,10 @@ public class NewsHorizontalTopicHolder extends BaseRecyclerViewHolder<TopicEleme
                     .classID(article.getChannel_id())
                     .classShortName(article.getChannel_name())
                     .objectType("C01")
-//                    .accountName(article.getAccount_nick_name())
+                    .accountName(article.getAccount_nick_name())
                     .accountID(article.getAccount_id())
-//                    .topicName(topicName.toString())
-//                    .topicID(topicId.toString())
+                    .topicName(topicName.toString())
+                    .topicID(topicId.toString())
                     .build()
                     .send();
 
