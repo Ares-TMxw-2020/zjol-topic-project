@@ -14,7 +14,7 @@
             android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/module_news_ic_left_pull" />
+            android:src="@mipmap/module_list_ic_left_pull" />
 
         <TextView
             android:fontFamily="@font/fzbiaoysk_zbjt"
