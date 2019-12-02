@@ -356,7 +356,7 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
             Analytics.create(itemView.getContext(), "200007", "话题主页", false)
                     .selfObjectID(article.getId()+"")
                     .objectID(article.getMlf_id()+"")
-                    .objectShortName(article.getDoc_title())
+                    .objectShortName(article.getList_title())
                     .ilurl(article.getUrl())
                     .classID(article.getChannel_id())
                     .classShortName(article.getChannel_name())
