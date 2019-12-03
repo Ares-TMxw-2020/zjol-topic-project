@@ -29,13 +29,6 @@ allprojects {
             url 'https://maven.google.com/'
             name 'Google'
         }
-        maven{
-            url 'http://maven.wts.xinwen.cn/repository/maven-public'
-            credentials{
-                username 'public-normal-wts'
-                password 'wts!normal?703'
-            }
-        }//新闻报道网上传播分析系统埋点
     }
 }
 

@@ -297,9 +297,9 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
                     }
                 })
                 .into(ivLogo);
-        String des = data.getTopic_label().getAccount_name();
+        String des = data.getTopic_label().getDescription();
         if (!TextUtils.isEmpty(des)) {
-            tvOther.setText("发起人:" + des);
+            tvOther.setText(des);
         }
     }
 
