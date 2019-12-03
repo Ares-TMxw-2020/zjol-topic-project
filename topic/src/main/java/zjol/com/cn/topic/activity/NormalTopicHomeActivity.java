@@ -414,7 +414,7 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
         if (mTopicHomeBean == null||mTopicHomeBean.getTopic_label()==null) {
             return;
         }
-//        ShareAnalytic analytic = ShareAnalytic.create("列表页", "新闻卡片详情页")
+        ShareAnalytic analytic = ShareAnalytic.create("稿件话题主页", "")
 //                .objectID(String.valueOf(mData.getMlf_id()))
 //                .selfObjectID(String.valueOf(mData.getId()))
 //                .objectShortName(mData.getDoc_title())
@@ -423,10 +423,10 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
 //                .ilurl(mData.getUrl())
 //                .classID(mData.getChannel_id())
 //                .classShortName(mData.getChannel_name())
-//                .topicID(mTopicHomeBean.getTopic_label().getId())
-//                .topicName(mTopicHomeBean.getTopic_label().getName())
-//                .objectType("C01")
-//                .build();
+                .topicID(mTopicHomeBean.getTopic_label().getId())
+                .topicName(mTopicHomeBean.getTopic_label().getName())
+                .objectType("C01")
+                .build();
 
 
         UmengShareUtils.getInstance().startShare(UmengShareBean.getInstance()
@@ -438,12 +438,12 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
                 .setImgUri(mTopicHomeBean.getTopic_label().getLogo_url())
                 .setTitle(mTopicHomeBean.getTopic_label().getName())
                 .setTextContent("来自天目新闻客户端")
-//                .setAnalytic(analytic)
+                .setAnalytic(analytic)
                 .setTargetUrl(mTopicHomeBean.getTopic_label().getUrl()));
-//
-//        Analytics.create(itemView.getContext(), "400011", "列表页", false)
-//                .build()
-//                .send();
+
+        Analytics.create(getBaseContext(), "800018", "稿件话题主页", false)
+                .build()
+                .send();
     }
 
 
