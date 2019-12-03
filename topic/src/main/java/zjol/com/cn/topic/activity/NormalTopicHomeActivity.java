@@ -35,6 +35,7 @@ import cn.com.zjol.biz.core.model.ArticleBean;
 import cn.com.zjol.biz.core.nav.Nav;
 import cn.com.zjol.biz.core.network.compatible.APIExpandCallBack;
 import cn.com.zjol.biz.core.network.compatible.LoadViewHolder;
+import cn.com.zjol.biz.core.share.ShareAnalytic;
 import cn.com.zjol.biz.core.share.UmengShareBean;
 import cn.com.zjol.biz.core.share.UmengShareUtils;
 import cn.daily.android.statusbar.DarkStatusBar;
@@ -410,7 +411,7 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
     }
 
     private void share() {
-        if (mTopicHomeBean == null) {
+        if (mTopicHomeBean == null||mTopicHomeBean.getTopic_label()==null) {
             return;
         }
 //        ShareAnalytic analytic = ShareAnalytic.create("列表页", "新闻卡片详情页")
@@ -422,6 +423,8 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
 //                .ilurl(mData.getUrl())
 //                .classID(mData.getChannel_id())
 //                .classShortName(mData.getChannel_name())
+//                .topicID(mTopicHomeBean.getTopic_label().getId())
+//                .topicName(mTopicHomeBean.getTopic_label().getName())
 //                .objectType("C01")
 //                .build();
 

@@ -510,7 +510,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
         Analytics.create(this, "110054", "话题主页", false)
                 .name("排序方式切换")
                 .topicID(mTopicHomeBean.getTopic_label().getId())
-                .action(mSortBy==0?"最新":"最热")
+                .action(mSortBy==0?"最热":"最新")
                 .topicName(mTopicHomeBean.getTopic_label().getName())
                 .build()
                 .send();
@@ -581,7 +581,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
     }
 
     private void share() {
-        if (mTopicHomeBean == null) {
+        if (mTopicHomeBean == null||mTopicHomeBean.getTopic_label()==null) {
             return;
         }
         ShareAnalytic analytic = ShareAnalytic.create("话题主页", "")
@@ -593,6 +593,8 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
 //                .classShortName(getChannelName())
 //                .accountId(getAccountId())
 //                .nickName(getAuthor())
+                .topicID(mTopicHomeBean.getTopic_label().getId())
+                .topicName(mTopicHomeBean.getTopic_label().getName())
                 .objectType("C21")
                 .build();
 
@@ -616,6 +618,10 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
 //                }
             }
         });
+
+        Analytics.create(getBaseContext(), "800018", "话题主页", false)
+                .build()
+                .send();
     }
 
     private class MyBaseOnOffsetChangedListener implements AppBarLayout.BaseOnOffsetChangedListener {
