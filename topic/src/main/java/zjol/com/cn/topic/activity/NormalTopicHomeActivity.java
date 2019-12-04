@@ -414,7 +414,7 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
         if (mTopicHomeBean == null||mTopicHomeBean.getTopic_label()==null) {
             return;
         }
-        ShareAnalytic analytic = ShareAnalytic.create("稿件话题主页", "")
+        ShareAnalytic analytic = ShareAnalytic.create("话题主页", "")
 //                .objectID(String.valueOf(mData.getMlf_id()))
 //                .selfObjectID(String.valueOf(mData.getId()))
 //                .objectShortName(mData.getDoc_title())
@@ -441,7 +441,7 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
                 .setAnalytic(analytic)
                 .setTargetUrl(mTopicHomeBean.getTopic_label().getUrl()));
 
-        Analytics.create(getBaseContext(), "800018", "稿件话题主页", false)
+        Analytics.create(getBaseContext(), "800018", "话题主页", false)
                 .build()
                 .send();
     }
