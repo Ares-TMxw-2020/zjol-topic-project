@@ -40,8 +40,6 @@ import cn.com.zjol.biz.core.constant.IKey;
 import cn.com.zjol.biz.core.nav.Nav;
 import cn.com.zjol.biz.core.network.compatible.APIExpandCallBack;
 import cn.com.zjol.biz.core.network.compatible.LoadViewHolder;
-import cn.com.zjol.biz.core.share.CUSTOM_SHARE_MEDIA;
-import cn.com.zjol.biz.core.share.OnCustomShareMediaListener;
 import cn.com.zjol.biz.core.share.ShareAnalytic;
 import cn.com.zjol.biz.core.share.UmengShareBean;
 import cn.com.zjol.biz.core.share.UmengShareUtils;
@@ -602,17 +600,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
                 .setTitle(mTopicHomeBean.getTopic_label().getName())
                 .setTextContent("来自天目新闻客户端")
                 .setAnalytic(analytic)
-                .setTargetUrl(mTopicHomeBean.getTopic_label().getUrl())
-                .setShareType("文章"), new OnCustomShareMediaListener() {
-            @Override
-            public void onItemClick(CUSTOM_SHARE_MEDIA media) {
-//                if (media == CUSTOM_SHARE_MEDIA.REPORT) {
-//                    UmengShareUtils.startReport(getBaseContext(), getArticleId());
-//                } else {
-//                    Toast.makeText(getContext(), media.name(), Toast.LENGTH_SHORT).show();
-//                }
-            }
-        });
+                .setTargetUrl(mTopicHomeBean.getTopic_label().getUrl()));
     }
 
 
