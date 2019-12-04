@@ -394,7 +394,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
                 }
             }
         }
-        Analytics.create(itemView.getContext(), "200007", "首页", false)
+        Analytics.create(itemView.getContext(), "200007", "话题主页", false)
                 .selfObjectID(article.getId()+"")
                 .objectID(article.getMlf_id()+"")
                 .objectShortName(article.getList_title())
