@@ -68,7 +68,7 @@ dependencies {
         exclude group: 'cn.daily.android', module: 'analytics'
     }
 
-    implementation ('cn.com.zjol:player:0.0.2.107-SNAPSHOT'){
+    implementation ('cn.com.zjol:player:0.0.2.125-SNAPSHOT'){
         exclude group: 'cn.com.zjol', module: 'me'
     }
     implementation ('cn.com.zjol:news:0.0.2.75-SNAPSHOT'){

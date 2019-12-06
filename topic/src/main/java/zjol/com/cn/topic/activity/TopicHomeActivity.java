@@ -31,6 +31,7 @@ import com.zjrb.core.utils.UIUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,6 +59,7 @@ import zjol.com.cn.player.manager.shortvideo.topic.TopicShortVideoPlayActivity;
 import zjol.com.cn.player.utils.GlideBlurformation;
 import zjol.com.cn.player.utils.LocalFollowChangeManager;
 import zjol.com.cn.player.utils.LocalLikeChangeManager;
+import zjol.com.cn.player.utils.PageDataManager;
 import zjol.com.cn.topic.R;
 import zjol.com.cn.topic.R2;
 import zjol.com.cn.topic.adapter.TopicHomeAdapter;
@@ -373,11 +375,11 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
     public void onItemClick(View itemView, int position) {
         Intent intent = new Intent(itemView.getContext(), TopicShortVideoPlayActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.DATA, (Serializable) mAdapter.datas);
         bundle.putInt(Constants.POSITION, position);
         bundle.putString(Constants.TOPIC_ID, mTopicId);
         bundle.putInt(Constants.SORT_BY, mSortBy);
         intent.putExtras(bundle);
+        PageDataManager.getInstance().setUGCTopicVideoList(mAdapter.getData());
         itemView.getContext().startActivity(intent);
 
 
