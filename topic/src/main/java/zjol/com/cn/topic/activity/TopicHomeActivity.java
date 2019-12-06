@@ -28,6 +28,7 @@ import com.zjrb.core.recycleView.listener.OnItemClickListener;
 import com.zjrb.core.ui.divider.GridSpaceDivider;
 import com.zjrb.core.utils.T;
 import com.zjrb.core.utils.UIUtils;
+import com.zjrb.core.utils.click.ClickTracker;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -373,6 +374,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
 
     @Override
     public void onItemClick(View itemView, int position) {
+        if (ClickTracker.isDoubleClick()) return;
         Intent intent = new Intent(itemView.getContext(), TopicShortVideoPlayActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt(Constants.POSITION, position);

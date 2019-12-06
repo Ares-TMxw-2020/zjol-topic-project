@@ -333,6 +333,7 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
 
     @Override
     public void onItemClick(View itemView, int position) {
+        if (ClickTracker.isDoubleClick()) return;
         if (mAdapter.getData(position) instanceof ArticleBean && mTopicHomeBean !=null && mTopicHomeBean.getTopic_label()!=null){
             ArticleBean article = (ArticleBean) mAdapter.getData(position);
             NewsUtils.itemClick(getBaseContext(),article);

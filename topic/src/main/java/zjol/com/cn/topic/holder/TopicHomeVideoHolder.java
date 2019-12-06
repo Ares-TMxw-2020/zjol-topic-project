@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.zjrb.core.common.glide.GlideApp;
 import com.zjrb.core.recycleView.BaseRecyclerViewHolder;
 import com.zjrb.core.recycleView.ItemClickCallback;
+import com.zjrb.core.utils.click.ClickTracker;
 import com.zjrb.daily.db.dao.ReadNewsDaoHelper;
 
 import butterknife.BindView;
@@ -57,6 +58,7 @@ public class TopicHomeVideoHolder extends BaseRecyclerViewHolder<ShortVideoBean.
 
     @Override
     public void onItemClick(View itemView, int position) {
+        if (ClickTracker.isDoubleClick()) return;
         ReadNewsDaoHelper.addAlreadyRead(mData.getId());
     }
 }

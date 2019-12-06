@@ -115,8 +115,8 @@ public class NewsHorizontalTopicHolder extends BaseRecyclerViewHolder<TopicEleme
 
     @Override
     public void onItemClick(View itemView, int position) {
+        if (ClickTracker.isDoubleClick()) return;
         if (mAdapter != null) {
-            if (ClickTracker.isDoubleClick()) return;
             Intent intent = new Intent(itemView.getContext(), TopicShortVideoPlayActivity.class);
             Bundle bundle = new Bundle();
             bundle.putInt(Constants.POSITION, position);
