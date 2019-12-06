@@ -32,6 +32,7 @@ import cn.daily.news.analytics.Analytics;
 import cn.daily.news.analytics.ObjectType;
 import zjol.com.cn.player.bean.ShortVideoBean;
 import zjol.com.cn.player.manager.shortvideo.topic.TopicShortVideoPlayActivity;
+import zjol.com.cn.player.utils.PageDataManager;
 import zjol.com.cn.topic.R;
 import zjol.com.cn.topic.R2;
 import zjol.com.cn.topic.adapter.TopicHorizontalAdapter;
@@ -118,11 +119,11 @@ public class NewsHorizontalTopicHolder extends BaseRecyclerViewHolder<TopicEleme
             if (ClickTracker.isDoubleClick()) return;
             Intent intent = new Intent(itemView.getContext(), TopicShortVideoPlayActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putSerializable(Constants.DATA, (Serializable) mAdapter.datas);
             bundle.putInt(Constants.POSITION, position);
             bundle.putString(Constants.TOPIC_ID,mData.getId());
             bundle.putInt(Constants.SORT_BY,0);
             intent.putExtras(bundle);
+            PageDataManager.getInstance().setUGCTopicVideoList(mAdapter.datas);
             itemView.getContext().startActivity(intent);
 
 
