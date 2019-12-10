@@ -369,7 +369,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
             mAdapter.setData(data);
             mAdapter.notifyDataSetChanged();
         }
-        setCanRefresh(false);
+        setCanRefresh(true);
     }
 
     @Override

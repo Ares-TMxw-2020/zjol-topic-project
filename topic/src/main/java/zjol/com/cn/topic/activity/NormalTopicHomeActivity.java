@@ -330,7 +330,7 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
             mAdapter.setData(data);
             mAdapter.notifyDataSetChanged();
         }
-        setCanRefresh(false);
+        setCanRefresh(true);
     }
 
     @Override
