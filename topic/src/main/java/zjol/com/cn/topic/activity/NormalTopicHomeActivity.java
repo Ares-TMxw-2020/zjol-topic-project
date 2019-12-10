@@ -301,7 +301,7 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
                 .into(ivLogo);
         String des = data.getTopic_label().getDescription();
         if (!TextUtils.isEmpty(des)) {
-            tvOther.setText(des);
+            tvOther.setText("简介:"+des);
         }
     }
 
