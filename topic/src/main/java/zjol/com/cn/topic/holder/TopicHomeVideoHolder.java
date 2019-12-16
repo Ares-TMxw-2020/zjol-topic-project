@@ -17,7 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.zjol.biz.core.glide.AppGlideOptions;
 import zjol.com.cn.news.common.widget.GlideRoundTransform;
-import zjol.com.cn.player.bean.ShortVideoBean;
+import cn.com.zjol.biz.core.model.ShortVideoBean;
 import zjol.com.cn.topic.R;
 import zjol.com.cn.topic.R2;
 

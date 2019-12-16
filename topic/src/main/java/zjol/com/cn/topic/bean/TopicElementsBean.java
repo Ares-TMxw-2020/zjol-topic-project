@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
-import zjol.com.cn.player.bean.ShortVideoBean;
+import cn.com.zjol.biz.core.model.ShortVideoBean;
 
 public class TopicElementsBean implements Parcelable {
         /**

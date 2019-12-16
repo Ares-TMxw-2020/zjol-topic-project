@@ -25,7 +25,7 @@ import cn.com.zjol.biz.core.DailyFragment;
 import cn.com.zjol.biz.core.constant.C;
 import cn.com.zjol.biz.core.network.compatible.APIExpandCallBack;
 import cn.com.zjol.biz.core.network.compatible.LoadViewHolder;
-import zjol.com.cn.player.bean.ShortVideoBean;
+import cn.com.zjol.biz.core.model.ShortVideoBean;
 import zjol.com.cn.player.utils.LocalFollowChangeManager;
 import zjol.com.cn.player.utils.LocalLikeChangeManager;
 import zjol.com.cn.topic.R;

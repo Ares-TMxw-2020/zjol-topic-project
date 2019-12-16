@@ -55,7 +55,7 @@ import zjol.com.cn.list.utils.TypeFaceUtils;
 import zjol.com.cn.news.common.utils.State;
 import zjol.com.cn.news.common.utils.StatusBarUtil;
 import zjol.com.cn.news.common.widget.GlideRoundTransform;
-import zjol.com.cn.player.bean.ShortVideoBean;
+import cn.com.zjol.biz.core.model.ShortVideoBean;
 import zjol.com.cn.player.manager.shortvideo.topic.TopicShortVideoPlayActivity;
 import zjol.com.cn.player.utils.GlideBlurformation;
 import zjol.com.cn.player.utils.LocalFollowChangeManager;

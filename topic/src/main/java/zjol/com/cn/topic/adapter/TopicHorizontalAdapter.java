@@ -7,7 +7,7 @@ import com.zjrb.core.recycleView.adapter.BaseRecyclerAdapter;
 
 import java.util.List;
 
-import zjol.com.cn.player.bean.ShortVideoBean;
+import cn.com.zjol.biz.core.model.ShortVideoBean;
 import zjol.com.cn.topic.holder.TopicGeneralHolder;
 
 /**

@@ -14,19 +14,20 @@ android {
         multiDexEnabled true
         testInstrumentationRunner "android.support.news_test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
-                GETUI_APP_ID    : "b31poVAPhj6n85jPUP2Yf",
-                GETUI_APP_KEY   : "j5qQbBBWHmAxzxO8xD0yx3",
-                GETUI_APP_SECRET: "B51LUkWJf59bpfYib0CiU2",
+                GETUI_APP_ID      : "2MVOsU8WYe83jWIfdja4x4",
+                GETUI_APP_KEY     : "yJ717iAQz48GKqT8YvYMIA",
+                GETUI_APP_SECRET  : "xX4QK0AJrLAQFjfcKlkjNA",
                 // 个推 - 小米辅助推送
-                XIAOMI_APP_ID   : "",
-                XIAOMI_APP_KEY  : "",
+                XIAOMI_APP_ID     : "",
+                XIAOMI_APP_KEY    : "",
                 // 个推 - 华为辅助推送
-                HUAWEI_APP_ID   : "",
+                HUAWEI_APP_ID     : "",
                 // 个推 - 魅族辅助推送
-                MEIZU_APP_ID    : "",
-                MEIZU_APP_KEY   : "",
-                //个象id
-                INSIGHT_ID      : ""
+                MEIZU_APP_ID      : "",
+                MEIZU_APP_KEY     : "",
+                // 个像
+                GI_APPID          : 'WHHHJTGQWV5hdguFTsNUS1',
+                GT_INSTALL_CHANNEL: ""
         ]
     }
     buildTypes {
@@ -46,8 +47,9 @@ configurations.all{
     resolutionStrategy.cacheChangingModulesFor(0, TimeUnit.SECONDS)
     resolutionStrategy{
         force 'cn.com.zjol:location:0.0.1.10-SNAPSHOT'
-        force 'cn.com.zjol:biz-core:1.1.0.14'
-        force 'cn.com.zjol:news:0.0.2.75'
+        force 'cn.com.zjol:biz-core:1.2.0.7'
+        force 'cn.com.zjol:news:0.0.4.4'
+        force 'cn.daily.android:tab-layout:0.0.1'
     }
 }
 
@@ -61,14 +63,21 @@ dependencies {
     implementation 'com.jakewharton:butterknife:9.0.0-rc1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc1'
 
-    implementation ('cn.com.zjol:biz-core:1.1.0.14')
+    implementation ('cn.com.zjol:biz-core:1.2.0.7'){
+        exclude group: 'cn.daily.android', module: 'analytics'
+    }
 
-    implementation('cn.com.zjol:player:0.0.2.125-SNAPSHOT'){
+    implementation ('cn.com.zjol:player:0.0.4.6'){
         exclude group: 'cn.com.zjol', module: 'me'
+        exclude group: 'cn.com.zjol', module: 'news'
     }
-    implementation('cn.com.zjol:news:0.0.2.75-SNAPSHOT'){
+    implementation ('cn.com.zjol:news:0.0.4.4'){
         exclude group: 'cn.com.zjol', module: 'topic'
+        exclude group: 'cn.com.zjol', module: 'tab-layout'
     }
-    implementation 'cn.com.zjol:list:0.0.1.2-SNAPSHOT'
+    implementation ('cn.com.zjol:list:0.0.2.4'){
+        exclude group: 'cn.com.zjol', module: 'news'
+    }
 
+    implementation 'cn.daily.android:tab-layout:0.0.1'
 }

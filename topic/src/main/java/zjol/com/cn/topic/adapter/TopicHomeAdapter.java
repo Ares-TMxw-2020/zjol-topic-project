@@ -11,7 +11,7 @@ import com.zjrb.core.recycleView.LoadMore;
 import com.zjrb.core.recycleView.adapter.BaseRecyclerAdapter;
 import java.util.List;
 import cn.com.zjol.biz.core.network.compatible.APICallManager;
-import zjol.com.cn.player.bean.ShortVideoBean;
+import cn.com.zjol.biz.core.model.ShortVideoBean;
 import zjol.com.cn.topic.bean.TopicHomeBean;
 import zjol.com.cn.topic.holder.TopicHomeVideoHolder;
 import zjol.com.cn.topic.holder.TopicNO1VideoHolder;

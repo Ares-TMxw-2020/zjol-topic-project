@@ -30,7 +30,7 @@ import cn.com.zjol.biz.core.constant.Constants;
 import cn.com.zjol.biz.core.nav.Nav;
 import cn.daily.news.analytics.Analytics;
 import cn.daily.news.analytics.ObjectType;
-import zjol.com.cn.player.bean.ShortVideoBean;
+import cn.com.zjol.biz.core.model.ShortVideoBean;
 import zjol.com.cn.player.manager.shortvideo.topic.TopicShortVideoPlayActivity;
 import zjol.com.cn.player.utils.PageDataManager;
 import zjol.com.cn.topic.R;

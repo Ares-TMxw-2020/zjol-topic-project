@@ -52,8 +52,9 @@ configurations.all{
     resolutionStrategy.cacheChangingModulesFor(0, TimeUnit.SECONDS)
     resolutionStrategy{
         force 'cn.com.zjol:location:0.0.1.10-SNAPSHOT'
-        force 'cn.com.zjol:biz-core:1.1.0.14'
-        force 'cn.com.zjol:news:0.0.2.75'
+        force 'cn.com.zjol:biz-core:1.2.0.7'
+        force 'cn.com.zjol:news:0.0.4.4'
+        force 'cn.daily.android:tab-layout:0.0.1'
     }
 }
 
@@ -64,19 +65,25 @@ dependencies {
     //第三方依赖
     implementation 'com.jakewharton:butterknife:9.0.0-rc1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc1'
-    implementation ('cn.com.zjol:biz-core:1.1.0.14'){
+    implementation ('cn.com.zjol:biz-core:1.2.0.7'){
         exclude group: 'cn.daily.android', module: 'analytics'
     }
 
-    implementation ('cn.com.zjol:player:0.0.2.125-SNAPSHOT'){
+    implementation ('cn.com.zjol:player:0.0.4.6'){
         exclude group: 'cn.com.zjol', module: 'me'
+        exclude group: 'cn.com.zjol', module: 'news'
     }
-    implementation ('cn.com.zjol:news:0.0.2.75-SNAPSHOT'){
+    implementation ('cn.com.zjol:news:0.0.4.4'){
         exclude group: 'cn.com.zjol', module: 'topic'
+        exclude group: 'cn.com.zjol', module: 'tab-layout'
     }
-    implementation 'cn.com.zjol:list:0.0.1.2-SNAPSHOT'
+    implementation ('cn.com.zjol:list:0.0.2.4'){
+        exclude group: 'cn.com.zjol', module: 'news'
+    }
 
     api 'cn.daily.android:analytics:6.1.0.3'
+
+    implementation 'cn.daily.android:tab-layout:0.0.1'
 
 
 }

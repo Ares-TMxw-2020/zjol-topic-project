@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="zjol.com.cn.zjol_topic_project">
 
+    <uses-sdk  tools:overrideLibrary="zjol.com.cn.news,cn.com.zjol.me,cn.com.zjol.quick_login"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:name=".App"
+        tools:replace="android:allowBackup"
         android:theme="@style/AppMainTheme">
         <activity android:name=".MainActivity"
             android:screenOrientation="portrait"
