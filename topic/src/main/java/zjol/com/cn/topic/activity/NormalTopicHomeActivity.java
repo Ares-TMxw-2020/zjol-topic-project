@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
@@ -31,12 +32,15 @@ import com.zjrb.core.utils.click.ClickTracker;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.zjol.biz.core.DailyActivity;
+import cn.com.zjol.biz.core.callbacks.OnCollectListener;
 import cn.com.zjol.biz.core.constant.C;
 import cn.com.zjol.biz.core.constant.Constants;
 import cn.com.zjol.biz.core.model.ArticleBean;
 import cn.com.zjol.biz.core.nav.Nav;
 import cn.com.zjol.biz.core.network.compatible.APIExpandCallBack;
 import cn.com.zjol.biz.core.network.compatible.LoadViewHolder;
+import cn.com.zjol.biz.core.share.CUSTOM_SHARE_MEDIA;
+import cn.com.zjol.biz.core.share.OnCustomShareMediaListener;
 import cn.com.zjol.biz.core.share.ShareAnalytic;
 import cn.com.zjol.biz.core.share.UmengShareBean;
 import cn.com.zjol.biz.core.share.UmengShareUtils;
@@ -229,9 +233,9 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
     /**
      * 禁止appbarlayout滑动
      */
-    public void forbidScroll(){
+    public void forbidScroll() {
         View mAppBarChildAt = mAppBarLayout.getChildAt(0);
-        AppBarLayout.LayoutParams  mAppBarParams = (AppBarLayout.LayoutParams)mAppBarChildAt.getLayoutParams();
+        AppBarLayout.LayoutParams mAppBarParams = (AppBarLayout.LayoutParams) mAppBarChildAt.getLayoutParams();
         mAppBarParams.setScrollFlags(0);
         mAppBarChildAt.setLayoutParams(mAppBarParams);
     }
@@ -239,9 +243,9 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
     /**
      * 允许appbarlayout滑动
      */
-    public void enableScroll(){
+    public void enableScroll() {
         View mAppBarChildAt = mAppBarLayout.getChildAt(0);
-        AppBarLayout.LayoutParams  mAppBarParams = (AppBarLayout.LayoutParams)mAppBarChildAt.getLayoutParams();
+        AppBarLayout.LayoutParams mAppBarParams = (AppBarLayout.LayoutParams) mAppBarChildAt.getLayoutParams();
         mAppBarParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED);
         mAppBarChildAt.setLayoutParams(mAppBarParams);
     }
@@ -256,6 +260,7 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
 
     /**
      * 刷新头部图片等数据
+     *
      * @param data
      */
     private void refreshView(NormalTopicHomeBean data) {
@@ -264,13 +269,13 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
         }
 
         String name = data.getTopic_label().getName();
-        if (!TextUtils.isEmpty(name)&&name.length()>0) {
+        if (!TextUtils.isEmpty(name) && name.length() > 0) {
             tvLogo.setText(name.substring(1, 2));
             tvTitle.setText(name);
             tvTopBarTitle.setText(name);
         }
         String logoUrl = data.getTopic_label().getLogo_url();
-        if (!TextUtils.equals(mCurrentLogoUrl,logoUrl)){
+        if (!TextUtils.equals(mCurrentLogoUrl, logoUrl)) {
             GlideApp.with(getBaseContext())
                     .load(logoUrl)
                     .centerCrop()
@@ -301,7 +306,7 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
                 .into(ivLogo);
         String des = data.getTopic_label().getDescription();
         if (!TextUtils.isEmpty(des)) {
-            tvOther.setText("简介:"+des);
+            tvOther.setText("简介:" + des);
         }
     }
 
@@ -336,9 +341,9 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
     @Override
     public void onItemClick(View itemView, int position) {
         if (ClickTracker.isDoubleClick()) return;
-        if (mAdapter.getData(position) instanceof ArticleBean && mTopicHomeBean !=null && mTopicHomeBean.getTopic_label()!=null){
+        if (mAdapter.getData(position) instanceof ArticleBean && mTopicHomeBean != null && mTopicHomeBean.getTopic_label() != null) {
             ArticleBean article = (ArticleBean) mAdapter.getData(position);
-            NewsUtils.itemClick(getBaseContext(),article);
+            NewsUtils.itemClick(getBaseContext(), article);
 //            Bundle bundle = new Bundle();
 //            bundle.putString(Constants.ID,article.getId()+"");
 //            bundle.putString(Constants.TOPIC_ID, mTopicHomeBean.getTopic_label().getId());
@@ -347,19 +352,19 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
 
             StringBuilder topicId = new StringBuilder();
             StringBuilder topicName = new StringBuilder();
-            if (article.getTopic_labels()!=null){
+            if (article.getTopic_labels() != null) {
                 for (int i = 0; i < article.getTopic_labels().size(); i++) {
                     topicId.append(article.getTopic_labels().get(i).getId());
                     topicName.append(article.getTopic_labels().get(i).getName());
-                    if (i!=article.getTopic_labels().size()-1){
+                    if (i != article.getTopic_labels().size() - 1) {
                         topicId.append(",");
                         topicName.append(",");
                     }
                 }
             }
             Analytics.create(itemView.getContext(), "200007", "话题主页", false)
-                    .selfObjectID(article.getId()+"")
-                    .objectID(article.getMlf_id()+"")
+                    .selfObjectID(article.getId() + "")
+                    .objectID(article.getMlf_id() + "")
                     .objectShortName(article.getList_title())
                     .ilurl(article.getUrl())
                     .classID(article.getChannel_id())
@@ -414,7 +419,7 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
     }
 
     private void share() {
-        if (mTopicHomeBean == null||mTopicHomeBean.getTopic_label()==null) {
+        if (mTopicHomeBean == null || mTopicHomeBean.getTopic_label() == null) {
             return;
         }
         ShareAnalytic analytic = ShareAnalytic.create("话题主页", "")
@@ -433,20 +438,53 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
 
 
         UmengShareUtils.getInstance().startShare(UmengShareBean.getInstance()
-                .setSingle(false)
-                .setShareType("视频")
+                        .setSingle(false)
+                        .setShareType("视频")
 //                .setCardUrl(mData.getCard_url())
-                .setEventName("NewsShare")
+                        .setEventName("NewsShare")
 //                .setArticleId("" + mTopicHomeBean.getTopic_label().getId())
-                .setImgUri(mTopicHomeBean.getTopic_label().getLogo_url())
-                .setTitle(mTopicHomeBean.getTopic_label().getName())
-                .setTextContent("来自天目新闻客户端")
-                .setAnalytic(analytic)
-                .setTargetUrl(mTopicHomeBean.getTopic_label().getUrl()));
+                        .setImgUri(mTopicHomeBean.getTopic_label().getLogo_url())
+                        .setTitle(mTopicHomeBean.getTopic_label().getName())
+                        .setTextContent("来自天目新闻客户端")
+                        .setAnalytic(analytic)
+                        .setTargetUrl(mTopicHomeBean.getTopic_label().getUrl())
+                        .setFavorite(mTopicHomeBean.getTopic_label().isFollowed())
+                        .setCustomShareMediaType(CUSTOM_SHARE_MEDIA.FAVORITE, CUSTOM_SHARE_MEDIA.HELP_FEEDBACK)
+                , new OnCustomShareMediaListener() {
+                    @Override
+                    public void onItemClick(View view, CUSTOM_SHARE_MEDIA media) {
+                        if (media == CUSTOM_SHARE_MEDIA.FAVORITE) {//收藏
+                            doCollect(view);
+                        } else if (media == CUSTOM_SHARE_MEDIA.HELP_FEEDBACK) {//帮助反馈
+
+                        } else {
+                            Toast.makeText(getBaseContext(), media.name(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                }
+        );
 
         Analytics.create(getBaseContext(), "800018", "话题主页", false)
                 .build()
                 .send();
+    }
+
+    private void doCollect(final View view) {
+        UmengShareUtils.favorite(view, mTopicId, 2, new OnCollectListener() {
+            @Override
+            public void onOperationSuccess() {
+                if (mTopicHomeBean == null || mTopicHomeBean.getTopic_label() == null) {
+                    return;
+                }
+                mTopicHomeBean.getTopic_label().setFollowed(view.isSelected());
+            }
+
+            @Override
+            public void onOperationFail() {
+
+            }
+        });
     }
 
 

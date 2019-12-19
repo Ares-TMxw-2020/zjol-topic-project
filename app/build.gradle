@@ -47,7 +47,7 @@ configurations.all{
     resolutionStrategy.cacheChangingModulesFor(0, TimeUnit.SECONDS)
     resolutionStrategy{
         force 'cn.com.zjol:location:0.0.1.10-SNAPSHOT'
-        force 'cn.com.zjol:biz-core:1.2.0.7'
+        force 'cn.com.zjol:biz-core:1.2.0.19'
         force 'cn.com.zjol:news:0.0.4.4'
         force 'cn.daily.android:tab-layout:0.0.1'
     }
