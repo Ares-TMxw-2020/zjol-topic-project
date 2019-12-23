@@ -616,16 +616,14 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
                         .setTargetUrl(mTopicHomeBean.getTopic_label().getUrl())
                         .setShareType("文章")
                         .setFavorite(mTopicHomeBean.getTopic_label().isFollowed())
-                        .setCustomShareMediaType(CUSTOM_SHARE_MEDIA.FAVORITE, CUSTOM_SHARE_MEDIA.HELP_FEEDBACK)
+                        .setCustomShareMediaType(CUSTOM_SHARE_MEDIA.FAVORITE, CUSTOM_SHARE_MEDIA.HELP_FEEDBACK,CUSTOM_SHARE_MEDIA.COPY_LINK)
                 , new OnCustomShareMediaListener() {
                     @Override
                     public void onItemClick(View view, CUSTOM_SHARE_MEDIA media) {
                         if (media == CUSTOM_SHARE_MEDIA.FAVORITE) {//收藏
                             doCollect(view);
-                        } else if (media == CUSTOM_SHARE_MEDIA.HELP_FEEDBACK) {//帮助反馈
-
-                        } else {
-                            Toast.makeText(getBaseContext(), media.name(), Toast.LENGTH_SHORT).show();
+                        } else if (media == CUSTOM_SHARE_MEDIA.COPY_LINK) {
+                            UmengShareUtils.copyLink(mTopicHomeBean.getTopic_label().getUrl());
                         }
                     }
 
