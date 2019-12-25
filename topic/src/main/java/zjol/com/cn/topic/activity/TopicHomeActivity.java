@@ -67,6 +67,7 @@ import zjol.com.cn.topic.R2;
 import zjol.com.cn.topic.adapter.TopicHomeAdapter;
 import zjol.com.cn.topic.bean.TopicHomeBean;
 import zjol.com.cn.topic.holder.TopicHomeEmptyPageHolder;
+import zjol.com.cn.topic.other.AnalyTopicUtils;
 import zjol.com.cn.topic.other.Code;
 import zjol.com.cn.topic.task.TopicHomeTask;
 
@@ -591,14 +592,6 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
             return;
         }
         ShareAnalytic analytic = ShareAnalytic.create("话题主页", "")
-//                .objectID(String.valueOf(mData.getMlf_id()))
-//                .selfObjectID(getArticleId())
-//                .objectShortName(getListTitle())
-//                .ilurl(getUrl())
-//                .classID(getChannelId())
-//                .classShortName(getChannelName())
-//                .accountId(getAccountId())
-//                .nickName(getAuthor())
                 .topicID(mTopicHomeBean.getTopic_label().getId())
                 .topicName(mTopicHomeBean.getTopic_label().getName())
                 .objectType("C21")
@@ -606,9 +599,7 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
 
         UmengShareUtils.getInstance().startShare(UmengShareBean.getInstance()
                         .setShareType("视频")
-//                .setCardUrl(mData.getCard_url())
                         .setEventName("NewsShare")
-//                .setArticleId("" + mTopicHomeBean.getTopic_label().getId())
                         .setImgUri(mTopicHomeBean.getTopic_label().getLogo_url())
                         .setTitle(mTopicHomeBean.getTopic_label().getName())
                         .setTextContent("来自天目新闻客户端")
@@ -644,6 +635,11 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
                     return;
                 }
                 mTopicHomeBean.getTopic_label().setFollowed(view.isSelected());
+                if (view.isSelected()){
+                    AnalyTopicUtils.analyTopicCollect(view.getContext(),mTopicHomeBean.getTopic_label(),"话题主页");
+                }else {
+                    AnalyTopicUtils.analyTopicCancelCollect(view.getContext(),mTopicHomeBean.getTopic_label(),"话题主页");
+                }
             }
 
             @Override
