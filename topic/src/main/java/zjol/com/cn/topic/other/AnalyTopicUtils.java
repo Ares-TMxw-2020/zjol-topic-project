@@ -42,4 +42,18 @@ public class AnalyTopicUtils {
                 .build()
                 .send();
     }
+
+    /**
+     * 帮助反馈埋点
+     * @param context
+     * @param data
+     * @param pageType
+     */
+    public static void analyHelpFeedback(Context context, TopicLabelBean data, String pageType) {
+        Analytics.create(context, "800007", pageType, false)
+                .topicName(data.getName())
+                .topicID(data.getId())
+                .build()
+                .send();
+    }
 }

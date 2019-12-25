@@ -448,6 +448,8 @@ public class NormalTopicHomeActivity extends DailyActivity implements OnItemClic
                             doCollect(view);
                         } else if (media == CUSTOM_SHARE_MEDIA.COPY_LINK) {
                             UmengShareUtils.copyLink(mTopicHomeBean.getTopic_label().getUrl());
+                        }else if (media == CUSTOM_SHARE_MEDIA.HELP_FEEDBACK) {
+                            AnalyTopicUtils.analyHelpFeedback(getBaseContext(),mTopicHomeBean.getTopic_label(),"话题主页");
                         }
                     }
 
