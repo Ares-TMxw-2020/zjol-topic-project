@@ -514,13 +514,15 @@ public class TopicHomeActivity extends DailyActivity implements OnItemClickListe
                 .exe(mTopicId, mSortBy);
 
 
-        Analytics.create(this, "110054", "话题主页", false)
-                .name("排序方式切换")
-                .topicID(mTopicHomeBean.getTopic_label().getId())
-                .action(mSortBy == 0 ? "最热" : "最新")
-                .topicName(mTopicHomeBean.getTopic_label().getName())
-                .build()
-                .send();
+        if (mTopicHomeBean!=null){
+            Analytics.create(this, "110054", "话题主页", false)
+                    .name("排序方式切换")
+                    .topicID(mTopicHomeBean.getTopic_label().getId())
+                    .action(mSortBy == 0 ? "最热" : "最新")
+                    .topicName(mTopicHomeBean.getTopic_label().getName())
+                    .build()
+                    .send();
+        }
     }
 
     /**
