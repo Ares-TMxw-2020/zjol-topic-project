@@ -56,4 +56,19 @@ public class AnalyTopicUtils {
                 .build()
                 .send();
     }
+
+
+    /**
+     * 复制链接埋点
+     * @param context
+     * @param data
+     * @param pageType
+     */
+    public static void analyCopyLink(Context context, TopicLabelBean data, String pageType) {
+        Analytics.create(context, "A0030", pageType, false)
+                .topicName(data.getName())
+                .topicID(data.getId())
+                .build()
+                .send();
+    }
 }
